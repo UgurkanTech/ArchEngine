@@ -85,7 +85,7 @@ namespace ArchEngine
             _shaderText.SetMatrix4("projection",_camera.GetProjectionMatrix());
 
 
-            _font = new FreeTypeFont(32);
+            _font = new FreeTypeFont(64);
 
             // Setup is now complete! Now we move to the OnRenderFrame function to finally draw the triangle.
             
