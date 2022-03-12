@@ -74,17 +74,22 @@ namespace ArchEngine
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
 
+            _camera = new Camera(Vector3.UnitZ * 1, Size.X / (float)Size.Y);
+            
             _texture = Texture.LoadFromFile("Textures/container.png");
             _texture.Use(TextureUnit.Texture0);
             
             _shaderText = new Shader("Shaders/text.vert", "Shaders/text.frag");
             _shaderText.Use();
 
+            _shaderText.SetMatrix4("projection",_camera.GetProjectionMatrix());
+
+
             _font = new FreeTypeFont(32);
 
             // Setup is now complete! Now we move to the OnRenderFrame function to finally draw the triangle.
             
-            _camera = new Camera(Vector3.UnitZ * 1, Size.X / (float)Size.Y);
+            
         }
         private double _time;
         // Now that initialization is done, let's create our render loop.
@@ -109,15 +114,17 @@ namespace ArchEngine
 
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
 
-
-            GL.Enable(EnableCap.Blend);
-            //GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            GL.BlendFunc(0, BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-
             _shaderText.Use();
-            GL.Uniform3(2, new Vector3(0.3f, 0.7f, 0.9f));
+           
             _font.RenderText("(C) LearnOpenGL.com", 50.0f, 200.0f, 0.9f, new Vector2(1.0f, -0.25f));
 
+            
+            //GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            
+            //GL.Enable(EnableCap.Blend);
+            //GL.BlendFunc(0, BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
+            
             SwapBuffers();
         }
         private bool _firstMove = true;

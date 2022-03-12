@@ -1,11 +1,13 @@
-#version 330
-in vec2 vUV;
-uniform sampler2D u_texture;
+#version 330 core
+in vec2 TexCoords;
+out vec4 color;
+
+uniform sampler2D text;
 uniform vec3 textColor;
-out vec4 fragColor;
+
 void main()
-{
-    vec2 uv = vUV.xy;
-    float text = texture(u_texture, uv).r;
-    fragColor = vec4(textColor.rgb*text, text);
+{    
+
+    vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, TexCoords).r);
+    color = vec4(textColor, 1.0) * sampled;
 }
