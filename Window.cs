@@ -7,7 +7,7 @@ using OpenTK.Windowing.Desktop;
 
 namespace ArchEngine
 {
-    
+
     public class Window : GameWindow
     {
 
@@ -31,7 +31,7 @@ namespace ArchEngine
         private int _vertexBufferObject;
 
         private int _vertexArrayObject;
-        
+
         private Texture _texture;
 
         private FreeTypeFont _font;
@@ -40,7 +40,7 @@ namespace ArchEngine
         private Shader _shaderText;
 
         private Camera _camera;
-        
+
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
         {
@@ -76,21 +76,21 @@ namespace ArchEngine
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
 
             _camera = new Camera(Vector3.UnitZ * 1, Size.X / (float)Size.Y);
-            
+
             _texture = Texture.LoadFromFile("Textures/container.png");
             _texture.Use(TextureUnit.Texture0);
-            
+
             _shaderText = new Shader("Shaders/text.vert", "Shaders/text.frag");
             _shaderText.Use();
 
-            
+
             _shaderText.SetMatrix4("projection",_camera.GetProjectionMatrix());
 
             _font = new FreeTypeFont(32);
 
             // Setup is now complete! Now we move to the OnRenderFrame function to finally draw the triangle.
-            
-            
+
+
         }
         private double _time;
         // Now that initialization is done, let's create our render loop.
@@ -102,7 +102,7 @@ namespace ArchEngine
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
             _texture.Use(TextureUnit.Texture0);
-            
+
             _shader.Use();
 
             var model = Matrix4.Identity;
@@ -117,24 +117,24 @@ namespace ArchEngine
 
             Matrix4 projectionM = Matrix4.CreateScale(new Vector3(1f/this.Size.X, 1f/this.Size.Y, 1.0f));
             projectionM = Matrix4.CreateOrthographicOffCenter(0.0f, this.Size.X, this.Size.Y, 0.0f, -1.0f, 1.0f);
-            
+
             _shaderText.Use();
             GL.UniformMatrix4(1, false, ref projectionM);
 
-            
-           
-           
+
+
+
             _font.RenderText(ref _shaderText,"(C) LearnOpenGL.com", 50.0f, 200.0f, 1f, new Vector2(1.0f, 1f));
             _font.RenderText(ref _shaderText,"(C) LearnOpenGL.com", 250.0f, 200.0f, 2f, new Vector2(1.0f, 2f));
             _font.RenderText(ref _shaderText,"(C) LearnOpenGL.com", 500.0f, 500.0f, 1f, new Vector2(1.0f, 1f));
 
-            
+
             //GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            
+
             //GL.Enable(EnableCap.Blend);
             //GL.BlendFunc(0, BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-            
+
             SwapBuffers();
         }
         private bool _firstMove = true;
@@ -143,20 +143,20 @@ namespace ArchEngine
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
-            
-            
+
+
             if (!IsFocused) // Check to see if the window is focused
             {
                 return;
             }
-            
+
             var input = KeyboardState;
 
             if (input.IsKeyDown(Keys.Escape))
             {
                 Close();
             }
-            
+
             const float cameraSpeed = 1.5f;
             const float sensitivity = 0.2f;
 
@@ -185,8 +185,8 @@ namespace ArchEngine
             {
                 _camera.Position -= _camera.Up * cameraSpeed * (float)e.Time; // Down
             }
-            
-            
+
+
             var mouse = MouseState;
 
             if (_firstMove)
@@ -216,14 +216,14 @@ namespace ArchEngine
             GL.Viewport(0, 0, Size.X, Size.Y);
             _camera.AspectRatio = Size.X / (float)Size.Y;
         }
-        
+
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             base.OnMouseWheel(e);
 
             _camera.Fov -= e.OffsetY;
         }
-        
+
 
         protected override void OnUnload()
         {
