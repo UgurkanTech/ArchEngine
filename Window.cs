@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using System;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -82,8 +83,8 @@ namespace ArchEngine
             _shaderText = new Shader("Shaders/text.vert", "Shaders/text.frag");
             _shaderText.Use();
 
+            
             _shaderText.SetMatrix4("projection",_camera.GetProjectionMatrix());
-
 
             _font = new FreeTypeFont(32);
 
@@ -114,9 +115,18 @@ namespace ArchEngine
 
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
 
+            Matrix4 projectionM = Matrix4.CreateScale(new Vector3(1f/this.Size.X, 1f/this.Size.Y, 1.0f));
+            projectionM = Matrix4.CreateOrthographicOffCenter(0.0f, this.Size.X, this.Size.Y, 0.0f, -1.0f, 1.0f);
+            
             _shaderText.Use();
+            GL.UniformMatrix4(1, false, ref projectionM);
+
+            
            
-            _font.RenderText("(C) LearnOpenGL.com", 50.0f, 200.0f, 0.9f, new Vector2(1.0f, -0.25f));
+           
+            _font.RenderText(ref _shaderText,"(C) LearnOpenGL.com", 50.0f, 200.0f, 1f, new Vector2(1.0f, 1f));
+            _font.RenderText(ref _shaderText,"(C) LearnOpenGL.com", 250.0f, 200.0f, 2f, new Vector2(1.0f, 2f));
+            _font.RenderText(ref _shaderText,"(C) LearnOpenGL.com", 500.0f, 500.0f, 1f, new Vector2(1.0f, 1f));
 
             
             //GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
@@ -133,7 +143,8 @@ namespace ArchEngine
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
-
+            
+            
             if (!IsFocused) // Check to see if the window is focused
             {
                 return;

@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Reflection;
 using System.IO;
-using SharpFont;
 using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL4;
+using SharpFont;
 
 namespace ArchEngine
 {
@@ -29,6 +30,8 @@ namespace ArchEngine
         public int Advance { get; set; }
     }
 
+    
+    
     public class FreeTypeFont
     {
         Dictionary<uint, Character> _characters = new Dictionary<uint, Character>();
@@ -42,6 +45,8 @@ namespace ArchEngine
 
             Face face = new Face(lib, "FreeSans.ttf");
 
+            
+            
             //Face face = new Face(lib, ms.ToArray(), 0);
 
             face.SetPixelSizes(0, pixelheight);
@@ -92,78 +97,73 @@ namespace ArchEngine
 
             // bind default texture
             GL.BindTexture(TextureTarget.Texture2D, 0);
-
-            // set default (4 byte) pixel alignment 
-            GL.PixelStore(PixelStoreParameter.UnpackAlignment, 4);
-
-            float[] vquad =
-            {
-            // x      y      u     v    
-                0.0f, -1.0f,   0.0f, 0.0f,
-                0.0f,  0.0f,   0.0f, 1.0f,
-                1.0f,  0.0f,   1.0f, 1.0f,
-                0.0f, -1.0f,   0.0f, 0.0f,
-                1.0f,  0.0f,   1.0f, 1.0f,
-                1.0f, -1.0f,   1.0f, 0.0f
-            };
-
-            // Create [Vertex Buffer Object](https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object)
-            _vbo = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
-            GL.BufferData(BufferTarget.ArrayBuffer, 4 * 6 * 4, vquad, BufferUsageHint.StaticDraw);
-
-            // [Vertex Array Object](https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object)
-            _vao = GL.GenVertexArray();
+            
+            GL.GenVertexArrays(1, out _vao);
+            GL.GenBuffers(1, out _vbo);
             GL.BindVertexArray(_vao);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
+            GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float) * 6 * 4, IntPtr.Zero, BufferUsageHint.DynamicDraw);
             GL.EnableVertexAttribArray(0);
-            GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 4 * 4, 0);
-            GL.EnableVertexAttribArray(1);
-            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 4 * 4, 2 * 4);
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.VertexAttribPointer(0,4, VertexAttribPointerType.Float, false, 4 * sizeof(float), 0);
+            GL.BindBuffer(BufferTarget.ArrayBuffer,0);
             GL.BindVertexArray(0);
+            
         }
 
-        public void RenderText(string text, float x, float y, float scale, Vector2 dir)
+        public void RenderText(ref Shader shader, string text, float x, float y, float scale, Vector2 dir)
         {
+            
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            
+            shader.Use();
+            shader.SetVector3("textColor", new Vector3(1,1,1));
+            
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindVertexArray(_vao);
 
             float angle_rad = (float)Math.Atan2(dir.Y, dir.X);
             Matrix4 rotateM = Matrix4.CreateRotationZ(angle_rad);
             Matrix4 transOriginM = Matrix4.CreateTranslation(new Vector3(x, y, 0f));
-           
-            // Iterate through all characters
-            float char_x = 0.0f;
+            
             foreach (var c in text) 
             {
                 if (_characters.ContainsKey(c) == false)
                     continue;
                 Character ch = _characters[c];
 
+                float xpos = x + ch.Bearing.X * scale;
+                float ypos = 600 - y - (32 + (ch.Size.Y - ch.Bearing.Y)) * scale;
+
                 float w = ch.Size.X * scale;
                 float h = ch.Size.Y * scale;
-                float xrel = char_x + ch.Bearing.X * scale;
-                float yrel = (ch.Size.Y - ch.Bearing.Y) * scale;
 
-                // Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-                char_x += (ch.Advance >> 6) * scale; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+                // update VBO for each character
+                float[] vertices = {
+                     xpos,     ypos + h,   0.0f, 0.0f ,
+                     xpos,     ypos,       0.0f, 1.0f ,
+                     xpos + w, ypos,       1.0f, 1.0f ,
 
-                Matrix4 scaleM = Matrix4.CreateScale(new Vector3(w, h, 1.0f));
-                Matrix4 transRelM = Matrix4.CreateTranslation(new Vector3(xrel, yrel, 0.0f));
-
-                Matrix4 modelM = scaleM * transRelM * rotateM * transOriginM; // OpenTK `*`-operator is reversed
-                GL.UniformMatrix4(0, false, ref modelM);
-
-                // Render glyph texture over quad
+                     xpos,     ypos + h,   0.0f, 0.0f ,
+                     xpos + w, ypos,       1.0f, 1.0f ,
+                     xpos + w, ypos + h,   1.0f, 0.0f 
+                };
                 GL.BindTexture(TextureTarget.Texture2D, ch.TextureID);
-
-                // Render quad
+                
+                GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
+                
+                GL.BufferSubData(BufferTarget.ArrayBuffer, IntPtr.Zero, sizeof(float),vertices);
+                
+                GL.BindBuffer(BufferTarget.ArrayBuffer,0);
+                
                 GL.DrawArrays(PrimitiveType.Triangles, 0, 6);
+                x += (ch.Advance >> 6) * scale;
             }
 
             GL.BindVertexArray(0);
             GL.BindTexture(TextureTarget.Texture2D, 0);
+            
+            GL.Disable(EnableCap.Blend);
         }
     }
 }

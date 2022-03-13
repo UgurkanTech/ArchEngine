@@ -9,9 +9,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="freetype2" Version="2.6.0.1" />
       <PackageReference Include="OpenTK" Version="4.7.1" />
-      <PackageReference Include="SharpFont" Version="4.0.1" />
-      <PackageReference Include="SharpFont.Dependencies" Version="2.6.0" />
+      <PackageReference Include="OpenTK.Windowing.Desktop" Version="4.7.1" />
+      <PackageReference Include="SharpFontCore" Version="0.1.1" />
       <PackageReference Include="SpaceWizards.SharpFont" Version="1.0.1" />
       <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     </ItemGroup>
@@ -30,6 +31,9 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="Shaders\text.vert">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="freetype6.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>

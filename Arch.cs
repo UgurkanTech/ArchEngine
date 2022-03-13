@@ -14,11 +14,11 @@ namespace ArchEngine
                 Title = "Arch Engine",
                 // This is needed to run on macos
                 Flags = ContextFlags.ForwardCompatible,
-                NumberOfSamples = 4
+                NumberOfSamples = 4,
+                APIVersion = new Version(4,6)
+                
             };
-
-
-
+            
             using (var window = new Window(GameWindowSettings.Default, nativeWindowSettings))
             {
                 window.Run();
