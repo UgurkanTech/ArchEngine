@@ -1,11 +1,10 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 using System.Collections.Generic;
+using System.IO;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 
-namespace ArchEngine
+namespace ArchEngine.Core.Rendering
 {
     // A simple class meant to help create shaders.
     public class Shader
@@ -175,6 +174,7 @@ namespace ArchEngine
             GL.UniformMatrix4(_uniformLocations[name], true, ref data);
         }
 
+        
         /// <summary>
         /// Set a uniform Vector3 on this shader.
         /// </summary>

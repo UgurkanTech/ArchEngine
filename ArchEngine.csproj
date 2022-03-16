@@ -5,11 +5,11 @@
         <RootNamespace>ArchEngine</RootNamespace>
         <OutputType>Exe</OutputType>
         <LangVersion>9</LangVersion>
-        <AssemblyName>Arch Engine</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="freetype2" Version="2.6.0.1" />
+      <PackageReference Include="ImGui.NET" Version="1.87.0" />
       <PackageReference Include="OpenTK" Version="4.7.1" />
       <PackageReference Include="OpenTK.Windowing.Desktop" Version="4.7.1" />
       <PackageReference Include="SharpFontCore" Version="0.1.1" />
@@ -24,18 +24,50 @@
       <None Update="Shaders\shader.vert">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Textures\container.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
       <None Update="Shaders\text.frag">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="Shaders\text.vert">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="freetype6.dll">
+      <None Update="Resources\Shaders\shader.frag">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="Resources\Shaders\shader.vert">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Shaders\text.frag">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Shaders\text.vert">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Textures\container.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Fonts\FreeSans.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Remove="global.json" />
+      <None Remove="README.md" />
+      <None Remove=".gitignore" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Core\Physics\Collisions" />
+      <Folder Include="Core\Rendering\Lighting" />
+      <Folder Include="Core\Rendering\Mesh" />
+      <Folder Include="GUI" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Libs\freetype6.dll" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="freetype6.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

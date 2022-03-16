@@ -1,4 +1,5 @@
 ﻿using System;
+using ArchEngine.Core;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -14,8 +15,8 @@ namespace ArchEngine
                 Title = "Arch Engine",
                 // This is needed to run on macos
                 Flags = ContextFlags.ForwardCompatible,
-                NumberOfSamples = 4,
-                APIVersion = new Version(4,6)
+                NumberOfSamples = 8,
+                APIVersion = new Version(3,3)
                 
             };
             

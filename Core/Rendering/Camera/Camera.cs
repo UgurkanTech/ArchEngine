@@ -1,7 +1,7 @@
-﻿using OpenTK.Mathematics;
-using System;
+﻿using System;
+using OpenTK.Mathematics;
 
-namespace ArchEngine
+namespace ArchEngine.Core.Rendering.Camera
 {
     // This is the camera class as it could be set up after the tutorials on the website.
     // It is important to note there are a few ways you could have set up this camera.
@@ -26,7 +26,7 @@ namespace ArchEngine
         private float _yaw = -MathHelper.PiOver2; // Without this, you would be started rotated 90 degrees right.
 
         // The field of view of the camera (radians)
-        private float _fov = MathHelper.PiOver2;
+        private float _fov = 60 / 180f * MathHelper.Pi;
 
         public Camera(Vector3 position, float aspectRatio)
         {
@@ -81,7 +81,7 @@ namespace ArchEngine
             get => MathHelper.RadiansToDegrees(_fov);
             set
             {
-                var angle = MathHelper.Clamp(value, 1f, 90f);
+                var angle = MathHelper.Clamp(value, 50f, 90f);
                 _fov = MathHelper.DegreesToRadians(angle);
             }
         }
