@@ -1,4 +1,6 @@
-﻿namespace ArchEngine.Core.Rendering
+﻿using ArchEngine.Core.Rendering.Textures;
+
+namespace ArchEngine.Core.Rendering
 {
     public interface IRenderable
     {
@@ -8,6 +10,6 @@
 
         public Shader Shader { get; set; }
         
-        
+        public Texture Texture { get; set; }
     }
 }

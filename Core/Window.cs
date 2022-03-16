@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 using ArchEngine.Core.Rendering;
 using ArchEngine.Core.Rendering.Camera;
 using ArchEngine.Core.Rendering.Textures;
@@ -108,7 +110,8 @@ namespace ArchEngine.Core
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
         {
-			
+	        
+	        
         }
 
         protected override void OnLoad()
@@ -144,8 +147,9 @@ namespace ArchEngine.Core
             GL.EnableVertexAttribArray(2);
             GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false , 8 * sizeof(float), 5 * sizeof(float));
             
-
+            
            
+            
             
             
             _camera = new Camera(Vector3.UnitZ * 1, Size.X / (float)Size.Y);
@@ -192,7 +196,7 @@ namespace ArchEngine.Core
             GL.BindVertexArray(_vertexArrayObject);
             
             _shader.Use();
-            _texture.Use(TextureUnit.Texture0);
+            _texture.Use();
             GL.DrawArrays(PrimitiveType.Triangles,0,36);
             GL.BindVertexArray(0);
             //GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
