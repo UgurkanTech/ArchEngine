@@ -16,8 +16,9 @@ namespace ArchEngine
                 // This is needed to run on macos
                 Flags = ContextFlags.ForwardCompatible,
                 NumberOfSamples = 8,
-                APIVersion = new Version(3,3)
-                
+                APIVersion = new Version(3,3),
+                Profile = ContextProfile.Core
+
             };
             
             using (var window = new Window(GameWindowSettings.Default, nativeWindowSettings))

@@ -67,6 +67,7 @@ namespace ArchEngine.Core.Rendering.Textures
             catch (Exception e)
             {
                 Console.WriteLine("Texture not found: " + path);
+                Console.WriteLine(e);
                 return new UniqueTexture(0).SetUnit(textureUnit);
             }
 
@@ -97,7 +98,7 @@ namespace ArchEngine.Core.Rendering.Textures
             return new UniqueTexture(handle).SetUnit(textureUnit);
         }
 
-        public PBRTexture LoadPbrFromFile(string folderPath)
+        public static PBRTexture LoadPbrFromFile(string folderPath)
         {
             return new PBRTexture
             {
