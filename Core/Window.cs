@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using ArchEngine.Core.Rendering;
 using ArchEngine.Core.Rendering.Camera;
+using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.GUI;
 using ArchEngine.GUI.ImGUI;
@@ -99,33 +100,31 @@ namespace ArchEngine.Core
         private readonly uint[] _indices =
         {
 				//front
-                0, 7, 3,
-                0, 4, 7,
-                //back
-                1, 2, 6,
-                6, 5, 1,
-                //left
-                0, 2, 1,
-                0, 3, 2,
-                //right
-                4, 5, 6,
-                6, 7, 4,
-                //top
-                2, 3, 6,
-                6, 3, 7,
-                //bottom
-                0, 1, 5,
-                0, 5, 4
+				0, 7, 3,
+				0, 4, 7,
+				//back
+				1, 2, 6,
+				6, 5, 1,
+				//left
+				0, 2, 1,
+				0, 3, 2,
+				//right
+				4, 5, 6,
+				6, 7, 4,
+				//top
+				2, 3, 6,
+				6, 3, 7,
+				//bottom
+				0, 1, 5,
+				0, 5, 4
         };
         
 
-        private int _vertexBufferObject;
-        private int _vertexBufferObjectPlane;
 
-        private int _vertexArrayObject;
 
-        private int framebuffer;
-        private int framebufferTexture;
+
+
+        
         
         private UniqueTexture _texture;
         private Texture _texturePbr;
@@ -142,11 +141,14 @@ namespace ArchEngine.Core
         
         private Camera _camera;
 
+        public static Framebuffer _framebuffer;
+
+        private IRenderable _renderable;
+
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
         {
-	        
-	        
+
         }
 
         protected override void OnLoad()
@@ -176,54 +178,7 @@ namespace ArchEngine.Core
             
 
             _controller = new ImGuiController(Size.X, Size.Y);
-
-            _vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
             
-            GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
-
-
-            _vertexBufferObjectPlane = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObjectPlane);
-            
-            GL.BufferData(BufferTarget.ArrayBuffer, _verticesPlane.Length * sizeof(float), _verticesPlane, BufferUsageHint.StaticDraw);
-            
-            
-            
-            _vertexArrayObject = GL.GenVertexArray();
-            GL.BindVertexArray(_vertexArrayObject);
-            
-            
-            var vertexLocation = _shaderPbr.GetAttribLocation("aPos");
-            GL.EnableVertexAttribArray(vertexLocation);
-            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false , 8 * sizeof(float), 0);
-            
-            var texCoordLocation = _shaderPbr.GetAttribLocation("aTexCoords");
-            GL.EnableVertexAttribArray(texCoordLocation);
-            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false , 8 * sizeof(float), 3 * sizeof(float));
-            
-            var normalLocation = _shaderPbr.GetAttribLocation("aNormal");
-            GL.EnableVertexAttribArray(normalLocation);
-            GL.VertexAttribPointer(normalLocation, 3, VertexAttribPointerType.Float, false , 8 * sizeof(float), 5 * sizeof(float));
-
-
-			// framebuffer configuration
-            // -------------------------
-            framebuffer = GL.GenFramebuffer();
-            
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
-
-            framebufferTexture = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, framebufferTexture);
-            GL.TexImage2D(TextureTarget.Texture2D,0,PixelInternalFormat.Rgb,Size.X,Size.Y,0,PixelFormat.Rgb,PixelType.UnsignedByte,IntPtr.Zero);
-            GL.TextureParameter(framebufferTexture, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TextureParameter(framebufferTexture, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            
-            
-            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer,FramebufferAttachment.ColorAttachment0,TextureTarget.Texture2D,framebufferTexture,0);
-            
-            
-
             _camera = new Camera(Vector3.UnitZ * 1, Size.X / (float)Size.Y);
 
             _shader.SetMatrix4("projection", _camera.GetProjectionMatrix());
@@ -246,19 +201,17 @@ namespace ArchEngine.Core
             
             // Setup is now complete! Now we move to the OnRenderFrame function to finally draw the triangle.
 
-            
+            _renderable = new Cube();
+            //_renderable.Indices = _indices;
+            _renderable.Vertices = _vertices;
+            _renderable.Shader = _shaderPbr;
+            _renderable.Texture = _texturePbr;
+            _renderable.Model = Matrix4.Identity * Matrix4.CreateScale(0.25f);
+            _renderable.Init();
 
-        }
-        private double _time;
-        // Now that initialization is done, let's create our render loop.
-        protected override void OnRenderFrame(FrameEventArgs e)
-        {
-            base.OnRenderFrame(e);
-            _time += 4.0 * e.Time;
-            _controller.Update(this, (float)e.Time);
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.Viewport(0, 0, 800, 600);
+            _framebuffer = new Framebuffer();
+
+            _framebuffer.Init();
             
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.TextureCubeMap, _texture.Handle);
@@ -266,17 +219,28 @@ namespace ArchEngine.Core
             GL.BindTexture(TextureTarget.TextureCubeMap, _texture.Handle);
             GL.ActiveTexture(TextureUnit.Texture2);
             GL.BindTexture(TextureTarget.Texture2D, _texture.Handle);
-           
-            Matrix4 ortho = Matrix4.CreateOrthographic(800, 600, 0, 100);
-            Matrix4 proj = Matrix4.CreatePerspectiveFieldOfView(1.1f,(float)Size.X/Size.Y ,0.01f, 100);
-            var model = Matrix4.Identity  * Matrix4.CreateScale(0.25f);;
             
-            _shader.SetMatrix4("model", model);
+        }
+        // Now that initialization is done, let's create our render loop.
+        protected override void OnRenderFrame(FrameEventArgs e)
+        {
+            base.OnRenderFrame(e);
+            
+            GL.Enable(EnableCap.DepthTest);
+            GL.DepthFunc(DepthFunction.Less);
+            
+            _controller.Update(this, (float)e.Time);
+            
+            _framebuffer.Use();
+            
+
+            Matrix4 ortho = Matrix4.CreateOrthographic(800, 600, 0, 100);
+
             _shader.SetMatrix4("view", _camera.GetViewMatrix());
             _shader.SetMatrix4("projection", _camera.GetProjectionMatrix());
             //_shader.SetVector3("camPos", _camera.Position);
             
-            _shaderPbr.SetMatrix4("model", model);
+            
             _shaderPbr.SetMatrix4("view", _camera.GetViewMatrix());
             _shaderPbr.SetMatrix4("projection", _camera.GetProjectionMatrix());
             _shaderPbr.SetVector3("camPos", _camera.Position);
@@ -285,19 +249,10 @@ namespace ArchEngine.Core
 			_shaderPbr.SetVector3("lightColors[0]", new Vector3(10,10,10));
 			_shaderPbr.SetInt("lightCount", 1);
             
-			GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
 			
-			GL.BindVertexArray(_vertexArrayObject);
+            
+			_renderable.Render();
 			
-            _texturePbr.Use();
-            _shaderPbr.Use();
-            //_texture.Use();
-            
-            GL.DrawArrays(PrimitiveType.Triangles,0,36);
-            
-            
-            //GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
-
 
             _shaderText.Use();
 
@@ -461,8 +416,7 @@ namespace ArchEngine.Core
             GL.UseProgram(0);
 
             // Delete all the resources.
-            GL.DeleteBuffer(_vertexBufferObject);
-            GL.DeleteVertexArray(_vertexArrayObject);
+
 
             GL.DeleteProgram(_shader.Handle);
 

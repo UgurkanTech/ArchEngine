@@ -18,11 +18,13 @@ namespace ArchEngine
                 NumberOfSamples = 8,
                 APIVersion = new Version(3,3),
                 Profile = ContextProfile.Core
-
+                
             };
             
             using (var window = new Window(GameWindowSettings.Default, nativeWindowSettings))
             {
+                window.VSync = VSyncMode.Adaptive;
+
                 window.Run();
             }
         }

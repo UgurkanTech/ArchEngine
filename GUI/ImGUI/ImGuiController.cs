@@ -12,6 +12,7 @@ using OpenTK.Windowing.Common.Input;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Vector2 = System.Numerics.Vector2;
+using Window = ArchEngine.Core.Window;
 
 namespace ArchEngine.GUI.ImGUI
 {
@@ -243,7 +244,7 @@ void main()
             
             
             ImGui.GetWindowDrawList().AddImage(
-                new IntPtr(2), //use real pointer
+                new IntPtr(Window._framebuffer.FrameBufferTexture), //use real pointer
                 ImGui.GetCursorScreenPos(),
                 new Vector2(ImGui.GetCursorScreenPos().X + size.X, 
                     ImGui.GetCursorScreenPos().Y + size.Y), new Vector2(0, 1), new Vector2(1, 0));
