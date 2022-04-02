@@ -57,6 +57,8 @@ namespace ArchEngine.GUI.ImGUI
 
             io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
             io.BackendFlags |= ImGuiBackendFlags.RendererHasViewports;
+            io.BackendFlags |= ImGuiBackendFlags.HasMouseCursors;
+            io.BackendFlags |= ImGuiBackendFlags.HasSetMousePos;
 
             
             
@@ -244,7 +246,7 @@ void main()
             
             
             ImGui.GetWindowDrawList().AddImage(
-                new IntPtr(Window._framebuffer.FrameBufferTexture), //use real pointer
+                new IntPtr(Window.framebuffer.frameBufferTexture), //use real pointer
                 ImGui.GetCursorScreenPos(),
                 new Vector2(ImGui.GetCursorScreenPos().X + size.X, 
                     ImGui.GetCursorScreenPos().Y + size.Y), new Vector2(0, 1), new Vector2(1, 0));
@@ -281,40 +283,44 @@ void main()
 
         private void UpdateImGuiInput(GameWindow wnd)
         {
-            ImGuiIOPtr io = ImGui.GetIO();
-
-            MouseState MouseState = wnd.MouseState;
-            KeyboardState KeyboardState = wnd.KeyboardState;
-
-            io.MouseDown[0] = MouseState[MouseButton.Left];
-            io.MouseDown[1] = MouseState[MouseButton.Right];
-            io.MouseDown[2] = MouseState[MouseButton.Middle];
-
-            io.MouseWheel = wnd.MouseState.ScrollDelta.Y;
-
-            var screenPoint = new Vector2i((int)MouseState.X, (int)MouseState.Y);
-            var point = screenPoint;//wnd.PointToClient(screenPoint);
-            io.MousePos = new System.Numerics.Vector2(point.X, point.Y);
             
-            foreach (Keys key in Enum.GetValues(typeof(Keys)))
-            {
-                if (key == Keys.Unknown)
+                ImGuiIOPtr io = ImGui.GetIO();
+
+                MouseState MouseState = wnd.MouseState;
+                KeyboardState KeyboardState = wnd.KeyboardState;
+
+                io.MouseDown[0] = MouseState[MouseButton.Left];
+                io.MouseDown[1] = MouseState[MouseButton.Right];
+                io.MouseDown[2] = MouseState[MouseButton.Middle];
+
+                io.MouseWheel = wnd.MouseState.ScrollDelta.Y;
+
+                var screenPoint = new Vector2i((int)MouseState.X, (int)MouseState.Y);
+                var point = screenPoint;//wnd.PointToClient(screenPoint);
+                io.MousePos = new System.Numerics.Vector2(point.X, point.Y);
+            
+                foreach (Keys key in Enum.GetValues(typeof(Keys)))
                 {
-                    continue;
+                    if (key == Keys.Unknown)
+                    {
+                        continue;
+                    }
+                    io.KeysDown[(int)key] = KeyboardState.IsKeyDown(key);
                 }
-                io.KeysDown[(int)key] = KeyboardState.IsKeyDown(key);
-            }
 
-            foreach (var c in PressedChars)
-            {
-                io.AddInputCharacter(c);
-            }
-            PressedChars.Clear();
+                foreach (var c in PressedChars)
+                {
+                    io.AddInputCharacter(c);
+                }
+                PressedChars.Clear();
 
-            io.KeyCtrl = KeyboardState.IsKeyDown(Keys.LeftControl) || KeyboardState.IsKeyDown(Keys.RightControl);
-            io.KeyAlt = KeyboardState.IsKeyDown(Keys.LeftAlt) || KeyboardState.IsKeyDown(Keys.RightAlt);
-            io.KeyShift = KeyboardState.IsKeyDown(Keys.LeftShift) || KeyboardState.IsKeyDown(Keys.RightShift);
-            io.KeySuper = KeyboardState.IsKeyDown(Keys.LeftSuper) || KeyboardState.IsKeyDown(Keys.RightSuper);
+                io.KeyCtrl = KeyboardState.IsKeyDown(Keys.LeftControl) || KeyboardState.IsKeyDown(Keys.RightControl);
+                io.KeyAlt = KeyboardState.IsKeyDown(Keys.LeftAlt) || KeyboardState.IsKeyDown(Keys.RightAlt);
+                io.KeyShift = KeyboardState.IsKeyDown(Keys.LeftShift) || KeyboardState.IsKeyDown(Keys.RightShift);
+                io.KeySuper = KeyboardState.IsKeyDown(Keys.LeftSuper) || KeyboardState.IsKeyDown(Keys.RightSuper);
+
+                
+                
         }
 
 

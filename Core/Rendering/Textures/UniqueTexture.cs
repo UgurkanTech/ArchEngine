@@ -8,23 +8,23 @@ namespace ArchEngine.Core.Rendering.Textures
     // A helper class, much like Shader, meant to simplify loading textures.
     public class UniqueTexture : Texture
     {
-        public readonly int Handle;
-        public TextureUnit Unit;
+        public readonly int handle;
+        public TextureUnit unit;
 
         public UniqueTexture(int glHandle)
         {
-            Handle = glHandle;
+            handle = glHandle;
         }
 
         public override void Use()
         {
-            GL.ActiveTexture(Unit);
-            GL.BindTexture(TextureTarget.Texture2D, Handle);
+            GL.ActiveTexture(unit);
+            GL.BindTexture(TextureTarget.Texture2D, handle);
         }
 
         public UniqueTexture SetUnit(TextureUnit unit)
         {
-            this.Unit = unit;
+            this.unit = unit;
             return this;
         }
     }

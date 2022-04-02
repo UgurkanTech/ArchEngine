@@ -5,6 +5,7 @@
         <RootNamespace>ArchEngine</RootNamespace>
         <OutputType>Exe</OutputType>
         <LangVersion>9</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
@@ -99,7 +100,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Core\ECS" />
       <Folder Include="Core\Physics\Collisions" />
       <Folder Include="Core\Rendering\Lighting" />
       <Folder Include="Core\Rendering\Mesh" />

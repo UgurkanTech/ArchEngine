@@ -8,7 +8,7 @@ namespace ArchEngine.Core.Rendering.Textures
 {
     public abstract class Texture
     {
-        public string Name;
+        public string name;
         public static UniqueTexture LoadFromFile(string path, TextureUnit textureUnit = TextureUnit.Texture0)
         {
             // Generate handle
@@ -98,15 +98,15 @@ namespace ArchEngine.Core.Rendering.Textures
             return new UniqueTexture(handle).SetUnit(textureUnit);
         }
 
-        public static PBRTexture LoadPbrFromFile(string folderPath)
+        public static PbrTexture LoadPbrFromFile(string folderPath)
         {
-            return new PBRTexture
+            return new PbrTexture
             {
-                AlbedoMap = Texture.LoadFromFile(folderPath + "/albedo.png", TextureUnit.Texture3),
-                NormalMap = Texture.LoadFromFile(folderPath + "/normal.png", TextureUnit.Texture4),
-                MetallicMap = Texture.LoadFromFile(folderPath + "/metallic.png", TextureUnit.Texture5),
-                RoughnessMap = Texture.LoadFromFile(folderPath + "/roughness.png", TextureUnit.Texture6),
-                AoMap = Texture.LoadFromFile(folderPath + "/ao.png", TextureUnit.Texture7)
+                albedoMap = Texture.LoadFromFile(folderPath + "/albedo.png", TextureUnit.Texture3),
+                normalMap = Texture.LoadFromFile(folderPath + "/normal.png", TextureUnit.Texture4),
+                metallicMap = Texture.LoadFromFile(folderPath + "/metallic.png", TextureUnit.Texture5),
+                roughnessMap = Texture.LoadFromFile(folderPath + "/roughness.png", TextureUnit.Texture6),
+                aoMap = Texture.LoadFromFile(folderPath + "/ao.png", TextureUnit.Texture7)
             };
         }
         

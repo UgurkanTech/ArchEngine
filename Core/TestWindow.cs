@@ -29,8 +29,8 @@ namespace ArchEngine.Core
             
             string tempString = "Hello World";
             SizeF sizeF = tempGfx.MeasureString(tempString, font, 1000, StringFormat.GenericTypographic);
-            Bitmap text_bmp = new Bitmap((int)(sizeF.Width + 1), (int)(sizeF.Height + 1));
-            Graphics gfx = Graphics.FromImage(text_bmp);
+            Bitmap textBmp = new Bitmap((int)(sizeF.Width + 1), (int)(sizeF.Height + 1));
+            Graphics gfx = Graphics.FromImage(textBmp);
             gfx.Clear(Color.Transparent);
             gfx.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             gfx.DrawString(tempString, font, brush, 0, 0, StringFormat.GenericTypographic);
@@ -46,7 +46,7 @@ namespace ArchEngine.Core
                 ts.Milliseconds);
             Console.WriteLine("RunTime " + elapsedTime);
             
-            text_bmp.Save("image.png");
+            textBmp.Save("image.png");
         }
 
         private Shader _shaderText;

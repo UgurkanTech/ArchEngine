@@ -2,20 +2,20 @@
 
 namespace ArchEngine.Core.Rendering.Textures
 {
-    public class PBRTexture : Texture
+    public class PbrTexture : Texture
     {
-        public UniqueTexture AlbedoMap;
-        public UniqueTexture NormalMap;
-        public UniqueTexture MetallicMap;
-        public UniqueTexture RoughnessMap;
-        public UniqueTexture AoMap;
+        public UniqueTexture albedoMap;
+        public UniqueTexture normalMap;
+        public UniqueTexture metallicMap;
+        public UniqueTexture roughnessMap;
+        public UniqueTexture aoMap;
         public override void Use()
         {
-            AlbedoMap.Use();
-            NormalMap.Use();
-            MetallicMap.Use();
-            RoughnessMap.Use();
-            AoMap.Use();
+            albedoMap.Use();
+            normalMap.Use();
+            metallicMap.Use();
+            roughnessMap.Use();
+            aoMap.Use();
         }
     }
 }

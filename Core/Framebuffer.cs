@@ -6,7 +6,7 @@ namespace ArchEngine.Core
     public class Framebuffer
     {
         private int _framebuffer;
-        public int FrameBufferTexture;
+        public int frameBufferTexture;
         private int _renderBuffer;
         
         public void Init()
@@ -16,14 +16,14 @@ namespace ArchEngine.Core
             
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, _framebuffer);
 
-            FrameBufferTexture = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, FrameBufferTexture);
+            frameBufferTexture = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, frameBufferTexture);
             GL.TexImage2D(TextureTarget.Texture2D,0,PixelInternalFormat.Rgb,800,600,0,PixelFormat.Rgb,PixelType.UnsignedByte,IntPtr.Zero);
-            GL.TextureParameter(FrameBufferTexture, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TextureParameter(FrameBufferTexture, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TextureParameter(frameBufferTexture, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TextureParameter(frameBufferTexture, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             
             
-            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer,FramebufferAttachment.ColorAttachment0,TextureTarget.Texture2D,FrameBufferTexture,0);
+            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer,FramebufferAttachment.ColorAttachment0,TextureTarget.Texture2D,frameBufferTexture,0);
             
             
             

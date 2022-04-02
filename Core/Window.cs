@@ -141,7 +141,7 @@ namespace ArchEngine.Core
         
         private Camera _camera;
 
-        public static Framebuffer _framebuffer;
+        public static Framebuffer framebuffer;
 
         private IRenderable _renderable;
 
@@ -209,16 +209,16 @@ namespace ArchEngine.Core
             _renderable.Model = Matrix4.Identity * Matrix4.CreateScale(0.25f);
             _renderable.Init();
 
-            _framebuffer = new Framebuffer();
+            framebuffer = new Framebuffer();
 
-            _framebuffer.Init();
+            framebuffer.Init();
             
             GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.TextureCubeMap, _texture.Handle);
+            GL.BindTexture(TextureTarget.TextureCubeMap, _texture.handle);
             GL.ActiveTexture(TextureUnit.Texture1);
-            GL.BindTexture(TextureTarget.TextureCubeMap, _texture.Handle);
+            GL.BindTexture(TextureTarget.TextureCubeMap, _texture.handle);
             GL.ActiveTexture(TextureUnit.Texture2);
-            GL.BindTexture(TextureTarget.Texture2D, _texture.Handle);
+            GL.BindTexture(TextureTarget.Texture2D, _texture.handle);
             
         }
         // Now that initialization is done, let's create our render loop.
@@ -231,7 +231,7 @@ namespace ArchEngine.Core
             
             _controller.Update(this, (float)e.Time);
             
-            _framebuffer.Use();
+            framebuffer.Use();
             
 
             Matrix4 ortho = Matrix4.CreateOrthographic(800, 600, 0, 100);
@@ -258,7 +258,7 @@ namespace ArchEngine.Core
 
             _shaderText.SetMatrix4("projection", ortho);
 
-            _font.RenderText(ref _shaderText,"FPS: " + fps, 0.0f - 800 / 2, 0.0f + 600 / 2 - 50, 1f);
+            _font.RenderText(ref _shaderText,"FPS: " + _fps, 0.0f - 800 / 2, 0.0f + 600 / 2 - 50, 1f);
             
             
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
@@ -279,14 +279,14 @@ namespace ArchEngine.Core
         private Vector2 _lastPos;
         
         
-        static double limitFPS = 1.0 / 30.0; //Physics fps
+        static double _limitFps = 1.0 / 30.0; //Physics fps
 
-        double lastTime = GLFW.GetTime(), nowTime = 0, timer = 0, delta = 0;
+        double _lastTime = GLFW.GetTime(), _nowTime = 0, _timer = 0, _delta = 0;
 
-        int frames = 0, fixedUpdates = 0;
-        int[] averageFPS = new int[10];
-        double deltaTime = 0;
-        int fps, ticks;
+        int _frames = 0, _fixedUpdates = 0;
+        int[] _averageFps = new int[10];
+        double _deltaTime = 0;
+        int _fps, _ticks;
         
         
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -359,33 +359,33 @@ namespace ArchEngine.Core
             
             
             //Time for frames
-            nowTime = GLFW.GetTime();
-            delta += (nowTime - lastTime) / limitFPS;
-            deltaTime = nowTime - lastTime;
-            lastTime = nowTime;
+            _nowTime = GLFW.GetTime();
+            _delta += (_nowTime - _lastTime) / _limitFps;
+            _deltaTime = _nowTime - _lastTime;
+            _lastTime = _nowTime;
 
             // - Only update at 60 frames / s
-            while (delta >= 1.0) {
+            while (_delta >= 1.0) {
 	            //fixedGameLoop();   // - Update function
-	            fixedUpdates++;
-	            delta--;
+	            _fixedUpdates++;
+	            _delta--;
             }
-            frames++;
-            if (GLFW.GetTime() - timer > 1.0) {
-	            timer++;
-	            averageFPS[(int)GLFW.GetTime() % 10] = frames;
+            _frames++;
+            if (GLFW.GetTime() - _timer > 1.0) {
+	            _timer++;
+	            _averageFps[(int)GLFW.GetTime() % 10] = _frames;
 	            double avg = 0;
 	            for (int i = 0; i < 10; i++)
 	            {
-		            avg += averageFPS[i];
+		            avg += _averageFps[i];
 	            }
 	            avg /= 10;
 
 	            //std::cout << "Render FPS: " << frames << " Fixed Updates:" << fixedUpdates << " Avg:" << avg << std::endl;
-	            fps = frames;
-	            ticks = fixedUpdates;
-	            fixedUpdates = 0;
-	            frames = 0;
+	            _fps = _frames;
+	            _ticks = _fixedUpdates;
+	            _fixedUpdates = 0;
+	            _frames = 0;
             }
         }
 
@@ -418,7 +418,7 @@ namespace ArchEngine.Core
             // Delete all the resources.
 
 
-            GL.DeleteProgram(_shader.Handle);
+            GL.DeleteProgram(_shader.handle);
 
             base.OnUnload();
         }
