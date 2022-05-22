@@ -262,6 +262,7 @@ namespace ArchEngine.Core
             
             
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+            
             GL.Viewport(0, 0, Size.X, Size.Y);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 

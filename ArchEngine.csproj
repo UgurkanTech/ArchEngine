@@ -8,9 +8,17 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="freetype2" Version="2.6.0.1" />
-      <PackageReference Include="ImGui.NET.Docking" Version="1.75.0" />
+      <PackageReference Include="ImGui.NET" Version="1.87.3" />
       <PackageReference Include="OpenTK" Version="4.7.1" />
       <PackageReference Include="OpenTK.Windowing.Desktop" Version="4.7.1" />
       <PackageReference Include="SharpFontCore" Version="0.1.1" />
