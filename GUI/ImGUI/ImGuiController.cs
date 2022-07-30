@@ -72,9 +72,9 @@ namespace ArchEngine.GUI.ImGUI
         }
         
         private void setupDockspace(GameWindow wnd) {
-            ImGuiWindowFlags windowFlags =  ImGuiWindowFlags.NoDocking;
-
             
+
+            ImGuiWindowFlags windowFlags =  ImGuiWindowFlags.NoDocking;
             
             ImGui.SetNextWindowPos(new Vector2(0,0), ImGuiCond.Always);
             ImGui.SetNextWindowSize(new Vector2(wnd.Size.X, wnd.Size.Y));
@@ -84,7 +84,16 @@ namespace ArchEngine.GUI.ImGUI
             windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
                            ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
                            ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
+            
+            
+            //createDockSpace();
+            
+        }
+
+        public void createDockSpace()
+        {
             bool pOpen = true;
+            ImGuiWindowFlags windowFlags =  ImGuiWindowFlags.NoDocking;
             ImGui.Begin("Dockspace Demo", ref pOpen, windowFlags);
             ImGui.PopStyleVar(2);
 
@@ -92,6 +101,7 @@ namespace ArchEngine.GUI.ImGUI
             ImGui.DockSpace(ImGui.GetID("Dockspace"));
             ImGui.End();
         }
+
 
         public void WindowResized(int width, int height)
         {
@@ -225,6 +235,14 @@ void main()
             _frameBegun = true;
             ImGui.NewFrame();
             setupDockspace(wnd);
+
+            //createScene();
+
+
+        }
+
+        public void createScene()
+        {
             ImGui.Begin("Scene", ImGuiWindowFlags.Modal);
             
             //pass the texture of the FBO
@@ -256,12 +274,10 @@ void main()
             //GL.BindTexture(TextureTarget.Texture2D, 2);
             //GL.TexImage2D(TextureTarget.Texture2D,0,PixelInternalFormat.Rgb,(int)size.X,(int)size.Y,0,PixelFormat.Rgb,PixelType.UnsignedByte,IntPtr.Zero);
 
-
-           
             ImGui.End();
-
             
         }
+
 
         /// <summary>
         /// Sets per-frame data based on the associated window.

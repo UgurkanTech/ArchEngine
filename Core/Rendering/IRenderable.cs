@@ -55,11 +55,18 @@ namespace ArchEngine.Core.Rendering
             
         }
 
-        public void Render()
+        public void Render(bool raw = false)
         {
-            Texture.Use();
-            Shader.Use();
-            Shader.SetMatrix4("model", Model);
+            
+            
+            if (!raw)
+            {
+                Texture.Use();
+                Shader.Use();
+                Shader.SetMatrix4("model", Model);
+            }
+
+            
             
             GL.BindVertexArray(Vao);
 

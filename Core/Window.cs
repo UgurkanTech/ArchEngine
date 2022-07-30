@@ -118,14 +118,9 @@ namespace ArchEngine.Core
 				0, 1, 5,
 				0, 5, 4
         };
-        
 
 
-
-
-
-        
-        
+        private Texture hdr;
         private UniqueTexture _texture;
         private Texture _texturePbr;
 
@@ -135,6 +130,16 @@ namespace ArchEngine.Core
         private Shader _shaderText;
         
         private Shader _shaderPbr;
+        
+        int envCubemap;
+        //For pbr
+        
+        private Shader _equirectangularToCubemapShader;
+        private Shader _irradianceShader;
+        private Shader _backgroundShader;
+        private Shader _prefilterShader;
+
+        private IRenderable _hdrCube;
 
         
         ImGuiController _controller;
@@ -159,14 +164,29 @@ namespace ArchEngine.Core
 
             GL.Enable(EnableCap.DepthTest);
             GL.DepthFunc(DepthFunction.Less);
+
+
+            _equirectangularToCubemapShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/equirectangular.frag");
+            _irradianceShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/irradiance.frag");
+            _backgroundShader = new Shader("Resources/Shaders/background.vert", "Resources/Shaders/background.frag");
+            _prefilterShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/prefilter.frag");
+            
             
             _shader = new Shader("Resources/Shaders/shader.vert", "Resources/Shaders/shader.frag");
-            _shader.Use();
-            
             _shaderPbr = new Shader("Resources/Shaders/pbr.vert", "Resources/Shaders/pbr.frag");
+            
+            _backgroundShader.Use();
+            _backgroundShader.SetInt("environmentMap", 0);
+
+  
+
+            initPBR();
+            
+            
+            
+            
+            
             _shaderPbr.Use();
-            
-            
             _shaderPbr.SetInt("irradianceMap", 0);
             _shaderPbr.SetInt("prefilterMap", 1);
             _shaderPbr.SetInt("brdfLUT", 2);
@@ -182,7 +202,6 @@ namespace ArchEngine.Core
             _camera = new Camera(Vector3.UnitZ * 1, Size.X / (float)Size.Y);
 
             _shader.SetMatrix4("projection", _camera.GetProjectionMatrix());
-            
             _texture = Texture.LoadFromFile("Resources/Textures/wall/albedo.png");
             _texturePbr = Texture.LoadPbrFromFile("Resources/Textures/wall");
 
@@ -221,6 +240,97 @@ namespace ArchEngine.Core
             GL.BindTexture(TextureTarget.Texture2D, _texture.handle);
             
         }
+
+        private void initPBR()
+        {
+
+	      
+	        // pbr: setup framebuffer
+	    // ----------------------
+			int captureFBO;
+			int captureRBO;
+
+			captureFBO = GL.GenFramebuffer();
+			captureRBO = GL.GenRenderbuffer();
+			
+			GL.BindFramebuffer(FramebufferTarget.Framebuffer, captureFBO);
+			GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, captureRBO);
+			GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.DepthComponent24,512,512);
+			GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer,FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, captureRBO);
+
+				
+		    // pbr: load the HDR environment map
+		    // ---------------------------------
+		    
+		    hdr = Texture.LoadFromFile("Resources/HDR/back.png");
+
+		    _hdrCube = new Cube();
+		    _hdrCube.Vertices = _vertices;
+		    _hdrCube.Shader = _backgroundShader;
+		    _hdrCube.Texture = hdr;
+		    _hdrCube.Model = Matrix4.Identity;
+		    _hdrCube.Init();
+		    // pbr: setup cubemap to render to and attach to framebuffer
+		    // ---------------------------------------------------------
+		    
+		    envCubemap = GL.GenTexture();
+		    GL.BindTexture(TextureTarget.TextureCubeMap, envCubemap);
+		    
+		    for (int i = 0; i < 6; ++i)
+		    {
+			    GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + i, 0, PixelInternalFormat.Rgb16f, 512, 512, 0, PixelFormat.Rgb, PixelType.Float, IntPtr.Zero);
+		    }
+		    GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+		    GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
+		    GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR, (int)TextureWrapMode.ClampToEdge);
+		    
+		    GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
+		    GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+		 
+		    // pbr: set up projection and view matrices for capturing data onto the 6 cubemap face directions
+
+		    Matrix4 captureProjection = Matrix4.CreatePerspectiveFieldOfView(1.5708f, 1f, 0.1f, 10f);
+
+		    Matrix4[] captureViews =
+		    {
+			    Matrix4.LookAt(Vector3.Zero, new Vector3(1,0,0), new Vector3(0,-1, 0)),
+			    Matrix4.LookAt(Vector3.Zero, new Vector3(-1,0,0), new Vector3(0,-1, 0)),
+			    Matrix4.LookAt(Vector3.Zero, new Vector3(0,1,0), new Vector3(0,0, 1)),
+			    Matrix4.LookAt(Vector3.Zero, new Vector3(0,-1,0), new Vector3(0,0, -1)),
+			    Matrix4.LookAt(Vector3.Zero, new Vector3(0,0,1), new Vector3(0,-1, 0)),
+			    Matrix4.LookAt(Vector3.Zero, new Vector3(0,0,-1), new Vector3(0,-1, 0))
+		    };
+
+
+		    // pbr: convert HDR equirectangular environment map to cubemap equivalent
+		    // ----------------------------------------------------------------------
+		    _equirectangularToCubemapShader.Use();
+		    _equirectangularToCubemapShader.SetInt("equirectangularMap", 0);
+		    _equirectangularToCubemapShader.SetMatrix4("projection", captureProjection);
+		    hdr.Use();
+		    
+			GL.Viewport(0,0,512,512);
+			GL.BindFramebuffer(FramebufferTarget.Framebuffer, captureFBO);
+			
+		    for (int i = 0; i < 6; ++i)
+		    {
+			    _equirectangularToCubemapShader.SetMatrix4("view", captureViews[i]);
+		        GL.FramebufferTexture2D(FramebufferTarget.Framebuffer,FramebufferAttachment.ColorAttachment0,TextureTarget.TextureCubeMapPositiveX + i, envCubemap, 0);
+				GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+		        _hdrCube.Render(true);
+		    }
+		    GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+		    
+		    GL.BindTexture(TextureTarget.TextureCubeMap, envCubemap);
+		    GL.GenerateMipmap(GenerateMipmapTarget.TextureCubeMap);
+		    
+		    
+	        
+        }
+
+
         // Now that initialization is done, let's create our render loop.
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -231,7 +341,13 @@ namespace ArchEngine.Core
             
             _controller.Update(this, (float)e.Time);
             
-            framebuffer.Use();
+            //framebuffer.Use();
+            
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+            
+            GL.Viewport(0, 0, Size.X, Size.Y);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            
             
 
             Matrix4 ortho = Matrix4.CreateOrthographic(800, 600, 0, 100);
@@ -240,12 +356,14 @@ namespace ArchEngine.Core
             _shader.SetMatrix4("projection", _camera.GetProjectionMatrix());
             //_shader.SetVector3("camPos", _camera.Position);
             
+            _backgroundShader.SetMatrix4("view", _camera.GetViewMatrix());
+            
             
             _shaderPbr.SetMatrix4("view", _camera.GetViewMatrix());
             _shaderPbr.SetMatrix4("projection", _camera.GetProjectionMatrix());
             _shaderPbr.SetVector3("camPos", _camera.Position);
             
-			_shaderPbr.SetVector3("lightPositions[0]", Vector3.One);
+			_shaderPbr.SetVector3("lightPositions[0]", new Vector3(1,1,1));
 			_shaderPbr.SetVector3("lightColors[0]", new Vector3(10,10,10));
 			_shaderPbr.SetInt("lightCount", 1);
             
@@ -254,24 +372,30 @@ namespace ArchEngine.Core
 			_renderable.Render();
 			
 
-            _shaderText.Use();
+			
+			_backgroundShader.Use();
+			_backgroundShader.SetMatrix4("view", _camera.GetViewMatrix());
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindTexture(TextureTarget.TextureCubeMap, envCubemap);
+			
+			_hdrCube.Render(true);
+			//glBindTexture(GL_TEXTURE_CUBE_MAP, irradianceMap); // display irradiance map
+			
+			
+			
+			
+			
+            //_shaderText.Use();
 
-            _shaderText.SetMatrix4("projection", ortho);
+            //_shaderText.SetMatrix4("projection", ortho);
 
             _font.RenderText(ref _shaderText,"FPS: " + _fps, 0.0f - 800 / 2, 0.0f + 600 / 2 - 50, 1f);
-            
-            
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-            
-            GL.Viewport(0, 0, Size.X, Size.Y);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
 
             
-            ImGui.ShowDemoWindow();
+            //ImGui.ShowDemoWindow();
 
 			
-            _controller.Render();
+            //_controller.Render();
             
             SwapBuffers();
         }
