@@ -6,10 +6,8 @@ namespace ArchEngine.Core.Rendering
 {
     public interface IRenderable
     {
-
-        public Shader Shader { get; set; }
         
-        public Texture Texture { get; set; }
+        public Material Material { get; set; }
         
         public int Vao { get; set; }
         public int Vbo { get; set; }
@@ -21,6 +19,7 @@ namespace ArchEngine.Core.Rendering
         public uint[] Indices { get; set; }
 
         public Matrix4 Model { get; set; }
+        
 
         public void Init()
         {
@@ -40,32 +39,25 @@ namespace ArchEngine.Core.Rendering
             Vao = GL.GenVertexArray();
             GL.BindVertexArray(Vao);
 
-            var vertexLocation = Shader.GetAttribLocation("aPos");
+            var vertexLocation = Material.Shader.GetAttribLocation("aPos");
             GL.EnableVertexAttribArray(vertexLocation);
             GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false , 8 * sizeof(float), 0);
             
-            var texCoordLocation = Shader.GetAttribLocation("aTexCoords");
+            var texCoordLocation = Material.Shader.GetAttribLocation("aTexCoords");
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false , 8 * sizeof(float), 3 * sizeof(float));
             
-            var normalLocation = Shader.GetAttribLocation("aNormal");
+            var normalLocation = Material.Shader.GetAttribLocation("aNormal");
             GL.EnableVertexAttribArray(normalLocation);
             GL.VertexAttribPointer(normalLocation, 3, VertexAttribPointerType.Float, false , 8 * sizeof(float), 5 * sizeof(float));
 
-            
+            Model = Matrix4.Identity;
         }
 
-        public void Render(bool raw = false)
+        public void Render()
         {
             
-            
-            if (!raw)
-            {
-                Texture.Use();
-                Shader.Use();
-                Shader.SetMatrix4("model", Model);
-            }
-
+            Material.Use(Model);
             
             
             GL.BindVertexArray(Vao);

@@ -85,7 +85,7 @@ namespace ArchEngine.GUI
             
         }
 
-        public void RenderText(ref Shader shader, string text, float x, float y, float scale)
+        public void RenderText(Shader shader, string text, float x, float y, float scale)
         {
             
             GL.Enable(EnableCap.Blend);

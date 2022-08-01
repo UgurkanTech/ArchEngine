@@ -12,8 +12,11 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace ArchEngine.Core
 {
+#if false
     public class TestWindow: GameWindow
     {
+
+
         public TestWindow(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
         {
@@ -92,6 +95,9 @@ namespace ArchEngine.Core
                 Close();
         }
 
+        
+
 
     }
+#endif
 }
