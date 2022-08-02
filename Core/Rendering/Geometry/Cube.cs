@@ -1,12 +1,15 @@
-﻿using ArchEngine.Core.Rendering.Textures;
+﻿using ArchEngine.Core.ECS;
+using ArchEngine.Core.Rendering.Textures;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace ArchEngine.Core.Rendering.Geometry
 {
     public class Cube : IRenderable
     {
-      
-        public Material Material { get; set; }
+
+
+	    public Material Material { get; set; }
         public int Vao { get; set; }
         public int Vbo { get; set; }
         public int Ibo { get; set; }
@@ -17,6 +20,7 @@ namespace ArchEngine.Core.Rendering.Geometry
         public Cube()
         {
 	        Vertices = _vertices;
+	       
 
         }
 

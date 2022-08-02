@@ -1,21 +1,47 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using OpenTK.Mathematics;
+
 namespace ArchEngine.Core.ECS
 {
-    public class GameObject
+    public class GameObject : Component
     {
-        private List<Component> _components = new List<Component>(5);
+
+        public String name;
+        public Matrix4 Transform { get; set; }
+        public List<Component> _components = new List<Component>(5);
+
+        private bool initialized = false;
         
-        public Component GetComponent<T>()
+        public GameObject(String name = "GameObject")
+        {
+            this.name = name;
+            Transform = Matrix4.Identity;
+        }
+
+        public T GetComponent<T>()
         {
             foreach (var component in _components)
             {
                 if (component.GetType() == typeof(T))
                 {
-                    return component;
+                    return ((T)component);
                 }
             }
-            return null;
+            return default(T);
+        }
+
+        public bool HasComponent<T>()
+        {
+            foreach (var component in _components)
+            {
+                if (component.GetType() == typeof(T))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         
         public void AddComponent(Component component)
@@ -35,13 +61,19 @@ namespace ArchEngine.Core.ECS
                 }
             }
         }
-        
-        
+
+
+        public GameObject gameObject { get; set; }
+
         public void Init()
         {
-            foreach (var c in _components)
+            if (!initialized)
             {
-                c.Init();
+                foreach (var c in _components)
+                {
+                    c.Init();
+                }
+                initialized = true;
             }
         }
         

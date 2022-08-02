@@ -243,7 +243,9 @@ void main()
 
         public void createScene()
         {
-            ImGui.Begin("Scene", ImGuiWindowFlags.Modal);
+            ImGui.SetNextWindowPos(new System.Numerics.Vector2(50,50), ImGuiCond.Once);
+            ImGui.SetNextWindowSize(new System.Numerics.Vector2(300, 300), ImGuiCond.Once);
+            ImGui.Begin("Scene", ImGuiWindowFlags.UnsavedDocument);
             
             //pass the texture of the FBO
             //window.getRenderTexture() is the texture of the FBO
@@ -264,7 +266,7 @@ void main()
             
             
             ImGui.GetWindowDrawList().AddImage(
-                new IntPtr(Window.framebuffer.frameBufferTexture), //use real pointer
+                new IntPtr(Window._renderer.frameBuffer.frameBufferTexture), //use real pointer
                 ImGui.GetCursorScreenPos(),
                 new Vector2(ImGui.GetCursorScreenPos().X + size.X, 
                     ImGui.GetCursorScreenPos().Y + size.Y), new Vector2(0, 1), new Vector2(1, 0));
@@ -311,6 +313,8 @@ void main()
 
                 io.MouseWheel = wnd.MouseState.ScrollDelta.Y;
 
+                
+                
                 var screenPoint = new Vector2i((int)MouseState.X, (int)MouseState.Y);
                 var point = screenPoint;//wnd.PointToClient(screenPoint);
                 io.MousePos = new System.Numerics.Vector2(point.X, point.Y);
@@ -322,11 +326,28 @@ void main()
                         continue;
                     }
                     io.KeysDown[(int)key] = KeyboardState.IsKeyDown(key);
+
+                    if (KeyboardState.IsKeyPressed(key))
+                    {
+                        Console.WriteLine((int)key);
+                        
+                        
+                        if (key.ToString().Length == 1 || ((int)key > 31 && (int)key < 128))
+                        {
+                            PressChar((char)key);
+                            
+                            
+                        }
+                        
+                    }
+                    
+                    
                 }
 
                 foreach (var c in PressedChars)
                 {
                     io.AddInputCharacter(c);
+                    
                 }
                 PressedChars.Clear();
 

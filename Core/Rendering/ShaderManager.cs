@@ -12,28 +12,29 @@ namespace ArchEngine.Core.Rendering
         public static Shader DefaultShader;
         public static Shader TextShader;
         public static Shader PbrShader;
+        public static Shader FullscreenShader;
         
         public static void LoadShaders()
         {
-            DefaultShader = new Shader("Resources/Shaders/shader.vert", "Resources/Shaders/shader.frag");
+            //DefaultShader = new Shader("Resources/Shaders/shader.vert", "Resources/Shaders/shader.frag");
             PbrShader = new Shader("Resources/Shaders/pbr.vert", "Resources/Shaders/pbr.frag");
             
-            EquirectAngularToCubemapShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/equirectangular.frag");
-            IrradianceShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/irradiance.frag");
-            BackgroundShader = new Shader("Resources/Shaders/background.vert", "Resources/Shaders/background.frag");
-            PrefilterShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/prefilter.frag");
+            //EquirectAngularToCubemapShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/equirectangular.frag");
+            //IrradianceShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/irradiance.frag");
+            //BackgroundShader = new Shader("Resources/Shaders/background.vert", "Resources/Shaders/background.frag");
+            //PrefilterShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/prefilter.frag");
             
             TextShader = new Shader("Resources/Shaders/text.vert", "Resources/Shaders/text.frag");
-            
+            FullscreenShader = new Shader("Resources/Shaders/fullscreen.vert", "Resources/Shaders/fullscreen.frag");
         }
 
         public static void StartShaders()
         {
-            BackgroundShader.Use();
-            BackgroundShader.SetInt("environmentMap", 0);
+            //BackgroundShader.Use();
+            //BackgroundShader.SetInt("environmentMap", 0);
             
-            DefaultShader.SetMatrix4("projection", CameraManager.activeCamera.GetProjectionMatrix());
-            DefaultShader.SetInt("texture0", 0);
+            //DefaultShader.SetMatrix4("projection", CameraManager.activeCamera.GetProjectionMatrix());
+            //DefaultShader.SetInt("texture0", 0);
             
             
             
@@ -60,11 +61,11 @@ namespace ArchEngine.Core.Rendering
             Camera.Camera camera = CameraManager.activeCamera;
             Matrix4 ortho = Matrix4.CreateOrthographic(800, 600, 0, 100);
 
-            DefaultShader.SetMatrix4("view", camera.GetViewMatrix());
-            DefaultShader.SetMatrix4("projection", camera.GetProjectionMatrix());
+            //DefaultShader.SetMatrix4("view", camera.GetViewMatrix());
+            //DefaultShader.SetMatrix4("projection", camera.GetProjectionMatrix());
             //_shader.SetVector3("camPos", _camera.Position);
             
-            BackgroundShader.SetMatrix4("view", camera.GetViewMatrix());
+           // BackgroundShader.SetMatrix4("view", camera.GetViewMatrix());
             
             PbrShader.SetMatrix4("view", camera.GetViewMatrix());
             PbrShader.SetMatrix4("projection", camera.GetProjectionMatrix());
@@ -74,8 +75,8 @@ namespace ArchEngine.Core.Rendering
             //PbrShader.SetVector3("lightColors[0]", new Vector3(10,10,10));
 
             //PbrShader.SetInt("lightCount", 1);
-            BackgroundShader.Use();
-            BackgroundShader.SetMatrix4("view", camera.GetViewMatrix());
+            //BackgroundShader.Use();
+            //BackgroundShader.SetMatrix4("view", camera.GetViewMatrix());
         }
     }
 }

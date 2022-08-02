@@ -13,6 +13,13 @@ namespace ArchEngine.Core.Rendering.Textures
         public Texture aoMap;
 
         public Shader Shader;
+
+        public Material()
+        {
+            Shader = ShaderManager.PbrShader;
+            LoadTextures("Resources/Textures/wall");
+        }
+        
         
         public void Use(Matrix4 model)
         {

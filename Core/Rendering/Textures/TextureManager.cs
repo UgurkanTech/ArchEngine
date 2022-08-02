@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Windowing.Common.Input;
 using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
 namespace ArchEngine.Core.Rendering.Textures
@@ -95,6 +97,7 @@ namespace ArchEngine.Core.Rendering.Textures
 
             return new Texture(handle).SetUnit(textureUnit);
         }
-        
+
+
     }
 }

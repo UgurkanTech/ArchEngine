@@ -1,8 +1,8 @@
 ﻿namespace ArchEngine.Core.ECS
 {
-    public abstract class Component
+    public interface Component
     {
-        public GameObject gameObject;
+        public GameObject gameObject  { get; set; }
         public abstract void Init();
         public abstract void Start();
         public abstract void Update();

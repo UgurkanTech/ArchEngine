@@ -19,6 +19,7 @@
     <ItemGroup>
       <PackageReference Include="freetype2" Version="2.6.0.1" />
       <PackageReference Include="ImGui.NET" Version="1.87.3" />
+      <PackageReference Include="log4net" Version="2.0.14" />
       <PackageReference Include="OpenTK" Version="4.7.1" />
       <PackageReference Include="OpenTK.Windowing.Desktop" Version="4.7.1" />
       <PackageReference Include="SharpFontCore" Version="0.1.1" />
@@ -114,6 +115,21 @@
       <None Update="Resources\Shaders\lighting.frag">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="arch.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Shaders\fullscreen.vert">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Shaders\fullscreen.frag">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="log4net.config">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Fonts\arial.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -130,6 +146,12 @@
       <Content Include="freetype6.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="AssemblyInfo.cs">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Compile>
     </ItemGroup>
 
 </Project>
