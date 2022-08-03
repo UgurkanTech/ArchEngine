@@ -87,7 +87,7 @@ namespace ArchEngine.GUI.ImGUI
 
 	        var colors = style.Colors;
 	        
-            style.WindowPadding = new Vector2(5, 5); //15
+            style.WindowPadding = new Vector2(5, 15); //15
 			style.WindowRounding = 5.0f;
 			style.FramePadding = new Vector2(5, 5);
 			style.FrameRounding = 4.0f;

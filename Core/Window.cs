@@ -15,6 +15,7 @@ using ImGuiNET;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Common.Input;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Texture = ArchEngine.Core.Rendering.Textures.Texture;
@@ -130,10 +131,15 @@ namespace ArchEngine.Core
             activeScene.Init();
             
             _log.Info("Arch Engine started!");
+            
+            Editor.ScanAttiributes(this);
         }
 
-
+        [Editor.MyAttribute] private static int ab = 53;
         public static float f = 0.5f;
+
+
+        public static bool lockCursor = false;
 
         // Now that initialization is done, let's create our render loop.
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -143,7 +149,17 @@ namespace ArchEngine.Core
 	        GL.Enable(EnableCap.DepthTest);
 	        GL.DepthFunc(DepthFunction.Less);
 
-
+	        if (lockCursor)
+	        {
+		        CursorGrabbed = true;
+	        }
+	        else
+	        {
+		        CursorGrabbed = false;
+		        CursorVisible = true;
+	        }
+	        
+	        
 	        _controller.Update(this, (float) e.Time);
 	        
 	        ShaderManager.UpdateShaders();
