@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <RootNamespace>ArchEngine</RootNamespace>
         <OutputType>Exe</OutputType>
         <LangVersion>9</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <ApplicationIcon>arch.ico</ApplicationIcon>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -18,9 +19,9 @@
 
     <ItemGroup>
       <PackageReference Include="freetype2" Version="2.6.0.1" />
-      <PackageReference Include="ImGui.NET" Version="1.87.3" />
       <PackageReference Include="log4net" Version="2.0.14" />
       <PackageReference Include="OpenTK" Version="4.7.1" />
+      <PackageReference Include="OpenTK.ImGui" Version="1.0.0" />
       <PackageReference Include="OpenTK.Windowing.Desktop" Version="4.7.1" />
       <PackageReference Include="SharpFontCore" Version="0.1.1" />
       <PackageReference Include="SpaceWizards.SharpFont" Version="1.0.1" />
@@ -127,7 +128,37 @@
       <None Update="log4net.config">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="Libs\ImGui.NET.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Libs\ImGuizmo.NET.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Libs\ImNodes.NET.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Libs\ImPlot.NET.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
       <None Update="Resources\Fonts\arial.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Fonts\fa-solid-900.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Fonts\fa-regular-400.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Fonts\fa-brands-400.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Fonts\OpenFontIcons.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Fonts\Sweet16mono.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Fonts\Ruda-Bold.ttf">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
@@ -153,5 +184,21 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Compile>
     </ItemGroup>
-
+  <ItemGroup>
+    <Reference Include="ImGui.NET">
+      <HintPath>Libs\ImGui.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="ImGui.NET, PublicKeyToken=null">
+      <HintPath>Libs\ImGui.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="ImGuizmo.NET">
+      <HintPath>Libs\ImGuizmo.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="ImNodes.NET">
+      <HintPath>Libs\ImNodes.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="ImPlot.NET">
+      <HintPath>Libs\ImPlot.NET.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

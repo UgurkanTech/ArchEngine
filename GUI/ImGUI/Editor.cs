@@ -16,10 +16,18 @@ namespace ArchEngine.GUI.ImGUI
         {
             DrawHierarchy();
         }
-        
-        static ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags.OpenOnArrow |
-                                   ImGuiTreeNodeFlags.SpanFullWidth | ImGuiTreeNodeFlags.DefaultOpen;
 
+        private static ImGuiTreeNodeFlags flagsCur;
+        
+        static ImGuiTreeNodeFlags flagsS = ImGuiTreeNodeFlags.OpenOnArrow |
+                                   ImGuiTreeNodeFlags.SpanFullWidth | ImGuiTreeNodeFlags.DefaultOpen | ImGuiTreeNodeFlags.Selected;
+
+        private static ImGuiTreeNodeFlags flagsNotS = ImGuiTreeNodeFlags.OpenOnArrow |
+                                                   ImGuiTreeNodeFlags.SpanFullWidth | ImGuiTreeNodeFlags.DefaultOpen; 
+        
+        static ImGuiTreeNodeFlags nodeFlagsS = ImGuiTreeNodeFlags.Leaf | ImGuiTreeNodeFlags.NoTreePushOnOpen |
+                                              ImGuiTreeNodeFlags.SpanFullWidth | ImGuiTreeNodeFlags.Selected;
+        
         static ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags.Leaf | ImGuiTreeNodeFlags.NoTreePushOnOpen |
                                               ImGuiTreeNodeFlags.SpanFullWidth;
         
@@ -34,20 +42,18 @@ namespace ArchEngine.GUI.ImGUI
             if (gameObject.HasComponent<GameObject>())
             {
                 if (selected == index)
-                    flags |= ImGuiTreeNodeFlags.Selected;
+                    flagsCur = flagsS;
+                else
+                    flagsCur = flagsNotS;
                 
-                if (ImGui.TreeNodeEx(gameObject.name, flags))
+                
+                if (ImGui.TreeNodeEx(gameObject.name, flagsCur))
                 {
-                    if (selected == index) 
-                        flags &= ~ImGuiTreeNodeFlags.Selected;
-                    
                     if (ImGui.IsItemHovered() && ImGui.IsMouseClicked(ImGuiMouseButton.Left))
                     {
                         selected = index;
                         selectedGameobject = gameObject;
-                        Console.WriteLine(selectedGameobject.name);
                     }
-                    
                     gameObject._components.ForEach(component =>
                     {
                         if (component.GetType() == typeof(GameObject))
@@ -61,16 +67,24 @@ namespace ArchEngine.GUI.ImGUI
                         ImGui.TreePop();
                     }
                 }
+                else
+                {
+                    if (ImGui.IsItemHovered() && ImGui.IsMouseClicked(ImGuiMouseButton.Left))
+                    {
+                        selected = index;
+                        selectedGameobject = gameObject;
+                    }
+                }
             }
             else
             {
                 if (selected == index)
-                    nodeFlags |= ImGuiTreeNodeFlags.Selected;
+                    flagsCur = nodeFlagsS;
+                else
+                    flagsCur = nodeFlags;
 
-                if (ImGui.TreeNodeEx(gameObject.name, nodeFlags)){
-                    if (selected == index)
-                        nodeFlags &= ~ImGuiTreeNodeFlags.Selected;
-                    
+                if (ImGui.TreeNodeEx(gameObject.name, flagsCur)){
+
                     if (ImGui.IsItemHovered() && ImGui.IsMouseClicked(ImGuiMouseButton.Left))
                     {
                         selected = index;
@@ -115,7 +129,9 @@ namespace ArchEngine.GUI.ImGUI
             ImGui.SetNextWindowSize(new System.Numerics.Vector2(325, 170), ImGuiCond.Once);
             ImGui.Begin("Inspector");
 
-            if (ImGui.TreeNodeEx("Transform", flags) && selectedGameobject != null)
+            nodeFlags &= ~ImGuiTreeNodeFlags.Selected;
+            
+            if (ImGui.TreeNodeEx("Transform", flagsNotS) && selectedGameobject != null)
             {
                 Matrix4 mat = Matrix4.Identity;
                 
@@ -125,12 +141,12 @@ namespace ArchEngine.GUI.ImGUI
             
             
             
-                ImGui.Text("Name");
+                ImGui.Text("Name   ");
                 ImGui.SameLine();
 
                 unsafe
                 {
-                    if (ImGui.InputText("N", nameBuffer, 100, ImGuiInputTextFlags.CallbackAlways | ImGuiInputTextFlags.AlwaysOverwrite, Callback)) ;
+                    if (ImGui.InputText("N", nameBuffer, 100, ImGuiInputTextFlags.CallbackAlways | ImGuiInputTextFlags.EnterReturnsTrue, Callback)) ;
                 }
             
 
@@ -147,7 +163,7 @@ namespace ArchEngine.GUI.ImGUI
                 ImGui.Text("Rotation");
                 ImGui.SameLine();
                 ImGui.InputFloat3("R", ref roteuler);
-                ImGui.Text("Scale   ");
+                ImGui.Text("Scale    ");
                 ImGui.SameLine();
                 ImGui.InputFloat3("S", ref scal);
                 
@@ -167,7 +183,7 @@ namespace ArchEngine.GUI.ImGUI
 
         private static unsafe int Callback(ImGuiInputTextCallbackData* data)
         {
-            if (ImGui.IsKeyPressed(ImGuiKey.Enter))
+            if (ImGui.IsKeyPressed((int)ImGuiKey.Enter))
             {
                 selectedGameobject.name = Encoding.ASCII.GetString(data->Buf, data->BufTextLen);
             }

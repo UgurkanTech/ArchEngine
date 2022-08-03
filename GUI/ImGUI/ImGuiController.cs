@@ -50,7 +50,8 @@ namespace ArchEngine.GUI.ImGUI
             IntPtr context = ImGui.CreateContext();
             ImGui.SetCurrentContext(context);
             var io = ImGui.GetIO();
-            io.Fonts.AddFontDefault();
+
+            //ImGui.GetIO().Fonts.AddFontDefault();
             io.ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard; // Enable Keyboard Controls
             io.ConfigFlags |= ImGuiConfigFlags.DockingEnable; // Enable Docking
             io.ConfigFlags |= ImGuiConfigFlags.ViewportsEnable; // Enable Multi-Viewport / Platform Windows
@@ -187,6 +188,31 @@ void main()
         /// </summary>
         public void RecreateFontDeviceTexture()
         {
+            unsafe
+            {
+                var nativeConfig = ImGuiNative.ImFontConfig_ImFontConfig();
+                
+                (*nativeConfig).OversampleH = 3;
+                (*nativeConfig).OversampleV = 3;
+                (*nativeConfig).RasterizerMultiply = 1f;
+                (*nativeConfig).GlyphExtraSpacing = new Vector2(0, 0);
+                
+
+                //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/arial.ttf", 13, nativeConfig);
+                //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-brands-400.ttf", 13, nativeConfig);
+                //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-solid-900.ttf", 13, nativeConfig);
+                //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/Sweet16mono.ttf", 13, nativeConfig);
+                ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/Ruda-Bold.ttf", 13f, nativeConfig);
+                
+
+                ImGuiNative.ImFontConfig_destroy(nativeConfig);
+                
+                
+                
+            }
+            
+            
+            
             ImGuiIOPtr io = ImGui.GetIO();
             io.Fonts.GetTexDataAsRGBA32(out IntPtr pixels, out int width, out int height, out int bytesPerPixel);
 
@@ -266,7 +292,7 @@ void main()
             
             
             ImGui.GetWindowDrawList().AddImage(
-                new IntPtr(Window._renderer.frameBuffer.frameBufferTexture), //use real pointer
+                new IntPtr(_fontTexture.GLTexture), //use real pointer
                 ImGui.GetCursorScreenPos(),
                 new Vector2(ImGui.GetCursorScreenPos().X + size.X, 
                     ImGui.GetCursorScreenPos().Y + size.Y), new Vector2(0, 1), new Vector2(1, 0));

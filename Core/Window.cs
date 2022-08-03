@@ -166,7 +166,7 @@ namespace ArchEngine.Core
             //ImGui.ShowDemoWindow();
             
             Editor.DrawEditor();
-            ImGui.ShowFontSelector("ad");
+            //ImGui.ShowFontSelector("ad");
             _controller.Render();
             
             SwapBuffers();
@@ -249,7 +249,7 @@ namespace ArchEngine.Core
             
             
             //_camera.AspectRatio = Size.X / (float)Size.Y;
-            _controller.WindowResized(Size.X, Size.Y);
+           _controller.WindowResized(Size.X, Size.Y); //add this back
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
