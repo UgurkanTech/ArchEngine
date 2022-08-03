@@ -270,7 +270,7 @@ namespace ArchEngine.GUI.ImGUI
 
         private static unsafe int Callback(ImGuiInputTextCallbackData* data)
         {
-            if (ImGui.IsKeyPressed((int)ImGuiKey.Enter))
+            if (ImGui.IsKeyPressed(ImGuiKey.Enter))
             {
                 selectedGameobject.name = Encoding.ASCII.GetString(data->Buf, data->BufTextLen);
             }

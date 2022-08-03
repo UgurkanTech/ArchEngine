@@ -7,6 +7,8 @@
         <LangVersion>9</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ApplicationIcon>arch.ico</ApplicationIcon>
+        <Authors>Uğurkan Hoşgör</Authors>
+        <Description>OpenGL Game Engine</Description>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -21,7 +23,6 @@
       <PackageReference Include="freetype2" Version="2.6.0.1" />
       <PackageReference Include="log4net" Version="2.0.14" />
       <PackageReference Include="OpenTK" Version="4.7.1" />
-      <PackageReference Include="OpenTK.ImGui" Version="1.0.0" />
       <PackageReference Include="OpenTK.Windowing.Desktop" Version="4.7.1" />
       <PackageReference Include="SharpFontCore" Version="0.1.1" />
       <PackageReference Include="SpaceWizards.SharpFont" Version="1.0.1" />
@@ -161,6 +162,9 @@
       <None Update="Resources\Fonts\Ruda-Bold.ttf">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="runtimes\win-x64\native\cimgui.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -191,14 +195,26 @@
     <Reference Include="ImGui.NET, PublicKeyToken=null">
       <HintPath>Libs\ImGui.NET.dll</HintPath>
     </Reference>
+    <Reference Include="ImGui.NET, Version=1.87.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>Libs\Dlls\ImGui.NET.dll</HintPath>
+    </Reference>
     <Reference Include="ImGuizmo.NET">
       <HintPath>Libs\ImGuizmo.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="ImGuizmo.NET, Version=1.61.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>Libs\Dlls\ImGuizmo.NET.dll</HintPath>
     </Reference>
     <Reference Include="ImNodes.NET">
       <HintPath>Libs\ImNodes.NET.dll</HintPath>
     </Reference>
+    <Reference Include="ImNodes.NET, Version=0.3.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>Libs\Dlls\ImNodes.NET.dll</HintPath>
+    </Reference>
     <Reference Include="ImPlot.NET">
       <HintPath>Libs\ImPlot.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="ImPlot.NET, Version=0.8.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>Libs\Dlls\ImPlot.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
