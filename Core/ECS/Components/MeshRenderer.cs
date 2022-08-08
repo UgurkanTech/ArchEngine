@@ -1,7 +1,10 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Configuration;
+using System.Numerics;
 using ArchEngine.Core.Rendering;
 using ArchEngine.Core.Rendering.Textures;
+using ArchEngine.GUI.Editor;
 
 namespace ArchEngine.Core.ECS.Components
 {
@@ -12,6 +15,8 @@ namespace ArchEngine.Core.ECS.Components
         public IRenderable mesh;
         
         private bool initialized = false;
+
+        
 
         public MeshRenderer()
         {
@@ -32,12 +37,12 @@ namespace ArchEngine.Core.ECS.Components
 
         public void Start()
         {
-            Console.WriteLine("started mesh renderer");
+            
         }
 
         public void Update()
         {
-            Console.WriteLine("update mesh renderer");
+            
         }
     }
 }

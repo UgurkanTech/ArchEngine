@@ -56,11 +56,11 @@ namespace ArchEngine.Core.Rendering
             
         }
 
-        public static void UpdateShaders()
+        public static void UpdateShaders(int witdh, int height)
         {
             Camera.Camera camera = CameraManager.activeCamera;
-            Matrix4 ortho = Matrix4.CreateOrthographic(800, 600, 0, 100);
-
+            Matrix4 ortho = Matrix4.CreateOrthographic(witdh, height, 0, 100);
+            TextShader.SetMatrix4("projection", ortho);
             //DefaultShader.SetMatrix4("view", camera.GetViewMatrix());
             //DefaultShader.SetMatrix4("projection", camera.GetProjectionMatrix());
             //_shader.SetVector3("camPos", _camera.Position);

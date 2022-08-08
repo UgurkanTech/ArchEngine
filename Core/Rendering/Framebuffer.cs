@@ -4,23 +4,26 @@ using OpenTK.Graphics.OpenGL;
 
 namespace ArchEngine.Core.Rendering
 {
-    public class Framebuffer
+    public class Framebuffer : IDisposable
     {
         private int _framebuffer;
         public int frameBufferTexture;
         private int _renderBuffer;
+
+
+        private int _width, _height;
         
-        
-        public void Init()
+        public void Init(int width, int height)
         {
-            
+            _width = width;
+            _height = height;
             _framebuffer = GL.GenFramebuffer();
 
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, _framebuffer);
 
             frameBufferTexture = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, frameBufferTexture);
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, 800, 600, 0, PixelFormat.Rgb,
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb,
                 PixelType.UnsignedByte, IntPtr.Zero);
             GL.TextureParameter(frameBufferTexture, TextureParameterName.TextureMinFilter,
                 (int) TextureMinFilter.Linear);
@@ -33,7 +36,7 @@ namespace ArchEngine.Core.Rendering
             
             _renderBuffer = GL.GenRenderbuffer();
             GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, _renderBuffer);
-            GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.Depth24Stencil8, 800, 600);
+            GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.Depth24Stencil8, width, height);
             GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, 0);
 
             GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthStencilAttachment,
@@ -44,12 +47,17 @@ namespace ArchEngine.Core.Rendering
         public void Use()
         {
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, _framebuffer);
-            GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+            GL.ClearColor(0.1f, 0.2f, 0.25f, 1.0f);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.Viewport(0, 0, 800, 600);
+            //GL.Viewport(0, 0, _width, _height);
         }
 
-        
 
+        public void Dispose()
+        {
+            GL.DeleteFramebuffer(_framebuffer);
+            GL.DeleteTexture(frameBufferTexture);
+            GL.DeleteRenderbuffer(_renderBuffer);
+        }
     }
 }

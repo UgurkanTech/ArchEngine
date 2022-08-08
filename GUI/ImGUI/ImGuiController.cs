@@ -61,7 +61,9 @@ namespace ArchEngine.GUI.ImGUI
             io.BackendFlags |= ImGuiBackendFlags.HasMouseCursors;
             io.BackendFlags |= ImGuiBackendFlags.HasSetMousePos;
 
-            
+
+            //ImGuizmo.SetImGuiContext(context);
+            //ImGuizmo.BeginFrame(); 
             
             CreateDeviceResources();
             SetKeyMappings();
@@ -72,35 +74,28 @@ namespace ArchEngine.GUI.ImGUI
             _frameBegun = true;
         }
         
-        private void setupDockspace(GameWindow wnd) {
-            
 
-            ImGuiWindowFlags windowFlags =  ImGuiWindowFlags.NoDocking;
-            
-            ImGui.SetNextWindowPos(new Vector2(0,0), ImGuiCond.Always);
-            ImGui.SetNextWindowSize(new Vector2(wnd.Size.X, wnd.Size.Y));
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
- 
-            windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
-                           ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
-                           ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
-            
-            
-            //createDockSpace();
-            
-        }
 
-        public void createDockSpace()
+
+        public void DrawLoadingBarAndSwapBuffers(GameWindow gw, int percentage, string text)
         {
-            bool pOpen = true;
-            ImGuiWindowFlags windowFlags =  ImGuiWindowFlags.NoDocking;
-            ImGui.Begin("Dockspace Demo", ref pOpen, windowFlags);
-            ImGui.PopStyleVar(2);
-
-            // Dockspace
-            ImGui.DockSpace(ImGui.GetID("Dockspace"));
+            int sizeX = 250, sizeY = 100;
+            Update(gw, 1f);
+            ImGui.SetNextWindowPos(new System.Numerics.Vector2((Window.WindowSize.X / 2f) - (sizeX/2f), (Window.WindowSize.Y / 2f) - (sizeY/2f)), ImGuiCond.Once);
+            ImGui.SetNextWindowSize(new System.Numerics.Vector2(sizeX, sizeY), ImGuiCond.Once);
+            ImGui.Begin("Loading Engine", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoBackground);
+            
+            ImGui.Text("Loading (" + percentage + "%%): " + text);
+            
             ImGui.End();
+
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            
+            Render();
+            
+            gw.SwapBuffers();
+            
+            
         }
 
 
@@ -260,51 +255,9 @@ void main()
             
             _frameBegun = true;
             ImGui.NewFrame();
-            setupDockspace(wnd);
-
-            //createScene();
-
-
         }
 
-        public void createScene()
-        {
-            ImGui.SetNextWindowPos(new System.Numerics.Vector2(50,50), ImGuiCond.Once);
-            ImGui.SetNextWindowSize(new System.Numerics.Vector2(300, 300), ImGuiCond.Once);
-            ImGui.Begin("Scene", ImGuiWindowFlags.UnsavedDocument);
-            
-            //pass the texture of the FBO
-            //window.getRenderTexture() is the texture of the FBO
-            //the next parameter is the upper left corner for the uvs to be applied at
-            //the third parameter is the lower right corner
-            //the last two parameters are the UVs
-            //they have to be flipped (normally they would be (0,0);(1,1) 
-            
-            Vector2 vMin = ImGui.GetWindowContentRegionMin();
-            Vector2 vMax = ImGui.GetWindowContentRegionMax();
-
-            vMin.X += ImGui.GetWindowPos().X;
-            vMin.Y += ImGui.GetWindowPos().Y;
-            vMax.X += ImGui.GetWindowPos().X;
-            vMax.Y += ImGui.GetWindowPos().Y;
-
-            Vector2 size = (vMax - vMin);
-            
-            
-            ImGui.GetWindowDrawList().AddImage(
-                new IntPtr(_fontTexture.GLTexture), //use real pointer
-                ImGui.GetCursorScreenPos(),
-                new Vector2(ImGui.GetCursorScreenPos().X + size.X, 
-                    ImGui.GetCursorScreenPos().Y + size.Y), new Vector2(0, 1), new Vector2(1, 0));
-
-
-            //Resizes framebuffer:
-            //GL.BindTexture(TextureTarget.Texture2D, 2);
-            //GL.TexImage2D(TextureTarget.Texture2D,0,PixelInternalFormat.Rgb,(int)size.X,(int)size.Y,0,PixelFormat.Rgb,PixelType.UnsignedByte,IntPtr.Zero);
-
-            ImGui.End();
-            
-        }
+        
 
 
         /// <summary>

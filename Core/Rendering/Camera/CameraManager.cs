@@ -1,4 +1,5 @@
-﻿using OpenTK.Mathematics;
+﻿using System;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -23,10 +24,13 @@ namespace ArchEngine.Core.Rendering.Camera
             
             const float cameraSpeed = 1.5f;
             const float sensitivity = 0.2f;
+            
+            
 
             if (input.IsKeyDown(Keys.W))
             {
                 activeCamera.Position += activeCamera.Front * cameraSpeed * (float)e.Time; // Forward
+                
             }
 
             if (input.IsKeyDown(Keys.S))

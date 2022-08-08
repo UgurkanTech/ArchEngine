@@ -16,10 +16,18 @@ namespace ArchEngine.Core.Rendering
         public Renderer()
         {
             frameBuffer = new Framebuffer();
-            frameBuffer.Init();
+            frameBuffer.Init(800, 600);
 
             fsq = new FullScreenQuad();
             fsq.InitBuffers(true);
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+        }
+
+        public void Resize(int witdh, int height)
+        {
+            frameBuffer.Dispose();
+            frameBuffer = new Framebuffer();
+            frameBuffer.Init(witdh, height);
         }
 
 
@@ -35,18 +43,19 @@ namespace ArchEngine.Core.Rendering
 
         }
 
-        public void RenderRecursively(GameObject obj)
+        public void RenderRecursively(GameObject obj, Matrix4 parentMatrix)
         {
             obj._components.ForEach(component =>
             {
                 if (component.GetType() == typeof(GameObject))
                 {
-                    RenderRecursively(component as GameObject);
+                    RenderRecursively(component as GameObject,   obj.Transform *  parentMatrix);
                 }
                 else if (component.GetType() == typeof(MeshRenderer))
                 {
                     MeshRenderer mr = component as MeshRenderer;
-                    Render(mr.mesh, obj.Transform);
+                    mr.mesh.Render(obj.Transform * parentMatrix);
+                   
                 }   
             });
         }
@@ -56,7 +65,7 @@ namespace ArchEngine.Core.Rendering
         {
             foreach (var obj in objs)
             {
-                RenderRecursively(obj);
+                RenderRecursively(obj, Matrix4.Identity);
             }
         }
 

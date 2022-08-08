@@ -2,7 +2,9 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Rendering;
@@ -10,6 +12,7 @@ using ArchEngine.Core.Rendering.Camera;
 using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.GUI;
+using ArchEngine.GUI.Editor;
 using ArchEngine.GUI.ImGUI;
 using ImGuiNET;
 using OpenTK.Graphics.OpenGL4;
@@ -44,102 +47,85 @@ namespace ArchEngine.Core
         
         private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        public static Vector2i WindowSize;
+
         protected override void OnLoad()
         {
             base.OnLoad();
+            WindowSize = new Vector2i(Size.X, Size.Y);
+            
             _log.Info("Window loading...");
             
             
-            GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
             GL.Enable(EnableCap.DepthTest);
             GL.DepthFunc(DepthFunction.Less);
-
+            
+            _log.Info("Loading interface...");
+            _controller = new ImGuiController(Size.X, Size.Y);
+            Theme.Use();
+            
+            _controller.DrawLoadingBarAndSwapBuffers(this, 20, "Loading fonts...");
+            
+            
+            
+            _log.Info("Loading fonts...");
+            _font = new FreeTypeFont(64);
+            
+            Thread.Sleep(100);
+            _controller.DrawLoadingBarAndSwapBuffers(this, 40, "Loading renderer..");
+            
+            
             _log.Info("Loading Renderer...");
             _renderer = new Renderer();
+            Thread.Sleep(100);
             
+            _controller.DrawLoadingBarAndSwapBuffers(this, 60, "Loading shaders...");
             
 			CameraManager.Init(Size.X / (float)Size.Y);
 			_log.Info("Loading shaders...");
             ShaderManager.LoadShaders();
-            
+            Thread.Sleep(100);
             _log.Info("Starting shaders...");
             ShaderManager.StartShaders();
 
-            _log.Info("Loading interface...");
-            _controller = new ImGuiController(Size.X, Size.Y);
-            Theme.Use();
+            
+            
             
             
             
             //Stopwatch stopWatch = new Stopwatch();
             //stopWatch.Start();
-            _log.Info("Loading fonts...");
-            _font = new FreeTypeFont(64);
+            
             
             //stopWatch.Stop();
             //Console.WriteLine("RunTime " + stopWatch.Elapsed.Milliseconds);
             
             // Setup is now complete! Now we move to the OnRenderFrame function to finally draw the triangle.
 
+            _controller.DrawLoadingBarAndSwapBuffers(this, 80, "Loading scene objects...");
             
             _log.Info("Loading scene objects...");
-            
-            
-            Material mat = new Material();
-			mat.LoadTextures("Resources/Textures/wall");
-            mat.Shader = ShaderManager.PbrShader;
-            
-            
-            //framebuffer.Init();
-
-            activeScene = new Scene();
-
-            MeshRenderer mr = new MeshRenderer();
-            mr.mesh = new Cube();
-            mr.mesh.Material = mat;
-            
-            GameObject gm = new GameObject("Cube");
-            GameObject gm2 = new GameObject("Cube2");
-            GameObject gm3 = new GameObject("Cube3");
-            GameObject gm4 = new GameObject("Cube-1");
-            GameObject gm5 = new GameObject("Cube-2");
-            
-            
-            gm2.Transform = Matrix4.CreateTranslation(new Vector3(2f, 0f, 0)) * Matrix4.CreateScale(.7f);
-            
-            gm.AddComponent(mr);
-            gm2.AddComponent(mr);
-            gm3.AddComponent(mr);
-            gm4.AddComponent(mr);
-            gm5.AddComponent(mr);
-            
-            
-            
-  
-            activeScene.AddGameObject(gm);
-            activeScene.AddGameObject(gm4);
-            activeScene.AddGameObject(gm2);
-            activeScene.AddGameObject(gm3);
-            gm.AddComponent(gm4);
-            gm4.AddComponent(gm5);
-            gm3.AddComponent(gm5);
-            
+            Thread.Sleep(100);
            
-            
+            _controller.DrawLoadingBarAndSwapBuffers(this, 97, "Initializing scene...");
             _log.Info("Initializing scene...");
+            
+            activeScene = new EditorScene();
             activeScene.Init();
             
-            _log.Info("Arch Engine started!");
             
-            Editor.ScanAttiributes(this);
+            _log.Info("Arch Engine started!");
+
+
+            Attributes.ScanAttiributes(this);
+            
+
         }
+        
 
-        [Editor.MyAttribute] private static int ab = 53;
-        public static float f = 0.5f;
-
-
-        public static bool lockCursor = false;
+        public static bool LockCursor = false;
 
         // Now that initialization is done, let's create our render loop.
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -149,7 +135,7 @@ namespace ArchEngine.Core
 	        GL.Enable(EnableCap.DepthTest);
 	        GL.DepthFunc(DepthFunction.Less);
 
-	        if (lockCursor)
+	        if (LockCursor)
 	        {
 		        CursorGrabbed = true;
 	        }
@@ -159,29 +145,35 @@ namespace ArchEngine.Core
 		        CursorVisible = true;
 	        }
 	        
+	        activeScene.Update();
+	        
 	        
 	        _controller.Update(this, (float) e.Time);
 	        
-	        ShaderManager.UpdateShaders();
+	        ShaderManager.UpdateShaders(Size.X, Size.Y);
 
-	        activeScene.GameObjectFind("Cube").Transform = Matrix4.CreateScale(f);
+	        //activeScene.GameObjectFind("Cube").Transform = Matrix4.CreateScale(f);
 	
 	        
 	        _renderer.Use();
+	        
 	        _renderer.RenderAllChildObjects(activeScene.gameObjects);
-	        _renderer.DisplayFullScreen(ShaderManager.FullscreenShader);
+	        //_renderer.DisplayFullScreen(ShaderManager.FullscreenShader);
             
-            
+	        _font.RenderText(ShaderManager.TextShader,"FPS: " + _fps + ", TPS: " + _ticks, 0.0f - (Size.X / 2f), 0.0f + (Size.Y  / 2f) - 50, 1f);
             
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.Clear(ClearBufferMask.DepthBufferBit);
             
+           
             
-            _font.RenderText(ShaderManager.TextShader,"FPS: " + _fps + ", TPS: " + _ticks, 0.0f - 800 / 2, 0.0f + 600 / 2 - 50, 1f);
-
             //ImGui.ShowDemoWindow();
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
+            
             
             Editor.DrawEditor();
+            ImGui.PopStyleVar(2);
             //ImGui.ShowFontSelector("ad");
             _controller.Render();
             
@@ -203,7 +195,7 @@ namespace ArchEngine.Core
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
-
+            WindowSize = new Vector2i(Size.X, Size.Y);
 
             if (!IsFocused) // Check to see if the window is focused
             {
@@ -262,7 +254,7 @@ namespace ArchEngine.Core
             base.OnResize(e);
 
             GL.Viewport(0, 0, Size.X, Size.Y);
-            
+            _renderer.Resize(Size.X, Size.Y);
             
             //_camera.AspectRatio = Size.X / (float)Size.Y;
            _controller.WindowResized(Size.X, Size.Y); //add this back

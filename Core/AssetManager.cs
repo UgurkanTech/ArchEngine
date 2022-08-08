@@ -8,7 +8,14 @@ namespace ArchEngine.Core
 {
     public class AssetManager
     {
-        
+
+        public static void LoadEditor()
+        {
+            
+            
+            
+        }
+
         public static WindowIcon LoadWindowIconFromFile(string path)
         {
             using var image = new Bitmap(path);
