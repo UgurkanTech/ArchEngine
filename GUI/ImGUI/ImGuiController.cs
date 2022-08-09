@@ -12,6 +12,7 @@ using OpenTK.Windowing.Common.Input;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Vector2 = System.Numerics.Vector2;
+using Vector4 = System.Numerics.Vector4;
 using Window = ArchEngine.Core.Window;
 
 namespace ArchEngine.GUI.ImGUI
@@ -85,8 +86,16 @@ namespace ArchEngine.GUI.ImGUI
             ImGui.SetNextWindowSize(new System.Numerics.Vector2(sizeX, sizeY), ImGuiCond.Once);
             ImGui.Begin("Loading Engine", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoBackground);
             
-            ImGui.Text("Loading (" + percentage + "%%): " + text);
+           
             
+            ImGui.Text("Loading (" + percentage + "%%): " + text);
+            ImGui.Spacing();
+            
+            ImGui.PushStyleColor(ImGuiCol.PlotHistogram, new Vector4(1f, 0, 0, 1f));
+
+            ImGui.ProgressBar(percentage / 100f, new Vector2(250, 5), "");
+            
+            ImGui.PopStyleColor();
             ImGui.End();
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -391,7 +400,7 @@ void main()
 
                 _vertexBufferSize = newSize;
 
-                Console.WriteLine($"Resized vertex buffer to new size {_vertexBufferSize}");
+                //Console.WriteLine($"Resized vertex buffer to new size {_vertexBufferSize}");
             }
 
             uint totalIBSize = (uint)(draw_data.TotalIdxCount * sizeof(ushort));
@@ -405,7 +414,7 @@ void main()
 
                 _indexBufferSize = newSize;
 
-                Console.WriteLine($"Resized index buffer to new size {_indexBufferSize}");
+                //Console.WriteLine($"Resized index buffer to new size {_indexBufferSize}");
             }
 
 
@@ -465,9 +474,7 @@ void main()
                 {
                     ImDrawCmdPtr pcmd = cmd_list.CmdBuffer[cmd_i];
                     if (pcmd.UserCallback != IntPtr.Zero)
-                    {
-                        throw new NotImplementedException();
-                    }
+                    {}
                     else
                     {
                         GL.ActiveTexture(TextureUnit.Texture0);

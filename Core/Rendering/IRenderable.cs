@@ -1,11 +1,12 @@
-﻿using ArchEngine.Core.ECS;
+﻿using System;
+using ArchEngine.Core.ECS;
 using ArchEngine.Core.Rendering.Textures;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering
 {
-    public interface IRenderable
+    public interface IRenderable 
     {
         
         public Material Material { get; set; }
@@ -108,6 +109,7 @@ namespace ArchEngine.Core.Rendering
 
         public void Destroy()
         {
+            
             GL.DeleteBuffer(Vbo);
             GL.DeleteVertexArray(Vao);
         }

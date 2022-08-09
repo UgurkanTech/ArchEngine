@@ -217,7 +217,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 });
             }
 
-            if (ImGui.IsAnyItemHovered() && ImGui.IsMouseDragging(ImGuiMouseButton.Left))
+            if (ImGui.IsWindowHovered() && ImGui.IsAnyItemHovered() && ImGui.IsMouseDragging(ImGuiMouseButton.Left))
             {
                 Window.LockCursor = true;
             }

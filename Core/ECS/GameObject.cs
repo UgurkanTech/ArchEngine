@@ -13,6 +13,8 @@ namespace ArchEngine.Core.ECS
         public List<Component> _components = new List<Component>(5);
 
         private bool initialized = false;
+
+        public GameObject parent = null;
         
         public GameObject(String name = "GameObject")
         {
@@ -48,6 +50,11 @@ namespace ArchEngine.Core.ECS
         {
             _components.Add(component);
             component.gameObject = this;
+            if (component.GetType() == typeof(GameObject))
+            {
+                ((GameObject) component).parent = this;
+
+            }
         }
         
         public void RemoveComponent<T>()
@@ -55,6 +62,18 @@ namespace ArchEngine.Core.ECS
             for(int i = 0; i < _components.Count; i++)
             {
                 if (_components[i].GetType() == typeof(T))
+                {
+                    _components.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+        
+        public void RemoveChild(GameObject child)
+        {
+            for(int i = 0; i < _components.Count; i++)
+            {
+                if (_components[i].GetType() == typeof(GameObject) && _components[i].Equals(child))
                 {
                     _components.RemoveAt(i);
                     return;
@@ -92,8 +111,14 @@ namespace ArchEngine.Core.ECS
                 c.Update();
             }
         }
-        
 
-        
+
+        public void Dispose()
+        {
+            foreach (var component in _components)
+            {
+                component.Dispose();
+            }
+        }
     }
 }

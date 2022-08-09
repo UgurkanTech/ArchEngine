@@ -43,9 +43,25 @@ namespace ArchEngine.Core.ECS
         {
             gameObjects.Add(gameObject);
             if (isRunning)
+            {
+                gameObject.Init();
                 gameObject.Start();
+            }
+               
             
 
+        }
+        
+        public void RemoveGameObject(GameObject child)
+        {
+            for(int i = 0; i < gameObjects.Count; i++)
+            {
+                if (gameObjects[i].GetType() == typeof(GameObject) && gameObjects[i].Equals(child))
+                {
+                    gameObjects.RemoveAt(i);
+                    return;
+                }
+            }
         }
 
         public GameObject GameObjectFind(String name)

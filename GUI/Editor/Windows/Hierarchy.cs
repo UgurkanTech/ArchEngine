@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
 using ArchEngine.Core;
 using ArchEngine.Core.ECS;
+using ArchEngine.Core.ECS.Components;
+using ArchEngine.Core.Rendering;
+using ArchEngine.Core.Rendering.Geometry;
+using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor.Windows;
 using ImGuiNET;
@@ -38,12 +44,51 @@ namespace ArchEngine.GUI.Editor.Windows
         
         public static void Draw()
         {
-            ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, 10f);
-            
+            ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, 13f);
+           
             
             ImGui.SetNextWindowPos(new System.Numerics.Vector2(25,100), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowSize(new System.Numerics.Vector2(150, 300), ImGuiCond.FirstUseEver);
             ImGui.Begin("Hierarchy");
+
+            if (ImGui.BeginPopupContextWindow())
+            {
+                if (ImGui.MenuItem("Add New Gameobject"))
+                {
+                    Material mat = new Material();
+                    mat.LoadTextures("Resources/Textures/wall");
+                    mat.Shader = ShaderManager.PbrShader;
+            
+                    MeshRenderer mr = new MeshRenderer();
+                    mr.mesh = new Cube();
+                    mr.mesh.Material = mat;
+
+                    GameObject go = new GameObject("Gameobject");
+                    go.AddComponent(mr);
+                    
+                    Window.activeScene.AddGameObject(go);
+                }
+                if (ImGui.MenuItem("Delete selected Gameobject"))
+                {
+                    if (Editor.selectedGameobject != null)
+                    {
+                        if (Editor.selectedGameobject.parent != null)
+                        {
+                            Editor.selectedGameobject.parent.RemoveChild(Editor.selectedGameobject);
+                        }
+                        else
+                        {
+                            Window.activeScene.RemoveGameObject(Editor.selectedGameobject);
+                        }
+                    
+                        Editor.selectedGameobject.Dispose();
+                        Editor.selectedGameobject = null;
+                        selected = -1;
+                    }
+                    
+                }
+                ImGui.EndPopup();
+            }
             
             index = 0;
             
@@ -55,7 +100,22 @@ namespace ArchEngine.GUI.Editor.Windows
             }
             
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, Vector2.Zero);
-            Window.activeScene.gameObjects.ForEach(AddToHierarchyRecursively);
+            try
+            {
+                arrayModifiedWait = false;
+                for (int i = 0; i < Window.activeScene.gameObjects.Count; i++)
+                {
+                    AddToHierarchyRecursively(Window.activeScene.gameObjects[i]);
+                    if (arrayModifiedWait)
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                
+            }
+            
             ImGui.PopStyleVar();
             
             //ImGui.SliderFloat("Scale", ref Window.f, 0.0f, 1.0f);
@@ -64,7 +124,112 @@ namespace ArchEngine.GUI.Editor.Windows
             ImGui.PopStyleVar();
 
         }
+
+        private static bool dragging = false;
+        private static bool nulled = false;
+        private static GameObject dragObj = null;
+        private static GameObject lastNullParent = null;
+        private static bool arrayModifiedWait = false;
+
+        private static bool isParentLooped(GameObject source, GameObject target)
+        {
+            GameObject p = target.parent;
+            while (p != null)
+            {
+                if (p.Equals(source))
+                {
+                    return true;
+                }
+                p = p.parent;
+                
+            }
+            return false;
+        }
         
+        public static void DragDrop(GameObject gameObject)
+        {
+            if (ImGui.BeginDragDropSource(ImGuiDragDropFlags.SourceNoDisableHover |
+                                          ImGuiDragDropFlags.SourceNoPreviewTooltip) && !dragging)
+            {
+                dragging = true;
+                nulled = false;
+                dragObj = gameObject;
+
+                //ig.SetDragDropPayload("ITEMN",anchor.data, ffi.sizeof"int", C.ImGuiCond_Once);
+                Console.WriteLine("drag " + gameObject.name);
+                ImGui.EndDragDropSource();
+            }
+
+            if (ImGui.BeginDragDropTarget() && ImGui.IsMouseReleased(ImGuiMouseButton.Left) && dragging)
+            {
+                dragging = false;
+
+                //Check parent loop
+                if (isParentLooped(dragObj, gameObject))
+                {
+                    ImGui.EndDragDropTarget();
+                    Console.WriteLine("drop invalid. parent loop " + gameObject.name);
+                    return;
+                }
+                
+                //Check same target
+                if (gameObject.Equals(dragObj))
+                {
+                    ImGui.EndDragDropTarget();
+                    Console.WriteLine("drop invalid. same object " + gameObject.name);
+                    return;
+                }
+
+                arrayModifiedWait = true;
+
+                if (dragObj.parent != null)
+                {
+                    dragObj.parent.RemoveChild(dragObj);
+                }
+                else
+                {
+                    Window.activeScene.RemoveGameObject(dragObj);
+                }
+                
+                dragObj.parent = gameObject;
+                gameObject.AddComponent(dragObj);
+                
+                Console.WriteLine("drop " + gameObject.name);
+                ImGui.EndDragDropTarget();
+            }
+            if (ImGui.IsMouseReleased(ImGuiMouseButton.Left)  && dragging && !nulled)
+            {
+                nulled = true;
+                if (gameObject.Equals(dragObj))
+                {
+                    ImGui.EndDragDropTarget();
+                    Console.WriteLine("drop null invalid same object " + gameObject.name);
+                    return;
+                }
+                
+                if (dragObj.parent != null)
+                {
+                    dragObj.parent.RemoveChild(dragObj);
+                    lastNullParent = dragObj.parent;
+                }
+                else
+                {
+                    Window.activeScene.RemoveGameObject(dragObj);
+                }
+                arrayModifiedWait = true;
+                
+                dragObj.parent = null;
+                Window.activeScene.AddGameObject(dragObj);
+                
+
+                Console.WriteLine("drop null ");
+                
+            }
+
+            
+
+        }
+//TODO child gameobjects are not components
         private static void AddToHierarchyRecursively(GameObject gameObject)
         {
             index++;
@@ -78,32 +243,43 @@ namespace ArchEngine.GUI.Editor.Windows
                 
                 if (ImGui.TreeNodeEx(gameObject.name, flagsCur))
                 {
+                    DragDrop(gameObject);
+                    if (arrayModifiedWait)
+                        return;
                     if (ImGui.IsItemHovered() && ImGui.IsMouseClicked(ImGuiMouseButton.Left))
                     {
                         selected = index;
                         Editor.selectedGameobject = gameObject;
                     }
-                    gameObject._components.ForEach(component =>
+
+                    for (int i = 0; i < gameObject._components.Count; i++)
                     {
-                        if (component.GetType() == typeof(GameObject))
+                        if (gameObject._components[i].GetType() == typeof(GameObject))
                         {
-                            
-                            AddToHierarchyRecursively(component as GameObject);
+                            AddToHierarchyRecursively(gameObject._components[i] as GameObject);
                         }
-                    });
+                    }
+                    
                     if (!ImGui.IsItemToggledOpen())
                     {
                         ImGui.TreePop();
                     }
+
+                    
                 }
                 else
                 {
+                    DragDrop(gameObject);
+                    if (arrayModifiedWait)
+                        return;
                     if (ImGui.IsItemHovered() && ImGui.IsMouseClicked(ImGuiMouseButton.Left))
                     {
                         selected = index;
                         Editor.selectedGameobject = gameObject;
                     }
+                    
                 }
+                
             }
             else
             {
@@ -113,15 +289,23 @@ namespace ArchEngine.GUI.Editor.Windows
                     flagsCur = nodeFlags;
 
                 if (ImGui.TreeNodeEx(gameObject.name, flagsCur)){
-
+                    DragDrop(gameObject);
+                    if (arrayModifiedWait)
+                        return;
                     if (ImGui.IsItemHovered() && ImGui.IsMouseClicked(ImGuiMouseButton.Left))
                     {
                         selected = index;
                         Editor.selectedGameobject = gameObject;
-                        Console.WriteLine(Editor.selectedGameobject.name);
+                        Console.WriteLine("@@Selected: " + Editor.selectedGameobject.name);
                     }
+                    
+                }
+                else
+                {
+                    DragDrop(gameObject);
                 }
             }
+            
         }
     }
 }

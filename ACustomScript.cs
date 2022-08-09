@@ -13,9 +13,10 @@ namespace ArchEngine
         [Inspector] public Vector3 myVector3;
         [Inspector][Range(0, 20)] public int myIntSlider;
         
+        
         public override void Update()
         {
-            Console.WriteLine("hey");
+           
         }
     }
 }

@@ -21,7 +21,7 @@ namespace ArchEngine
             _log.Info("Arch Engine initializing...");
             var nativeWindowSettings = new NativeWindowSettings()
             {
-                Size = new Vector2i(1600, 900),
+                Size = new Vector2i(800, 600),
                 Title = "Arch Engine",
                 // This is needed to run on macos
                 Flags = ContextFlags.ForwardCompatible,
@@ -34,7 +34,7 @@ namespace ArchEngine
             using (var window = new Window(GameWindowSettings.Default, nativeWindowSettings))
             {
                 window.VSync = VSyncMode.Adaptive;
-                window.Location = new Vector2i(1920 / 2 - 800, 1080 / 2 - 450);
+                window.Location = new Vector2i(1920 / 2 - 400, 1080 / 2 - 300);
                 _log.Info("Creating window...");
                 window.Run();
             }

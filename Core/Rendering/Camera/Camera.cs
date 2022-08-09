@@ -132,5 +132,10 @@ namespace ArchEngine.Core.Rendering.Camera
         {
             
         }
+
+        public void Dispose()
+        {
+           
+        }
     }
 }

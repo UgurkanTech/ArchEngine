@@ -1,6 +1,8 @@
-﻿namespace ArchEngine.Core.ECS
+﻿using System;
+
+namespace ArchEngine.Core.ECS
 {
-    public interface Component
+    public interface Component : IDisposable
     {
         public GameObject gameObject  { get; set; }
         

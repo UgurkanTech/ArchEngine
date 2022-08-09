@@ -109,7 +109,7 @@ namespace ArchEngine.Core
             _log.Info("Loading scene objects...");
             Thread.Sleep(100);
            
-            _controller.DrawLoadingBarAndSwapBuffers(this, 97, "Initializing scene...");
+            _controller.DrawLoadingBarAndSwapBuffers(this, 90, "Initializing scene...");
             _log.Info("Initializing scene...");
             
             activeScene = new EditorScene();
@@ -121,7 +121,7 @@ namespace ArchEngine.Core
 
             Attributes.ScanAttiributes(this);
             
-
+			activeScene.Start();
         }
         
 

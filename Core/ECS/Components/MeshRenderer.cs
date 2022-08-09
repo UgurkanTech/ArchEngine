@@ -44,5 +44,10 @@ namespace ArchEngine.Core.ECS.Components
         {
             
         }
+
+        public void Dispose()
+        {
+            //mesh?.Destroy();
+        }
     }
 }
