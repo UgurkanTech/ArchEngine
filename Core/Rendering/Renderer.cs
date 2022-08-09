@@ -58,7 +58,7 @@ namespace ArchEngine.Core.Rendering
             
             parent._childs.ForEach(child =>
             {
-                RenderRecursively(child,   child.Transform * parent.Transform *  parentMatrix);
+                RenderRecursively(child, child.Transform * parent.Transform *  parentMatrix);
                 
             });
             
