@@ -45,8 +45,8 @@ namespace ArchEngine.Core
             AddGameObject(gm);
             AddGameObject(gm2);
             AddGameObject(gm3);
-            gm.AddComponent(gm4);
-            gm4.AddComponent(gm5);
+            gm.AddChild(gm4);
+            gm4.AddChild(gm5);
             
             gm7.AddComponent(CameraManager.activeCamera);
             gm7.Transform = Matrix4.CreateTranslation(0, 0, 5);

@@ -5,12 +5,13 @@ using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.ECS
 {
-    public class GameObject : Component
+    public class GameObject
     {
 
         public String name;
         public Matrix4 Transform { get; set; }
         public List<Component> _components = new List<Component>(5);
+        public List<GameObject> _childs = new List<GameObject>(5);
 
         private bool initialized = false;
 
@@ -50,13 +51,13 @@ namespace ArchEngine.Core.ECS
         {
             _components.Add(component);
             component.gameObject = this;
-            if (component.GetType() == typeof(GameObject))
-            {
-                ((GameObject) component).parent = this;
-
-            }
         }
-        
+
+        public void AddChild(GameObject child)
+        {
+            _childs.Add(child);
+            child.parent = this;
+        }        
         public void RemoveComponent<T>()
         {
             for(int i = 0; i < _components.Count; i++)
@@ -71,11 +72,11 @@ namespace ArchEngine.Core.ECS
         
         public void RemoveChild(GameObject child)
         {
-            for(int i = 0; i < _components.Count; i++)
+            for(int i = 0; i < _childs.Count; i++)
             {
-                if (_components[i].GetType() == typeof(GameObject) && _components[i].Equals(child))
+                if (_childs[i].Equals(child))
                 {
-                    _components.RemoveAt(i);
+                    _childs.RemoveAt(i);
                     return;
                 }
             }
@@ -92,6 +93,11 @@ namespace ArchEngine.Core.ECS
                 {
                     c.Init();
                 }
+
+                foreach (var child in _childs)
+                {
+                    child.Init();
+                }
                 initialized = true;
             }
         }
@@ -102,6 +108,10 @@ namespace ArchEngine.Core.ECS
             {
                 c.Start();
             }
+            foreach (var child in _childs)
+            {
+                child.Start();
+            }
         }
 
         public void Update()
@@ -109,6 +119,10 @@ namespace ArchEngine.Core.ECS
             foreach (var c in _components)
             {
                 c.Update();
+            }
+            foreach (var child in _childs)
+            {
+                child.Update();
             }
         }
 
@@ -118,6 +132,10 @@ namespace ArchEngine.Core.ECS
             foreach (var component in _components)
             {
                 component.Dispose();
+            }
+            foreach (var child in _childs)
+            {
+                child.Dispose();
             }
         }
     }

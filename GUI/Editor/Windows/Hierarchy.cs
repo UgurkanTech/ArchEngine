@@ -191,8 +191,8 @@ namespace ArchEngine.GUI.Editor.Windows
                     Window.activeScene.RemoveGameObject(dragObj);
                 }
                 
-                dragObj.parent = gameObject;
-                gameObject.AddComponent(dragObj);
+                
+                gameObject.AddChild(dragObj);
                 
                 Console.WriteLine("drop " + gameObject.name);
                 ImGui.EndDragDropTarget();
@@ -233,7 +233,7 @@ namespace ArchEngine.GUI.Editor.Windows
         private static void AddToHierarchyRecursively(GameObject gameObject)
         {
             index++;
-            if (gameObject.HasComponent<GameObject>())
+            if (gameObject._childs.Count > 0)
             {
                 if (selected == index)
                     flagsCur = flagsS;
@@ -252,12 +252,9 @@ namespace ArchEngine.GUI.Editor.Windows
                         Editor.selectedGameobject = gameObject;
                     }
 
-                    for (int i = 0; i < gameObject._components.Count; i++)
+                    for (int i = 0; i < gameObject._childs.Count; i++)
                     {
-                        if (gameObject._components[i].GetType() == typeof(GameObject))
-                        {
-                            AddToHierarchyRecursively(gameObject._components[i] as GameObject);
-                        }
+                        AddToHierarchyRecursively(gameObject._childs[i]);
                     }
                     
                     if (!ImGui.IsItemToggledOpen())

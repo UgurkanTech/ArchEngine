@@ -43,21 +43,27 @@ namespace ArchEngine.Core.Rendering
 
         }
 
-        public void RenderRecursively(GameObject obj, Matrix4 parentMatrix)
+        public void RenderRecursively(GameObject parent, Matrix4 parentMatrix)
         {
-            obj._components.ForEach(component =>
+            parent._components.ForEach(component =>
             {
-                if (component.GetType() == typeof(GameObject))
-                {
-                    RenderRecursively(component as GameObject,   obj.Transform *  parentMatrix);
-                }
-                else if (component.GetType() == typeof(MeshRenderer))
+                if (component.GetType() == typeof(MeshRenderer))
                 {
                     MeshRenderer mr = component as MeshRenderer;
-                    mr.mesh.Render(obj.Transform * parentMatrix);
+                    mr.mesh.Render(parent.Transform * parentMatrix);
                    
                 }   
             });
+            
+            
+            parent._childs.ForEach(child =>
+            {
+                RenderRecursively(child,   child.Transform * parent.Transform *  parentMatrix);
+                
+            });
+            
+            
+            
         }
         
 
