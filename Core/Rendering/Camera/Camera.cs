@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using ArchEngine.Core.ECS;
+using ArchEngine.GUI.Editor;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering.Camera
@@ -27,7 +29,7 @@ namespace ArchEngine.Core.Rendering.Camera
         private float _yaw = -MathHelper.PiOver2; // Without this, you would be started rotated 90 degrees right.
 
         // The field of view of the camera (radians)
-        private float _fov = 60 / 180f * MathHelper.Pi;
+        [Inspector(name = "Fov")] public float _fov = 60 / 180f * MathHelper.Pi;
 
         public Camera(Vector3 position, float aspectRatio)
         {

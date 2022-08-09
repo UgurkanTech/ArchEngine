@@ -11,7 +11,7 @@ namespace ArchEngine.Core.Rendering.Textures
     public class TextureManager
     {
         
-        public static Texture LoadFromFile(string path, TextureUnit textureUnit = TextureUnit.Texture0)
+        public static Texture LoadFromFile(string path, TextureUnit textureUnit = TextureUnit.Texture0, bool flip = true)
         {
             // Generate handle
             int handle = GL.GenTexture();
@@ -28,7 +28,10 @@ namespace ArchEngine.Core.Rendering.Textures
                 using var image = new Bitmap(path);
                 // Our Bitmap loads from the top-left pixel, whereas OpenGL loads from the bottom-left, causing the texture to be flipped vertically.
                 // This will correct that, making the texture display properly.
-                image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                if (flip)
+                {
+                    image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                }
 
                 // First, we get our pixels from the bitmap we loaded.
                 // Arguments:

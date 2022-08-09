@@ -17,6 +17,7 @@ namespace ArchEngine.Core.ECS
 
         public GameObject parent = null;
         
+        
         public GameObject(String name = "GameObject")
         {
             this.name = name;

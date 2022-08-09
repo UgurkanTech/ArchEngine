@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
@@ -186,6 +187,21 @@ namespace ArchEngine.GUI.Editor.Windows
                                     Vector3 value = ((OpenTK.Mathematics.Vector3)info.GetValue(component)).ToSystemVector3();
                                     ImGui.DragFloat3(name, ref value, 0.01f);
                                     info.SetValue(component, value.ToOpenTkVector3());
+
+                                }
+                                else if (type == typeof(bool))
+                                {
+                                    bool value = ((bool)info.GetValue(component));
+                                    ImGui.Checkbox(name, ref value);
+                                    info.SetValue(component, value);
+
+                                }
+                                else if (type == typeof(Color4))
+                                {
+                                    Color4 c = ((Color4) info.GetValue(component));
+                                    Vector4 value = new Vector4(c.R, c.G, c.B, c.A);
+                                    ImGui.ColorPicker4(name, ref value);
+                                    info.SetValue(component, new Color4(value.X,value.Y,value.Z, value.W));
 
                                 }
                             }

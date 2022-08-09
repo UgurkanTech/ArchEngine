@@ -28,12 +28,13 @@ namespace ArchEngine.GUI.Editor.Windows
         private static int selected = -1;
         private static int index;
         
-        private static ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanFullWidth | ImGuiTreeNodeFlags.DefaultOpen;
+        private static ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.DefaultOpen;
         
         
         public static void Draw()
         {
             ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, 15f);
+            
            
             
             ImGui.SetNextWindowPos(new System.Numerics.Vector2(25,100), ImGuiCond.FirstUseEver);
@@ -90,13 +91,13 @@ namespace ArchEngine.GUI.Editor.Windows
 
             
             
-            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, Vector2.Zero);
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0,0f));
             try
             {
                 arrayModifiedWait = false;
                 for (int i = 0; i < Window.activeScene.gameObjects.Count; i++)
                 {
-                    AddToHierarchyRecursively(Window.activeScene.gameObjects[i]);
+                    AddToHierarchyRecursively(Window.activeScene.gameObjects[i], i);
                     if (arrayModifiedWait)
                         break;
                 }
@@ -109,7 +110,7 @@ namespace ArchEngine.GUI.Editor.Windows
             
             if (!ImGui.IsAnyItemHovered() && ImGui.IsMouseReleased(ImGuiMouseButton.Left))
             {
-                DragDrop(null);
+                DragDrop(null, -1, outside:true);
             }
             
             ImGui.PopStyleVar();
@@ -118,10 +119,12 @@ namespace ArchEngine.GUI.Editor.Windows
             ImGui.End();
 
             ImGui.PopStyleVar();
+            
 
         }
 
         private static bool dragging = false;
+        private static int dragIndex = -1;
         private static GameObject dragObj = null;
 
         private static bool arrayModifiedWait = false;
@@ -141,18 +144,35 @@ namespace ArchEngine.GUI.Editor.Windows
             return false;
         }
         
-        public static void DragDrop(GameObject gameObject)
+        public static void DragDrop(GameObject gameObject, int sceneIndex, bool move = false, bool outside = false)
         {
+            
+            
+            
             if (!ImGui.IsWindowHovered(ImGuiHoveredFlags.AllowWhenBlockedByActiveItem)) //cancelled
             {
                 dragging = false;
+                Console.WriteLine("drag cancelled");
+                dragObj = null;
                 return;
             }
 
-            if (gameObject == null && dragging) //nulled
+            if (move && dragging)
             {
                 dragging = false;
+
                 
+                Window.activeScene.MoveGameObjecTo(dragObj, sceneIndex);
+                Console.WriteLine(dragObj?.name + " moved to " + sceneIndex);
+                dragObj = null;
+                return;
+            }
+            
+
+            if (outside && dragging) //nulled
+            {
+                dragging = false;
+                Console.WriteLine("drag nulled");
                 if (dragObj.parent != null)
                 {
                     dragObj.parent.RemoveChild(dragObj);
@@ -165,6 +185,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 
                 dragObj.parent = null;
                 Window.activeScene.AddGameObject(dragObj);
+                dragObj = null;
                 
             }
             
@@ -173,7 +194,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 dragging = true;
                 
                 dragObj = gameObject;
-                
+                dragIndex = sceneIndex;
                 Console.WriteLine("drag " + gameObject.name);
                 
             }
@@ -187,6 +208,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 {
                     ImGui.EndDragDropTarget();
                     Console.WriteLine("drop invalid. parent loop " + gameObject.name);
+                    dragObj = null;
                     return;
                 }
                 
@@ -195,6 +217,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 {
                     ImGui.EndDragDropTarget();
                     Console.WriteLine("drop invalid. same object " + gameObject.name);
+                    dragObj = null;
                     return;
                 }
 
@@ -214,17 +237,16 @@ namespace ArchEngine.GUI.Editor.Windows
                 
                 Console.WriteLine("drop " + gameObject.name);
                 
-                
+                dragObj = null;
             }
 
         }
 
-        private static void AddToHierarchyRecursively(GameObject gameObject)
+        private static void AddToHierarchyRecursively(GameObject gameObject, int sceneIndex)
         {
             index++;
-            
 
-            
+            ImGui.ImageButton((IntPtr) AssetManager.cube.handle, new Vector2(12, 12)); ImGui.SameLine();
             if (ImGui.TreeNodeEx(gameObject.name, (selected == index ? flags | ImGuiTreeNodeFlags.Selected : flags) | (gameObject._childs.Count == 0 ? ImGuiTreeNodeFlags.Bullet : ImGuiTreeNodeFlags.None)))
             {
                 if (ImGui.BeginDragDropSource( ImGuiDragDropFlags.SourceNoPreviewTooltip | ImGuiDragDropFlags.SourceNoDisableHover)){}
@@ -233,12 +255,9 @@ namespace ArchEngine.GUI.Editor.Windows
                 
                 if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenBlockedByActiveItem))
                 {
-                    DragDrop(gameObject);
+                    DragDrop(gameObject, sceneIndex);
                 }
-
-   
-
-
+                
                 if (ImGui.IsItemHovered() && ImGui.IsMouseClicked(ImGuiMouseButton.Left))
                 {
                     selected = index;
@@ -247,18 +266,26 @@ namespace ArchEngine.GUI.Editor.Windows
 
                 for (int i = 0; i < gameObject._childs.Count; i++)
                 {
-                    AddToHierarchyRecursively(gameObject._childs[i]);
+                    AddToHierarchyRecursively(gameObject._childs[i], -1);
                 }
                     
                 if (!ImGui.IsItemToggledOpen())
                 {
                     ImGui.TreePop();
+                    
                 }
-
+                
+            }
+            else
+            {
+                if (ImGui.BeginDragDropSource( ImGuiDragDropFlags.SourceNoPreviewTooltip | ImGuiDragDropFlags.SourceNoDisableHover)){}
+                if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenBlockedByActiveItem))
+                {
+                    DragDrop(gameObject, sceneIndex);
+                }
             }
 
 
-             
         }
     }
 }

@@ -68,7 +68,7 @@ namespace ArchEngine.Core
             
             _controller.DrawLoadingBarAndSwapBuffers(this, 20, "Loading fonts...");
             
-            
+            AssetManager.LoadEditor();
             
             _log.Info("Loading fonts...");
             _font = new FreeTypeFont(64);

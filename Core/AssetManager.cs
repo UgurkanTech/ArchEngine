@@ -2,18 +2,21 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using ArchEngine.Core.Rendering.Textures;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common.Input;
 
 namespace ArchEngine.Core
 {
     public class AssetManager
     {
-
+        public static Texture cube;
+        
         public static void LoadEditor()
         {
-            
-            
-            
+            cube = TextureManager.LoadFromFile("Resources/Textures/Editor/cube2.png", TextureUnit.Texture0, false);
+
+
         }
 
         public static WindowIcon LoadWindowIconFromFile(string path)

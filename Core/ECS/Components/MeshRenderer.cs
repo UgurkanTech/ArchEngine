@@ -14,7 +14,7 @@ namespace ArchEngine.Core.ECS.Components
 
         public IRenderable mesh;
         
-        private bool initialized = false;
+        [Inspector()] public bool initialized = false;
 
         
 

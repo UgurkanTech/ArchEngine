@@ -47,7 +47,28 @@ namespace ArchEngine.Core.ECS
                 gameObject.Init();
                 gameObject.Start();
             }
-               
+   
+        }
+        
+        public void MoveGameObjecTo(GameObject gameObject, int index)
+        {
+            if (gameObject.parent == null)
+            {
+                RemoveGameObject(gameObject);
+            }
+            else
+            {
+                gameObject.parent.RemoveChild(gameObject);
+            }
+
+            if (index < gameObjects.Count)
+            {
+                gameObjects.Insert(index, gameObject);
+            }
+            else
+            {
+                gameObjects.Add(gameObject);
+            }
             
 
         }
