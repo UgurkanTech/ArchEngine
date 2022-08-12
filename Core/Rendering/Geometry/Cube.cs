@@ -1,7 +1,9 @@
 ﻿using ArchEngine.Core.ECS;
 using ArchEngine.Core.Rendering.Textures;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType;
 
 namespace ArchEngine.Core.Rendering.Geometry
 {
@@ -15,13 +17,18 @@ namespace ArchEngine.Core.Rendering.Geometry
         public int Ibo { get; set; }
         public float[] Vertices { get; set; }
         public uint[] Indices { get; set; }
+        public PrimitiveType type { get; set; }
+
+
         public Matrix4 Model { get; set; }
+
+       
 
         public Cube()
         {
 	        Vertices = _vertices;
-	       
-
+	        type = PrimitiveType.Triangles;
+	        
         }
 
         private readonly float[] _vertices =

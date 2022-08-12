@@ -60,7 +60,10 @@ namespace ArchEngine.Core
             GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
             GL.Enable(EnableCap.DepthTest);
-            GL.DepthFunc(DepthFunction.Less);
+            GL.DepthFunc(DepthFunction.Lequal);
+            
+
+           // GL.StencilMask(0x00);
             
             _log.Info("Loading interface...");
             _controller = new ImGuiController(Size.X, Size.Y);
@@ -119,7 +122,7 @@ namespace ArchEngine.Core
             _log.Info("Arch Engine started!");
 
 
-            Attributes.ScanAttiributes(this);
+            //Attributes.ScanAttiributes(this);
             
 			activeScene.Start();
         }
@@ -134,7 +137,10 @@ namespace ArchEngine.Core
 
 	        GL.Enable(EnableCap.DepthTest);
 	        GL.DepthFunc(DepthFunction.Less);
-
+	        
+	        
+	        
+	        
 	        if (LockCursor)
 	        {
 		        CursorGrabbed = true;
@@ -150,7 +156,7 @@ namespace ArchEngine.Core
 	        
 	        _controller.Update(this, (float) e.Time);
 	        
-	        ShaderManager.UpdateShaders(Size.X, Size.Y);
+	        ShaderManager.UpdateShaders(_renderer.RenderSize.X, _renderer.RenderSize.Y);
 
 	        //activeScene.GameObjectFind("Cube").Transform = Matrix4.CreateScale(f);
 	
@@ -158,12 +164,15 @@ namespace ArchEngine.Core
 	        _renderer.Use();
 	        
 	        _renderer.RenderAllChildObjects(activeScene.gameObjects);
+	        
+	        
 	        //_renderer.DisplayFullScreen(ShaderManager.FullscreenShader);
             
-	        _font.RenderText(ShaderManager.TextShader,"FPS: " + _fps + ", TPS: " + _ticks, 0.0f - (Size.X / 2f), 0.0f + (Size.Y  / 2f) - 50, 1f);
+	        _font.RenderText(ShaderManager.TextShader,"FPS: " + _fps + ", TPS: " + _ticks, 0.0f - (_renderer.RenderSize.X / 2f), 0.0f + (_renderer.RenderSize.Y  / 2f) - 50, 1f);
             
+	        GL.Viewport(0, 0, Size.X, Size.Y);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-            GL.Clear(ClearBufferMask.DepthBufferBit);
+            GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
             
            
             
@@ -176,6 +185,8 @@ namespace ArchEngine.Core
             ImGui.PopStyleVar(2);
             //ImGui.ShowFontSelector("ad");
             _controller.Render();
+            
+
             
             SwapBuffers();
         }
@@ -254,7 +265,7 @@ namespace ArchEngine.Core
             base.OnResize(e);
 
             GL.Viewport(0, 0, Size.X, Size.Y);
-            _renderer.Resize(Size.X, Size.Y);
+            //_renderer.Resize(Size.X, Size.Y);
             
             //_camera.AspectRatio = Size.X / (float)Size.Y;
            _controller.WindowResized(Size.X, Size.Y); //add this back

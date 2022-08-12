@@ -129,6 +129,8 @@ namespace ArchEngine.GUI.Editor.Windows
 
         private static bool arrayModifiedWait = false;
 
+        public static bool needsSelectUpdate = false;
+
         private static bool isParentLooped(GameObject source, GameObject target)
         {
             GameObject p = target.parent;
@@ -149,7 +151,7 @@ namespace ArchEngine.GUI.Editor.Windows
             
             
             
-            if (!ImGui.IsWindowHovered(ImGuiHoveredFlags.AllowWhenBlockedByActiveItem)) //cancelled
+            if (dragging && !ImGui.IsWindowHovered(ImGuiHoveredFlags.AllowWhenBlockedByActiveItem)) //cancelled
             {
                 dragging = false;
                 Console.WriteLine("drag cancelled");
@@ -256,6 +258,20 @@ namespace ArchEngine.GUI.Editor.Windows
                 if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenBlockedByActiveItem))
                 {
                     DragDrop(gameObject, sceneIndex);
+                }
+
+                if (needsSelectUpdate)
+                {
+                    if (Editor.selectedGameobject == null)
+                    {
+                        selected = -1;
+                    }
+                    else if (Editor.selectedGameobject.Equals(gameObject))
+                    {
+                        selected = index;
+                        needsSelectUpdate = false;
+                    }
+                    
                 }
                 
                 if (ImGui.IsItemHovered() && ImGui.IsMouseClicked(ImGuiMouseButton.Left))

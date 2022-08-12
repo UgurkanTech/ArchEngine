@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
+using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
@@ -133,7 +134,9 @@ namespace ArchEngine.GUI.Editor.Windows
 
                     if (ImGui.TreeNodeEx(component.GetType().Name + "", flagsNotS))
                     {
-                        List<FieldInfo> fields = Attributes.ScanAttiributes(component);
+                        List<FieldInfo> fields = Attributes.ScanFields(component);
+                        //List<PropertyInfo> properties = Attributes.ScanProperties(component);
+
                         fields.ForEach(info =>
                         {
                             Type type = info.FieldType;
@@ -200,7 +203,8 @@ namespace ArchEngine.GUI.Editor.Windows
                                 {
                                     Color4 c = ((Color4) info.GetValue(component));
                                     Vector4 value = new Vector4(c.R, c.G, c.B, c.A);
-                                    ImGui.ColorPicker4(name, ref value);
+                                    //ImGui.ColorPicker4(name, ref value);
+                                    ImGui.ColorEdit4(name, ref value);
                                     info.SetValue(component, new Color4(value.X,value.Y,value.Z, value.W));
 
                                 }
@@ -233,7 +237,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 });
             }
 
-            if (ImGui.IsWindowHovered() && ImGui.IsAnyItemHovered() && ImGui.IsMouseDragging(ImGuiMouseButton.Left))
+            if (ImGui.IsWindowFocused() && ImGui.IsAnyItemHovered() && ImGui.IsMouseDragging(ImGuiMouseButton.Left))
             {
                 Window.LockCursor = true;
             }

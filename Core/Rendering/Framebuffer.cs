@@ -47,8 +47,7 @@ namespace ArchEngine.Core.Rendering
         public void Use()
         {
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, _framebuffer);
-            GL.ClearColor(0.1f, 0.2f, 0.25f, 1.0f);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
             //GL.Viewport(0, 0, _width, _height);
         }
 

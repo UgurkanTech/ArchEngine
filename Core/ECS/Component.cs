@@ -9,6 +9,8 @@ namespace ArchEngine.Core.ECS
         public void Init();
         public void Start();
         public void Update();
+        
+
     }
     
     

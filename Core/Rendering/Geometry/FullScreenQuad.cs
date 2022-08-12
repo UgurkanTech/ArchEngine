@@ -1,5 +1,6 @@
 ﻿using ArchEngine.Core.ECS;
 using ArchEngine.Core.Rendering.Textures;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering.Geometry
@@ -12,12 +13,16 @@ namespace ArchEngine.Core.Rendering.Geometry
         public int Ibo { get; set; }
         public float[] Vertices { get; set; }
         public uint[] Indices { get; set; }
+        public PrimitiveType type { get; set; }
+
+
         public Matrix4 Model { get; set; }
 
 
         public FullScreenQuad()
         {
             Vertices = vertices;
+            type = PrimitiveType.Triangles;
         } 
         private readonly float[] vertices = {
         //   positions     texture coordinates

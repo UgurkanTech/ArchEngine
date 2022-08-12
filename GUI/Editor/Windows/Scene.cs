@@ -19,6 +19,11 @@ namespace ArchEngine.GUI.Editor.Windows
 {
     public class Scene
     {
+        public static Vector2 MouseScenePos;
+        public static Vector2i SceneSize;
+
+        private static int frameCounter = 0;
+        
         public static void Draw()
         {
             ImGui.SetNextWindowPos(new System.Numerics.Vector2(50,50), ImGuiCond.FirstUseEver);
@@ -35,27 +40,55 @@ namespace ArchEngine.GUI.Editor.Windows
             Vector2 vMin = ImGui.GetWindowContentRegionMin();
             Vector2 vMax = ImGui.GetWindowContentRegionMax();
 
+            
             vMin.X += ImGui.GetWindowPos().X;
             vMin.Y += ImGui.GetWindowPos().Y;
             vMax.X += ImGui.GetWindowPos().X;
             vMax.Y += ImGui.GetWindowPos().Y;
-
+            
+            
             Vector2 size = (vMax - vMin);
             
+            //0-800 0-600    
+            Vector2 mp = ImGui.GetMousePos();
             
-            ImGui.GetWindowDrawList().AddImage(
-                new IntPtr(Window._renderer.frameBuffer.frameBufferTexture), //use real pointer
-                ImGui.GetCursorScreenPos(),
-                new Vector2(ImGui.GetCursorScreenPos().X + size.X, 
-                    ImGui.GetCursorScreenPos().Y + size.Y), new Vector2(0, 1), new Vector2(1, 0));
+            mp -= vMin;
+            
+            mp.X /= Window._renderer.RenderSize.X;
+            mp.Y /= Window._renderer.RenderSize.Y;
 
+            mp *= size;
 
+            MouseScenePos = mp;
+            
+            SceneSize = new Vector2i((int) ImGui.GetContentRegionAvail().X, (int) ImGui.GetContentRegionAvail().Y);
+
+            if (frameCounter == 30)
+            {
+                if (Window._renderer.RenderSize.X != SceneSize.X || Window._renderer.RenderSize.Y != SceneSize.Y)
+                {
+                    Window._renderer.Resize((int) SceneSize.X, (int) SceneSize.Y);
+                }
+
+                frameCounter = 0;
+            }
+            
+            
+            
+            
+            
+            ImGui.Image((IntPtr) Window._renderer.frameBuffer.frameBufferTexture, ImGui.GetContentRegionAvail(), new Vector2(0, 1), new Vector2(1, 0));
             //Resizes framebuffer:
             //GL.BindTexture(TextureTarget.Texture2D, Window._renderer.frameBuffer.frameBufferTexture);
             //GL.TexImage2D(TextureTarget.Texture2D,0,PixelInternalFormat.Rgb,(int)size.X,(int)size.Y,0,PixelFormat.Rgb,PixelType.UnsignedByte,IntPtr.Zero);
-
-            ImGui.End();
+            if (ImGui.IsItemHovered())
+            {
+                ObjectSelecter.SelectObject();
+            }
             
+            
+            ImGui.End();
+            frameCounter++;
         }
     }
 }

@@ -2,6 +2,8 @@
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Rendering.Geometry;
+using ArchEngine.GUI.Editor;
+using ArchEngine.GUI.Editor.Windows;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 
@@ -13,10 +15,12 @@ namespace ArchEngine.Core.Rendering
 
         private IRenderable fsq;
 
+        public Vector2i RenderSize = new Vector2i(800, 600);
+
         public Renderer()
         {
             frameBuffer = new Framebuffer();
-            frameBuffer.Init(800, 600);
+            frameBuffer.Init(RenderSize.X, RenderSize.Y);
 
             fsq = new FullScreenQuad();
             fsq.InitBuffers(true);
@@ -25,6 +29,7 @@ namespace ArchEngine.Core.Rendering
 
         public void Resize(int witdh, int height)
         {
+            RenderSize = new Vector2i(witdh, height);
             frameBuffer.Dispose();
             frameBuffer = new Framebuffer();
             frameBuffer.Init(witdh, height);
@@ -33,7 +38,15 @@ namespace ArchEngine.Core.Rendering
 
         public void Use()
         {
+            
             frameBuffer.Use();
+            GL.Viewport(0, 0, RenderSize.X, RenderSize.Y);
+            GL.ClearColor(0.1f, 0.2f, 0.25f, 1.0f);
+            GL.ClearStencil(0);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
+            
+
+            GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
         }
 
         public void Render(IRenderable objects, Matrix4 model)
@@ -43,36 +56,76 @@ namespace ArchEngine.Core.Rendering
 
         }
 
-        public void RenderRecursively(GameObject parent, Matrix4 parentMatrix)
+        private int count;
+        private Matrix4 selectedRoot;
+        public void RenderRecursively(GameObject parent, Matrix4 parentMatrix, bool selected = false)
         {
+            if (Editor.selectedGameobject == parent && !selected)
+            {
+                selectedRoot = parentMatrix;
+                return;
+            }
             parent._components.ForEach(component =>
             {
                 if (component.GetType() == typeof(MeshRenderer))
                 {
                     MeshRenderer mr = component as MeshRenderer;
-                    mr.mesh.Render(parent.Transform * parentMatrix);
-                   
-                }   
+                    GL.StencilFunc(StencilFunction.Always, count, -1);
+                    mr.mesh.Render(parent.Transform * parentMatrix, mr.mesh.type);
+                    mr.StencilID = count;
+                    count++;
+                }
+
             });
-            
-            
             parent._childs.ForEach(child =>
             {
                 RenderRecursively(child, child.Transform * parent.Transform *  parentMatrix);
                 
             });
             
-            
+        }
+        public void RenderOutlineRecursively(GameObject parent, Matrix4 parentMatrix)
+        {
+            parent._components.ForEach(component =>
+            {
+                if (component.GetType() == typeof(MeshRenderer))
+                {
+                    MeshRenderer mr = component as MeshRenderer;
+
+                    mr.mesh.RenderOutline(parent.Transform * parentMatrix);
+
+                }   
+            });
+            parent._childs.ForEach(child =>
+            {
+                RenderOutlineRecursively(child, child.Transform * parent.Transform *  parentMatrix);
+                
+            });
             
         }
         
 
         public void RenderAllChildObjects(List<GameObject> objs)
         {
+            
+            count = 1;
+            GL.Enable(EnableCap.StencilTest);
             foreach (var obj in objs)
             {
                 RenderRecursively(obj, Matrix4.Identity);
             }
+            GL.Disable(EnableCap.StencilTest);
+
+            if (Editor.selectedGameobject != null)
+            {
+                RenderOutlineRecursively(Editor.selectedGameobject, selectedRoot);
+                GL.Enable(EnableCap.StencilTest);
+                RenderRecursively(Editor.selectedGameobject, selectedRoot, true);
+                GL.Disable(EnableCap.StencilTest);
+            }
+            
+            
+            
         }
 
 
@@ -80,7 +133,8 @@ namespace ArchEngine.Core.Rendering
         {
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0); // unbind your FBO to set the default framebuffer
             GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            GL.ClearStencil(0);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
             shader.Use(); // shader program for rendering the quad  
 

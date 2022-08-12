@@ -12,13 +12,14 @@ namespace ArchEngine.Core.Rendering
         public static Shader DefaultShader;
         public static Shader TextShader;
         public static Shader PbrShader;
+        public static Shader ColorShader;
         public static Shader FullscreenShader;
         
         public static void LoadShaders()
         {
             //DefaultShader = new Shader("Resources/Shaders/shader.vert", "Resources/Shaders/shader.frag");
             PbrShader = new Shader("Resources/Shaders/pbr.vert", "Resources/Shaders/pbr.frag");
-            
+            ColorShader = new Shader("Resources/Shaders/shader.vert", "Resources/Shaders/color.frag");
             //EquirectAngularToCubemapShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/equirectangular.frag");
             //IrradianceShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/irradiance.frag");
             //BackgroundShader = new Shader("Resources/Shaders/background.vert", "Resources/Shaders/background.frag");
@@ -70,6 +71,9 @@ namespace ArchEngine.Core.Rendering
             PbrShader.SetMatrix4("view", camera.GetViewMatrix());
             PbrShader.SetMatrix4("projection", camera.GetProjectionMatrix());
             PbrShader.SetVector3("camPos", camera.Position);
+            
+            ColorShader.SetMatrix4("view", camera.GetViewMatrix());
+            ColorShader.SetMatrix4("projection", camera.GetProjectionMatrix());
             
             //PbrShader.SetVector3("lightPositions[0]", new Vector3(1.2f ,1.2f,1.2f));
             //PbrShader.SetVector3("lightColors[0]", new Vector3(10,10,10));

@@ -14,9 +14,9 @@ namespace ArchEngine.Core.ECS.Components
 
         public IRenderable mesh;
         
-        [Inspector()] public bool initialized = false;
+        public bool initialized = false;
 
-        
+        [Inspector()] public int StencilID  { get; set; }
 
         public MeshRenderer()
         {
@@ -44,6 +44,8 @@ namespace ArchEngine.Core.ECS.Components
         {
             
         }
+
+        
 
         public void Dispose()
         {
