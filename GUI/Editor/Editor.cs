@@ -17,6 +17,11 @@ namespace ArchEngine.GUI.Editor
     {
         
         public static GameObject selectedGameobject;
+
+        public Editor()
+        {
+            new ConsoleWindow();
+        }
         
         public static void DrawEditor()
         {

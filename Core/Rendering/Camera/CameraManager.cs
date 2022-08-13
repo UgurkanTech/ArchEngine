@@ -25,7 +25,7 @@ namespace ArchEngine.Core.Rendering.Camera
             const float cameraSpeed = 1.5f;
             const float sensitivity = 0.2f;
             
-            
+            activeCamera.Update();
 
             if (input.IsKeyDown(Keys.W))
             {

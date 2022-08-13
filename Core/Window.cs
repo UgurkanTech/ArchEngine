@@ -45,7 +45,7 @@ namespace ArchEngine.Core
 
         public static Renderer _renderer;
         
-        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        public static readonly log4net.ILog _log = log4net.LogManager.GetLogger("Arch");
 
         public static Vector2i WindowSize;
 
@@ -119,12 +119,12 @@ namespace ArchEngine.Core
             activeScene.Init();
             
             
+            new Editor();
+            activeScene.Start();
             _log.Info("Arch Engine started!");
-
-
+            
             //Attributes.ScanAttiributes(this);
             
-			activeScene.Start();
         }
         
 

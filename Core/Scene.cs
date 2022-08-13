@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace ArchEngine.Core.ECS
 {
     public class Scene
     {
-        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
         
         public List<GameObject> gameObjects = new List<GameObject>(5);
         private bool isRunning = false;

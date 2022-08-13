@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <RootNamespace>ArchEngine</RootNamespace>
         <OutputType>Exe</OutputType>
         <LangVersion>9</LangVersion>
@@ -162,18 +162,6 @@
       <None Update="Resources\Fonts\Ruda-Bold.ttf">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="runtimes\win-x64\native\cimgui.dll">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="runtimes\win-x64\native\cimguizmo.dll">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="runtimes\win-x64\native\cimplot.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="runtimes\win-x64\native\cimnodes.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
       <None Update="Resources\Textures\Editor\cube.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
@@ -183,12 +171,29 @@
       <None Update="Resources\Shaders\color.frag">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="runtimes\win-x64\native\cimgui.dll">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="runtimes\win-x86\native\cimgui.dll">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="runtimes\win-x86\native\cimguizmo.dll">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="runtimes\win-x86\native\cimnodes.dll">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="runtimes\win-x86\native\cimplot.dll">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Core\Physics\Collisions" />
       <Folder Include="Core\Rendering\Lighting" />
       <Folder Include="Core\Rendering\Mesh" />
+      <Folder Include="Libs\Dlls" />
+      <Folder Include="runtimes\win-x64\native" />
     </ItemGroup>
 
     <ItemGroup>
@@ -206,33 +211,19 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Compile>
     </ItemGroup>
-  <ItemGroup>
-    <Reference Include="ImGui.NET">
-      <HintPath>Libs\ImGui.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="ImGui.NET, PublicKeyToken=null">
-      <HintPath>Libs\ImGui.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="ImGui.NET, Version=1.87.3.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>Libs\Dlls\ImGui.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="ImGuizmo.NET">
-      <HintPath>Libs\ImGuizmo.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="ImGuizmo.NET, Version=1.61.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>Libs\Dlls\ImGuizmo.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="ImNodes.NET">
-      <HintPath>Libs\ImNodes.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="ImNodes.NET, Version=0.3.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>Libs\Dlls\ImNodes.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="ImPlot.NET">
-      <HintPath>Libs\ImPlot.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="ImPlot.NET, Version=0.8.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>Libs\Dlls\ImPlot.NET.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="ImGui.NET, Version=1.87.3.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>Libs\Dlls\ImGui.NET.dll</HintPath>
+      </Reference>
+      <Reference Include="ImGuizmo.NET, Version=1.61.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>Libs\Dlls\ImGuizmo.NET.dll</HintPath>
+      </Reference>
+      <Reference Include="ImNodes.NET, Version=0.3.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>Libs\Dlls\ImNodes.NET.dll</HintPath>
+      </Reference>
+      <Reference Include="ImPlot.NET, Version=0.8.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>Libs\Dlls\ImPlot.NET.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 </Project>

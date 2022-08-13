@@ -28,7 +28,7 @@ namespace ArchEngine.GUI.Editor.Windows
         private static int selected = -1;
         private static int index;
         
-        private static ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.DefaultOpen;
+        private static ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags.OpenOnArrow |  ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.DefaultOpen;
         
         
         public static void Draw()
@@ -120,6 +120,7 @@ namespace ArchEngine.GUI.Editor.Windows
 
             ImGui.PopStyleVar();
             
+            
 
         }
 
@@ -197,7 +198,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 
                 dragObj = gameObject;
                 dragIndex = sceneIndex;
-                Console.WriteLine("drag " + gameObject.name);
+                //Console.WriteLine("drag " + gameObject.name);
                 
             }
 
@@ -218,7 +219,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 if (gameObject.Equals(dragObj))
                 {
                     ImGui.EndDragDropTarget();
-                    Console.WriteLine("drop invalid. same object " + gameObject.name);
+                    //Console.WriteLine("drop invalid. same object " + gameObject.name);
                     dragObj = null;
                     return;
                 }

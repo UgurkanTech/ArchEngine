@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using ArchEngine.Core;
 using ArchEngine.Core.ECS;
+using ArchEngine.Core.Rendering.Camera;
 using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor.Windows;
 using ImGuiNET;
@@ -113,8 +114,17 @@ namespace ArchEngine.GUI.Editor.Windows
                     ImGui.NextColumn();
                     ImGui.DragFloat("Z##SCL", ref scal.Z, 0.01f);
                     
-                   
+                   // ImGuizmo.Enable(true);
+                    //ImGuizmo.SetOrthographic(false);
+                    //ImGuizmo.SetDrawlist();
+                    //ImGuizmo.SetRect(ImGui.GetWindowPos().X, ImGui.GetWindowPos().Y, 800, 600);
                 
+                   // OPERATION operation = OPERATION.TRANSLATE;
+                    Matrix4 camV = CameraManager.activeCamera.GetViewMatrix();
+                    Matrix4 camP = CameraManager.activeCamera.GetProjectionMatrix();
+                    
+                    //ImGuizmo.Manipulate(ref camV.Row0.X, ref camP.Row0.X, operation, MODE.LOCAL, ref mat.Row0.X);
+                    
                     mat = Matrix4.CreateScale( scal.ToOpenTkVector3().GetNonZero());
                     mat *= Matrix4.CreateFromQuaternion(Quaternion.FromEulerAngles(roteuler.ToOpenTkVector3().DegreesToRadians()));
                     mat *= Matrix4.CreateTranslation(pos.ToOpenTkVector3());
@@ -235,6 +245,20 @@ namespace ArchEngine.GUI.Editor.Windows
                     
                 
                 });
+                
+                if (ImGui.BeginPopup("Components"))
+                {
+                    ImGui.Text("no components available");
+
+                    ImGui.EndPopup();
+                }
+            
+                ImGui.Separator();
+                if (ImGui.Button("Add Component", new Vector2(ImGui.GetContentRegionAvail().X, 25)))
+                {
+                    ImGui.OpenPopup("Components");
+                }
+                
             }
 
             if (ImGui.IsWindowFocused() && ImGui.IsAnyItemHovered() && ImGui.IsMouseDragging(ImGuiMouseButton.Left))
@@ -245,6 +269,9 @@ namespace ArchEngine.GUI.Editor.Windows
             {
                 Window.LockCursor = false;
             }
+            
+
+            
             ImGui.End();
         }
 

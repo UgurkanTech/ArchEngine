@@ -16,7 +16,7 @@ namespace ArchEngine.Core.ECS.Components
         
         public bool initialized = false;
 
-        [Inspector()] public int StencilID  { get; set; }
+        public int StencilID  { get; set; }
 
         public MeshRenderer()
         {

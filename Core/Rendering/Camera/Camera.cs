@@ -132,7 +132,7 @@ namespace ArchEngine.Core.Rendering.Camera
 
         public void Update()
         {
-            
+            UpdateVectors(); //delet this
         }
 
         

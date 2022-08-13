@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using ImGuizmoNET;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common.Input;
 using OpenTK.Windowing.Desktop;
@@ -63,7 +64,7 @@ namespace ArchEngine.GUI.ImGUI
             io.BackendFlags |= ImGuiBackendFlags.HasSetMousePos;
 
 
-            //ImGuizmo.SetImGuiContext(context);
+            
             //ImGuizmo.BeginFrame(); 
             
             CreateDeviceResources();
@@ -72,6 +73,10 @@ namespace ArchEngine.GUI.ImGUI
             SetPerFrameImGuiData(1f / 60f);
             
             ImGui.NewFrame();
+            
+            
+            //ImGuizmo.SetImGuiContext(context);
+            //ImGuizmo.BeginFrame(); 
             _frameBegun = true;
         }
         
@@ -212,21 +217,20 @@ void main()
                 ImGuiNative.ImFontConfig_destroy(nativeConfig);
                 
                 
-                
+                ImGuiIOPtr io = ImGui.GetIO();
+                io.Fonts.GetTexDataAsRGBA32(out byte* pixels, out int width, out int height, out int bytesPerPixel);
+                //io.Fonts.GetTexDataAsRGBA32(out IntPtr pixels, out int width, out int height, out int bytesPerPixel);
+
+                _fontTexture = new Texture("ImGui Text Atlas", width, height, (IntPtr)pixels);
+                _fontTexture.SetMagFilter(TextureMagFilter.Linear);
+                _fontTexture.SetMinFilter(TextureMinFilter.Linear);
+
+                io.Fonts.SetTexID((IntPtr)_fontTexture.GLTexture);
+
+                io.Fonts.ClearTexData();
             }
             
-            
-            
-            ImGuiIOPtr io = ImGui.GetIO();
-            io.Fonts.GetTexDataAsRGBA32(out IntPtr pixels, out int width, out int height, out int bytesPerPixel);
 
-            _fontTexture = new Texture("ImGui Text Atlas", width, height, pixels);
-            _fontTexture.SetMagFilter(TextureMagFilter.Linear);
-            _fontTexture.SetMinFilter(TextureMinFilter.Linear);
-
-            io.Fonts.SetTexID((IntPtr)_fontTexture.GLTexture);
-
-            io.Fonts.ClearTexData();
         }
 
         /// <summary>
@@ -317,7 +321,7 @@ void main()
 
                     if (KeyboardState.IsKeyPressed(key))
                     {
-                        Console.WriteLine((int)key);
+                        //Console.WriteLine((int)key);
                         
                         
                         if (key.ToString().Length == 1 || ((int)key > 31 && (int)key < 128))
