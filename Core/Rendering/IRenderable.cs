@@ -6,7 +6,7 @@ using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering
 {
-    public interface IRenderable 
+    public interface IRenderable : IDisposable
     {
         
         public Material Material { get; set; }
@@ -157,13 +157,14 @@ namespace ArchEngine.Core.Rendering
                 
             }
         }
-        
 
-        public void Destroy()
+        void IDisposable.Dispose()
         {
-            
             GL.DeleteBuffer(Vbo);
             GL.DeleteVertexArray(Vao);
+            GL.DeleteBuffer(Ibo);
         }
+
+
     }
 }

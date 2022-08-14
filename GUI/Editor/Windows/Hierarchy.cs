@@ -45,18 +45,7 @@ namespace ArchEngine.GUI.Editor.Windows
             {
                 if (ImGui.MenuItem("Add New Gameobject"))
                 {
-                    Material mat = new Material();
-                    mat.LoadTextures("Resources/Textures/wall");
-                    mat.Shader = ShaderManager.PbrShader;
-            
-                    MeshRenderer mr = new MeshRenderer();
-                    mr.mesh = new Cube();
-                    mr.mesh.Material = mat;
-
-                    GameObject go = new GameObject("Gameobject");
-                    go.AddComponent(mr);
-                    
-                    Window.activeScene.AddGameObject(go);
+                    Core.ECS.Scene.SpawnObject();
                 }
                 if (ImGui.MenuItem("Delete selected Gameobject"))
                 {

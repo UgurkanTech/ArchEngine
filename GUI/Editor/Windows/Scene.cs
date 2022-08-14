@@ -86,9 +86,11 @@ namespace ArchEngine.GUI.Editor.Windows
                 ObjectSelecter.SelectObject();
             }
             
-            
+            Gizmo.Draw();
             ImGui.End();
             frameCounter++;
         }
+
+
     }
 }

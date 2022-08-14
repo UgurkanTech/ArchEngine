@@ -13,8 +13,10 @@ using ArchEngine.Core.Rendering.Camera;
 using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor.Windows;
 using ImGuiNET;
+using Microsoft.VisualBasic.CompilerServices;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using Component = ArchEngine.Core.ECS.Component;
 using Quaternion = OpenTK.Mathematics.Quaternion;
 using Vector2 = System.Numerics.Vector2;
 using Vector3 = System.Numerics.Vector3;
@@ -248,8 +250,18 @@ namespace ArchEngine.GUI.Editor.Windows
                 
                 if (ImGui.BeginPopup("Components"))
                 {
-                    ImGui.Text("no components available");
-
+                    
+                    foreach (var component in Component.GetAllComponents())
+                    {
+                        if (ImGui.Button(component.Name))
+                        {
+                            Type type = component;
+                            Component o = Activator.CreateInstance(type) as Component;
+                            o.Init();
+                            Editor.selectedGameobject.AddComponent(o);
+                        }
+                        
+                    }
                     ImGui.EndPopup();
                 }
             

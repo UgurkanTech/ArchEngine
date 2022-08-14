@@ -31,6 +31,9 @@ namespace ArchEngine
                 Icon = AssetManager.LoadWindowIconFromFile("arch.png")
             };
             
+            //Test.Run();
+            //return;
+            
             using (var window = new Window(GameWindowSettings.Default, nativeWindowSettings))
             {
                 window.VSync = VSyncMode.Adaptive;

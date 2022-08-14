@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using ArchEngine.Core.ECS;
+using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor;
+using Newtonsoft.Json;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering.Camera
@@ -16,15 +18,16 @@ namespace ArchEngine.Core.Rendering.Camera
     public class Camera : Component
     {
         // Those vectors are directions pointing outwards from the camera to define how it rotated.
+        [JsonProperty] [JsonConverter(typeof(JsonConverters.Vector3Converter))]
         private Vector3 _front = -Vector3.UnitZ;
-
+        [JsonProperty] [JsonConverter(typeof(JsonConverters.Vector3Converter))]
         private Vector3 _up = Vector3.UnitY;
-
+        [JsonProperty] [JsonConverter(typeof(JsonConverters.Vector3Converter))]
         private Vector3 _right = Vector3.UnitX;
 
         // Rotation around the X axis (radians)
         [Inspector(name = "Pitch")] public float _pitch;
-
+        [JsonProperty]
         // Rotation around the Y axis (radians)
         private float _yaw = -MathHelper.PiOver2; // Without this, you would be started rotated 90 degrees right.
 
@@ -38,15 +41,16 @@ namespace ArchEngine.Core.Rendering.Camera
         }
 
         // The position of the camera
+        [JsonConverter(typeof(JsonConverters.Vector3Converter))]
         public Vector3 Position { get; set; }
 
         // This is simply the aspect ratio of the viewport, used for the projection matrix.
         public float AspectRatio { private get; set; }
-
+        [JsonConverter(typeof(JsonConverters.Vector3Converter))]
         public Vector3 Front => _front;
-
+        [JsonConverter(typeof(JsonConverters.Vector3Converter))]
         public Vector3 Up => _up;
-
+        [JsonConverter(typeof(JsonConverters.Vector3Converter))]
         public Vector3 Right => _right;
 
         // We convert from degrees to radians as soon as the property is set to improve performance.
@@ -120,6 +124,8 @@ namespace ArchEngine.Core.Rendering.Camera
         }
 
         public GameObject gameObject { get; set; }
+        public bool initialized { get; set; }
+
         public void Init()
         {
             

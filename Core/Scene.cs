@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using ArchEngine.Core.ECS.Components;
+using ArchEngine.Core.Rendering;
+using ArchEngine.Core.Rendering.Geometry;
+using ArchEngine.Core.Rendering.Textures;
 
 namespace ArchEngine.Core.ECS
 {
-    public class Scene
+    
+    public class Scene : IDisposable
     {
         private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
         
@@ -27,6 +32,7 @@ namespace ArchEngine.Core.ECS
         {
             foreach (var c in gameObjects)
             {
+                _log.Info("Starting gameobject: " + c.name);
                 c.Start();
             }
 
@@ -96,6 +102,31 @@ namespace ArchEngine.Core.ECS
             }
 
             return null;
+        }
+        
+        public static void SpawnObject()
+        {
+            Material mat = new Material();
+            mat.LoadTextures("Resources/Textures/wall");
+            mat.Shader = ShaderManager.PbrShader;
+            
+            MeshRenderer mr = new MeshRenderer();
+            mr.mesh = new Cube();
+            mr.mesh.Material = mat;
+
+            GameObject go = new GameObject("Gameobject");
+            go.AddComponent(mr);
+                    
+            Window.activeScene.AddGameObject(go);
+        }
+
+        public void Dispose()
+        {
+            foreach (var gameObject in gameObjects)
+            {
+                gameObject.Dispose();
+            }
+            gameObjects.Clear();
         }
     }
 }

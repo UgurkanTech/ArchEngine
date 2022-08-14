@@ -8,9 +8,19 @@ using OpenTK.Mathematics;
 
 namespace ArchEngine.Core
 {
+    
     public class EditorScene : Scene
     {
         public EditorScene()
+        {
+            GameObject gm7 = new GameObject("Camera");
+            gm7.AddComponent(CameraManager.activeCamera);
+            gm7.Transform = Matrix4.CreateTranslation(0, 0, 5);
+            
+            AddGameObject(gm7);
+        }
+
+        public Scene AddDemo()
         {
             Material mat = new Material();
             mat.LoadTextures("Resources/Textures/wall");
@@ -50,7 +60,7 @@ namespace ArchEngine.Core
             GameObject gm4 = new GameObject("Cube-1");
             GameObject gm5 = new GameObject("Cube-2");
             
-            GameObject gm7 = new GameObject("Camera");
+            
             
             
             GameObject gm8 = new GameObject("Line");
@@ -72,16 +82,14 @@ namespace ArchEngine.Core
             gm.AddChild(gm4);
             gm4.AddChild(gm5);
             
-            gm7.AddComponent(CameraManager.activeCamera);
-            gm7.Transform = Matrix4.CreateTranslation(0, 0, 5);
             
-            AddGameObject(gm7);
-            gm7.AddComponent(new ACustomScript());
+            gm8.AddComponent(new ACustomScript());
             
             
             AddGameObject(gm8);
             gm8.Transform = Matrix4.CreateTranslation(-3, 0, 0);
             gm8.AddComponent(mr7);
+            return this;
         }
     }
 }

@@ -4,17 +4,19 @@ using System.Configuration;
 using System.Numerics;
 using ArchEngine.Core.Rendering;
 using ArchEngine.Core.Rendering.Textures;
+using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor;
+using Newtonsoft.Json;
 
 namespace ArchEngine.Core.ECS.Components
 {
     public class MeshRenderer : Component
     {
         public GameObject gameObject { get; set; }
-
+        public bool initialized { get; set; }
+        [JsonConverter(typeof(JsonConverters.IRenderableConverter))]
         public IRenderable mesh;
         
-        public bool initialized = false;
 
         public int StencilID  { get; set; }
 
@@ -25,7 +27,8 @@ namespace ArchEngine.Core.ECS.Components
 
         public void Init()
         {
-            if (!initialized)
+            
+            if (!initialized && mesh != null)
             {
                 mesh.InitBuffers();
                 initialized = true;
@@ -49,7 +52,8 @@ namespace ArchEngine.Core.ECS.Components
 
         public void Dispose()
         {
-            //mesh?.Destroy();
+            mesh?.Dispose();
+            initialized = false;
         }
     }
 }

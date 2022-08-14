@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ArchEngine.Core.Utils;
+using ArchEngine.Core.Utils.Serialization;
+using Newtonsoft.Json;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.ECS
@@ -9,13 +12,17 @@ namespace ArchEngine.Core.ECS
     {
 
         public String name;
+        
+        [JsonConverter(typeof(JsonConverters.Matrix4Converter))]
         public Matrix4 Transform { get; set; }
         public List<Component> _components = new List<Component>(5);
         public List<GameObject> _childs = new List<GameObject>(5);
 
-        private bool initialized = false;
+        public bool initialized = false;
 
+        
         public GameObject parent = null;
+
         
         
         public GameObject(String name = "GameObject")
@@ -84,7 +91,7 @@ namespace ArchEngine.Core.ECS
         }
 
 
-        public GameObject gameObject { get; set; }
+       
 
         public void Init()
         {
@@ -133,11 +140,16 @@ namespace ArchEngine.Core.ECS
             foreach (var component in _components)
             {
                 component.Dispose();
+                component.gameObject = null;
+
             }
+            _components.Clear();
             foreach (var child in _childs)
             {
                 child.Dispose();
+                child.parent = null;
             }
+            _childs.Clear();
         }
     }
 }

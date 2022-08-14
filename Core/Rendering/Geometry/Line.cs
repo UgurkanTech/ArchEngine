@@ -14,6 +14,16 @@ namespace ArchEngine.Core.Rendering.Geometry
         public uint[] Indices { get; set; }
         public PrimitiveType type { get; set; }
 
+        public Line()
+        {
+            Vertices = new float[]
+            {
+                0, 0, 0,
+                2, 2, 2,
+            };
+            type = PrimitiveType.Lines;
+        }
+        
         public Line(Vector3 start, Vector3 end)
         {
             Vertices = new float[]

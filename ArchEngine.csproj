@@ -20,11 +20,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="AssimpNet" Version="4.1.0" />
       <PackageReference Include="freetype2" Version="2.6.0.1" />
       <PackageReference Include="log4net" Version="2.0.14" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
       <PackageReference Include="OpenTK" Version="4.7.1" />
       <PackageReference Include="OpenTK.Windowing.Desktop" Version="4.7.1" />
       <PackageReference Include="SharpFontCore" Version="0.1.1" />
+      <PackageReference Include="SharpSerializer" Version="3.0.2" />
       <PackageReference Include="SpaceWizards.SharpFont" Version="1.0.1" />
       <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     </ItemGroup>
@@ -191,7 +194,6 @@
     <ItemGroup>
       <Folder Include="Core\Physics\Collisions" />
       <Folder Include="Core\Rendering\Lighting" />
-      <Folder Include="Core\Rendering\Mesh" />
       <Folder Include="Libs\Dlls" />
       <Folder Include="runtimes\win-x64\native" />
     </ItemGroup>

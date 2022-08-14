@@ -15,7 +15,7 @@ namespace ArchEngine.GUI.Editor.Windows
         public ConsoleWindow()
         {
             Clear();
-            Console.SetOut(_stringWriter);
+            //Console.SetOut(_stringWriter);
         }
         
         public static void Clear()
@@ -79,7 +79,15 @@ namespace ArchEngine.GUI.Editor.Windows
             if (ImGui.BeginPopup("Options"))
             {
                 ImGui.Checkbox("Auto-scroll", ref asd);
-
+                if (ImGui.Button("Save scene"))
+                {
+                    AssetManager.SaveScene();
+                }
+                if (ImGui.Button("Load scene"))
+                {
+                    AssetManager.LoadScene();
+                }
+                
                 ImGui.EndPopup();
             }
             

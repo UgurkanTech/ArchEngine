@@ -70,6 +70,8 @@ namespace ArchEngine.Core.Rendering
                 if (component.GetType() == typeof(MeshRenderer))
                 {
                     MeshRenderer mr = component as MeshRenderer;
+                    if (!mr.initialized)
+                        return;
                     GL.StencilFunc(StencilFunction.Always, count, -1);
                     mr.mesh.Render(parent.Transform * parentMatrix, mr.mesh.type);
                     mr.StencilID = count;
@@ -91,7 +93,8 @@ namespace ArchEngine.Core.Rendering
                 if (component.GetType() == typeof(MeshRenderer))
                 {
                     MeshRenderer mr = component as MeshRenderer;
-
+                    if (!mr.initialized)
+                        return;
                     mr.mesh.RenderOutline(parent.Transform * parentMatrix);
 
                 }   

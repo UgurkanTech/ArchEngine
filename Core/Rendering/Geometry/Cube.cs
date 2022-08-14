@@ -19,11 +19,6 @@ namespace ArchEngine.Core.Rendering.Geometry
         public uint[] Indices { get; set; }
         public PrimitiveType type { get; set; }
 
-
-        public Matrix4 Model { get; set; }
-
-       
-
         public Cube()
         {
 	        Vertices = _vertices;
