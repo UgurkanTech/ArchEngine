@@ -1,0 +1,41 @@
+
+O
+Core/Rendering/Geometry/Line.cs,e\3\e3dbc6102af25daa608febc0fbe5ab58d59b40f2
+`
+0Core/Utils/Serialization/SerializedRenderable.cs,2\a\2a79d6b5f60f4723b03932bba75d42097563ae1c
+=
+Core/Scene.cs,e\e\ee560e8bac23dbd2364421fa189df7d68bda87e6
+O
+GUI/Editor/Windows/Inspector.cs,1\1\11a4953fac63dadd7ef29f18c1e6bb38a6ddf5f0
+B
+GUI/ImGUI/Theme.cs,4\9\497623a1bc30dab78f86ff078a602afcc8817d0d
+U
+%Core/Rendering/Camera/EditorCamera.cs,d\5\d57e09ed851709acc9f60b3a24d6d0b8046cf2ed
+O
+Core/Rendering/ShaderManager.cs,e\f\ef8a6a67a0a072638b5fa0cba6f7e005c9a55f44
+V
+&Core/Rendering/Camera/CameraManager.cs,e\e\ee37548c944531d765658b4c6047763e0f6b1235
+7
+Arch.cs,3\e\3e35a7d79993ab8266523b10b0290035f2022f6b
+7
+Test.cs,b\e\bed129d44dfefe8d20e606ade563c60f0f86ade0
+]
+-Core/Utils/Serialization/SerializedVector3.cs,b\b\bb2da6e834c2b777f58e6435bc7b44fb8eb72655
+]
+-Core/Utils/Serialization/SerializedVector2.cs,1\f\1f3e60d576d72964c7a0ee6a26729d13a5ac8667
+]
+-Core/Utils/Serialization/SerializedMatrix4.cs,b\2\b2be7c7c340d4d120605c173f068fad47ec0eaba
+S
+#Core/Rendering/Textures/Material.cs,b\d\bd793f84eec617d9d3a144bb9601e7e9e3a12594
+F
+Core/ECS/GameObject.cs,d\0\d024b44c8e63b243506809f007c3baf37948a42d
+E
+Core/ECS/Component.cs,0\3\0345a8b34c91b3f03d31c28a3838d71b7f3e521b
+O
+Core/Rendering/Camera/Camera.cs,d\9\d92cc2debb02971e3c1c5757cc9115c660e99777
+C
+Core/EditorScene.cs,5\4\547b8fa30c7aa2eaa2f86ca03353366d5f0d8661
+>
+Core/Window.cs,5\a\5aa96f6ceb083a13ab401d27c909fce1abb24c2e
+L
+Core/Utils/JsonConverters.cs,c\d\cda4a48c3bedb518014b543fa7031846be833aa9

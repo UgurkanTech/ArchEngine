@@ -23,7 +23,11 @@ namespace ArchEngine.Core.Rendering.Geometry
         {
             Vertices = vertices;
             type = PrimitiveType.Triangles;
+            
         } 
+        
+        
+        
         private readonly float[] vertices = {
         //   positions     texture coordinates
             -1.0f,  1.0f,  0.0f, 1.0f,

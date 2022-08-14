@@ -1,4 +1,5 @@
-﻿using ArchEngine.Core.ECS;
+﻿using System.Configuration;
+using ArchEngine.Core.ECS;
 using ArchEngine.Core.Rendering.Textures;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
@@ -18,6 +19,8 @@ namespace ArchEngine.Core.Rendering.Geometry
         public float[] Vertices { get; set; }
         public uint[] Indices { get; set; }
         public PrimitiveType type { get; set; }
+
+        private static bool initialized = false;
 
         public Cube()
         {

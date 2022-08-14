@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -9,54 +10,49 @@ namespace ArchEngine.Core.Utils
 {
     public static class Serializer
     {
-        public static T DeserializeXml<T>(this string toDeserialize)
+        public static void Save(object obj, string path)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            using (StringReader textReader = new StringReader(toDeserialize))
+            Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
+            serializer.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            serializer.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
+            serializer.Formatting = Newtonsoft.Json.Formatting.Indented;
+            serializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            serializer.Converters.Add(new JsonConverters.Matrix4Converter());
+            serializer.Converters.Add(new JsonConverters.Vector4Converter());
+            serializer.Converters.Add(new JsonConverters.Vector3Converter());
+            serializer.Converters.Add(new JsonConverters.Vector2Converter());
+            serializer.Converters.Add(new JsonConverters.IRenderableConverter());
+
+            using (StreamWriter sw = new StreamWriter(path))
+            using (Newtonsoft.Json.JsonWriter writer = new Newtonsoft.Json.JsonTextWriter(sw))
             {
-                return (T)xmlSerializer.Deserialize(textReader);
+                serializer.Serialize(writer, Window.activeScene, obj.GetType());
             }
         }
 
-        public static string SerializeXml<T>(this T toSerialize)
+        public static T Load<T>(string path)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            using (StringWriter textWriter = new StringWriter())
-            {
-                xmlSerializer.Serialize(textWriter, toSerialize);
-                return textWriter.ToString();
-            }
-        }
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(File.ReadAllText(@"D:\save.json"),
+                new Newtonsoft.Json.JsonSerializerSettings
+                {
+                    NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+                    TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto,
+                    Formatting = Newtonsoft.Json.Formatting.Indented,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    Error = (sender, eventArgs) => {
+                        Console.WriteLine(eventArgs.ErrorContext.Error.Message);
+                        eventArgs.ErrorContext.Handled = true;
+                    },
+                    Converters = new List<JsonConverter>()
+                    {
+                        new JsonConverters.Matrix4Converter(),
+                        new JsonConverters.Vector4Converter(),
+                        new JsonConverters.Vector3Converter(),
+                        new JsonConverters.Vector2Converter(),
+                        new JsonConverters.IRenderableConverter()
 
-        public static T DeserializeJson<T>(this string toDeserialize)
-        {
-            return JsonConvert.DeserializeObject<T>(toDeserialize);
-        }
-
-        public static string SerializeJson<T>(this T toSerialize)
-        {
-            return JsonConvert.SerializeObject(toSerialize);
-        }
-        
-        public static string Serialize(object obj) {
-            using(MemoryStream memoryStream = new MemoryStream())
-            using(StreamReader reader = new StreamReader(memoryStream)) {
-                DataContractSerializer serializer = new DataContractSerializer(obj.GetType());
-                serializer.WriteObject(memoryStream, obj);
-                memoryStream.Position = 0;
-                return reader.ReadToEnd();
-            }
-        }
-
-        public static object Deserialize(string xml, Type toType) {
-            using(Stream stream = new MemoryStream()) {
-                byte[] data = System.Text.Encoding.UTF8.GetBytes(xml);
-                stream.Write(data, 0, data.Length);
-                stream.Position = 0;
-                DataContractSerializer deserializer = new DataContractSerializer(toType);
-                return deserializer.ReadObject(stream);
-            }
+                    }
+                });
         }
     }
-    
 }

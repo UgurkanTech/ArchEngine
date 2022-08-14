@@ -76,53 +76,15 @@ namespace ArchEngine.Core
 
         public static void SaveScene()
         {
-            Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
-            serializer.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-            serializer.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
-            serializer.Formatting = Newtonsoft.Json.Formatting.Indented;
-            serializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            serializer.Converters.Add(new JsonConverters.Matrix4Converter());
-            serializer.Converters.Add(new JsonConverters.Vector4Converter());
-            serializer.Converters.Add(new JsonConverters.Vector3Converter());
-            serializer.Converters.Add(new JsonConverters.Vector2Converter());
-            serializer.Converters.Add(new JsonConverters.IRenderableConverter());
-
-            using (StreamWriter sw = new StreamWriter(@"D:\save.json"))
-            using (Newtonsoft.Json.JsonWriter writer = new Newtonsoft.Json.JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, Window.activeScene, typeof(Scene));
-            }
-
-            //File.WriteAllText(@"D:\path.json", json);
-            //Console.WriteLine(Serializer.Serialize(json));
-
+            Serializer.Save(Window.activeScene, @"D:\save.json");
         }
 
         public static void LoadScene()
         {
             Window.activeScene.Dispose();
-            
-            Window.activeScene  = Newtonsoft.Json.JsonConvert.DeserializeObject<Scene>(File.ReadAllText(@"D:\save.json"),
-                new Newtonsoft.Json.JsonSerializerSettings
-                {
-                    NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
-                    TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto,
-                    Formatting = Newtonsoft.Json.Formatting.Indented,
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                    Error = (sender, eventArgs) => {
-                        Console.WriteLine(eventArgs.ErrorContext.Error.Message);
-                        eventArgs.ErrorContext.Handled = true;
-                    },
-                    Converters = new List<JsonConverter>()
-                    {
-                        new JsonConverters.Matrix4Converter(),
-                        new JsonConverters.Vector4Converter(),
-                        new JsonConverters.Vector3Converter(),
-                        new JsonConverters.Vector2Converter(),
-                        new JsonConverters.IRenderableConverter()
 
-                    }
-                });
+            Window.activeScene = Serializer.Load<Scene>("");
+            
             RestoreScene();
             Window.activeScene.Init();
             Window.activeScene.Start();
