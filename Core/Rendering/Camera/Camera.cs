@@ -18,11 +18,11 @@ namespace ArchEngine.Core.Rendering.Camera
     public class Camera : Component
     {
         // Those vectors are directions pointing outwards from the camera to define how it rotated.
-        [JsonProperty] [JsonConverter(typeof(JsonConverters.Vector3Converter))]
-        private Vector3 _front = -Vector3.UnitZ;
-        [JsonProperty] [JsonConverter(typeof(JsonConverters.Vector3Converter))]
-        private Vector3 _up = Vector3.UnitY;
-        [JsonProperty] [JsonConverter(typeof(JsonConverters.Vector3Converter))]
+        [JsonProperty]
+        protected Vector3 _front = -Vector3.UnitZ;
+        [JsonProperty]
+        protected Vector3 _up = Vector3.UnitY;
+        [JsonProperty]
         private Vector3 _right = Vector3.UnitX;
 
         // Rotation around the X axis (radians)
@@ -40,17 +40,19 @@ namespace ArchEngine.Core.Rendering.Camera
             AspectRatio = aspectRatio;
         }
 
+        public Camera() {}
+
         // The position of the camera
-        [JsonConverter(typeof(JsonConverters.Vector3Converter))]
+
         public Vector3 Position { get; set; }
 
         // This is simply the aspect ratio of the viewport, used for the projection matrix.
         public float AspectRatio { private get; set; }
-        [JsonConverter(typeof(JsonConverters.Vector3Converter))]
+      
         public Vector3 Front => _front;
-        [JsonConverter(typeof(JsonConverters.Vector3Converter))]
+      
         public Vector3 Up => _up;
-        [JsonConverter(typeof(JsonConverters.Vector3Converter))]
+       
         public Vector3 Right => _right;
 
         // We convert from degrees to radians as soon as the property is set to improve performance.
@@ -94,7 +96,7 @@ namespace ArchEngine.Core.Rendering.Camera
         }
 
         // Get the view matrix using the amazing LookAt function described more in depth on the web tutorials
-        public Matrix4 GetViewMatrix()
+        public virtual Matrix4 GetViewMatrix()
         {
             return Matrix4.LookAt(Position + gameObject.Transform.ExtractTranslation(), Position + _front +  gameObject.Transform.ExtractTranslation(), _up);
         }

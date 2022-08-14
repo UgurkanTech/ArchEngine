@@ -14,10 +14,10 @@ namespace ArchEngine.Core.ECS.Components
     {
         public GameObject gameObject { get; set; }
         public bool initialized { get; set; }
-        [JsonConverter(typeof(JsonConverters.IRenderableConverter))]
+
         public IRenderable mesh;
         
-
+        [JsonIgnore]
         public int StencilID  { get; set; }
 
         public MeshRenderer()

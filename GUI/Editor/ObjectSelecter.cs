@@ -46,7 +46,7 @@ namespace ArchEngine.GUI.Editor
                 
                 Vector4 viewport = new Vector4(0, 0, window_width, window_height);
                 Vector3 wincoord = new Vector3(x, window_height - y - 1, depth[0]);
-                Vector3 objcoord = MathUtils.UnProject(wincoord, CameraManager.activeCamera.GetViewMatrix(), CameraManager.activeCamera.GetProjectionMatrix(), viewport);
+                Vector3 objcoord = MathUtils.UnProject(wincoord, CameraManager.EditorCamera.GetViewMatrix(), CameraManager.EditorCamera.GetProjectionMatrix(), viewport);
 
                 //Console.WriteLine("Coordinates in object space: {0}, {1}, {2}\n", objcoord.X, objcoord.Y, objcoord.Z);
                 

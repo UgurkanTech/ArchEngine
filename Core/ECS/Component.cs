@@ -10,7 +10,7 @@ namespace ArchEngine.Core.ECS
     {
         [JsonIgnore]
         public GameObject gameObject  { get; set; }
-        
+        [JsonIgnore]
         public bool initialized { get; set; }
         
         public void Init();

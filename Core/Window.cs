@@ -115,7 +115,8 @@ namespace ArchEngine.Core
             _controller.DrawLoadingBarAndSwapBuffers(this, 90, "Initializing scene...");
             _log.Info("Initializing scene...");
             
-            activeScene = new EditorScene();
+            activeScene = new EditorScene().AddDemo();
+            
             activeScene.Init();
             
             

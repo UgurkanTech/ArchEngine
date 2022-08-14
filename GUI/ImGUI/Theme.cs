@@ -130,6 +130,11 @@ namespace ArchEngine.GUI.ImGUI
 			
 			colors[(int) ImGuiCol.HeaderActive] = new Vector4(0.06f, 0.05f, 0.07f, 1.00f);
 			
+			
+			colors[(int) ImGuiCol.TabUnfocusedActive] = new Vector4(0.40f, 0.10f, 0.10f, 1.00f);
+			colors[(int) ImGuiCol.TabActive] = new Vector4(0.5f, 0.2f, 0.2f, 1.00f);
+			colors[(int) ImGuiCol.TabHovered] = new Vector4(0.7f, 0.4f, 0.4f, 1.00f);
+			
 			//colors[(int) ImGuiCol.Column] = new Vector4(0.56f, 0.56f, 0.58f, 1.00f);
 			//colors[(int) ImGuiCol.ColumnHovered] = new Vector4(0.24f, 0.23f, 0.29f, 1.00f);
 			//colors[(int) ImGuiCol.ColumnActive] = new Vector4(0.56f, 0.56f, 0.58f, 1.00f);

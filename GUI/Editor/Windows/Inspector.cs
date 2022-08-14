@@ -122,8 +122,8 @@ namespace ArchEngine.GUI.Editor.Windows
                     //ImGuizmo.SetRect(ImGui.GetWindowPos().X, ImGui.GetWindowPos().Y, 800, 600);
                 
                    // OPERATION operation = OPERATION.TRANSLATE;
-                    Matrix4 camV = CameraManager.activeCamera.GetViewMatrix();
-                    Matrix4 camP = CameraManager.activeCamera.GetProjectionMatrix();
+                    Matrix4 camV = CameraManager.EditorCamera.GetViewMatrix();
+                    Matrix4 camP = CameraManager.EditorCamera.GetProjectionMatrix();
                     
                     //ImGuizmo.Manipulate(ref camV.Row0.X, ref camP.Row0.X, operation, MODE.LOCAL, ref mat.Row0.X);
                     

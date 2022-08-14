@@ -13,11 +13,6 @@ namespace ArchEngine.Core
     {
         public EditorScene()
         {
-            GameObject gm7 = new GameObject("Camera");
-            gm7.AddComponent(CameraManager.activeCamera);
-            gm7.Transform = Matrix4.CreateTranslation(0, 0, 5);
-            
-            AddGameObject(gm7);
         }
 
         public Scene AddDemo()

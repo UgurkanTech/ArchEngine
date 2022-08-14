@@ -13,11 +13,10 @@ namespace ArchEngine.Core.ECS
 
         public String name;
         
-        [JsonConverter(typeof(JsonConverters.Matrix4Converter))]
         public Matrix4 Transform { get; set; }
         public List<Component> _components = new List<Component>(5);
         public List<GameObject> _childs = new List<GameObject>(5);
-
+        [JsonIgnore]
         public bool initialized = false;
 
         

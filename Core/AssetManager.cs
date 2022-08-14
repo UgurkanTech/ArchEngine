@@ -81,8 +81,13 @@ namespace ArchEngine.Core
             serializer.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
             serializer.Formatting = Newtonsoft.Json.Formatting.Indented;
             serializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            serializer.Converters.Add(new JsonConverters.Matrix4Converter());
+            serializer.Converters.Add(new JsonConverters.Vector4Converter());
+            serializer.Converters.Add(new JsonConverters.Vector3Converter());
+            serializer.Converters.Add(new JsonConverters.Vector2Converter());
+            serializer.Converters.Add(new JsonConverters.IRenderableConverter());
 
-            using (StreamWriter sw = new StreamWriter(@"D:\path.json"))
+            using (StreamWriter sw = new StreamWriter(@"D:\save.json"))
             using (Newtonsoft.Json.JsonWriter writer = new Newtonsoft.Json.JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, Window.activeScene, typeof(Scene));
@@ -97,7 +102,7 @@ namespace ArchEngine.Core
         {
             Window.activeScene.Dispose();
             
-            Window.activeScene  = Newtonsoft.Json.JsonConvert.DeserializeObject<Scene>(File.ReadAllText(@"D:\path.json"),
+            Window.activeScene  = Newtonsoft.Json.JsonConvert.DeserializeObject<Scene>(File.ReadAllText(@"D:\save.json"),
                 new Newtonsoft.Json.JsonSerializerSettings
                 {
                     NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
@@ -107,6 +112,15 @@ namespace ArchEngine.Core
                     Error = (sender, eventArgs) => {
                         Console.WriteLine(eventArgs.ErrorContext.Error.Message);
                         eventArgs.ErrorContext.Handled = true;
+                    },
+                    Converters = new List<JsonConverter>()
+                    {
+                        new JsonConverters.Matrix4Converter(),
+                        new JsonConverters.Vector4Converter(),
+                        new JsonConverters.Vector3Converter(),
+                        new JsonConverters.Vector2Converter(),
+                        new JsonConverters.IRenderableConverter()
+
                     }
                 });
             RestoreScene();
@@ -120,27 +134,27 @@ namespace ArchEngine.Core
             {
                 RestoreParents(null, o);
             });
-            Window.activeScene.GameObjectFind("Camera").RemoveComponent<Camera>();
+            //Window.activeScene.GameObjectFind("Camera").RemoveComponent<Camera>();
             
-            CameraManager.Init(Window.WindowSize.X / (float)Window.WindowSize.Y);
+            //CameraManager.Init(Window.WindowSize.X / (float)Window.WindowSize.Y);
             
-            Window.activeScene.GameObjectFind("Camera").AddComponent(CameraManager.activeCamera);
+           // Window.activeScene.GameObjectFind("Camera").AddComponent(CameraManager.EditorCamera);
 
         }
 
         public static void RestoreParents(GameObject parent, GameObject child)
         {
             //child.Transform = Matrix4.Identity;
-            child.initialized = false;
+            //child.initialized = false;
             child.parent = parent;
             child._components.ForEach(component =>
             {
                 component.gameObject = child;
-                component.initialized = false;
+                //component.initialized = false;
             });
             child._childs.ForEach(childs =>
             {
-                childs.initialized = false;
+                //childs.initialized = false;
                 //childs.Transform = Matrix4.Identity;
                 RestoreParents(child, childs);
             });

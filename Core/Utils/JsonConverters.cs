@@ -73,6 +73,7 @@ namespace ArchEngine.Core.Utils
         
         public class Vector4Converter : JsonConverter<Vector4>
         {
+            
             public override void WriteJson(JsonWriter writer, Vector4 value, JsonSerializer serializer)
             {
                 SerializedVector4 sm = new SerializedVector4();

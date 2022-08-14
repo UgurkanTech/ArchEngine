@@ -11,9 +11,9 @@ namespace ArchEngine
 {
     public class Test
     {
-        [JsonConverter(typeof(JsonConverters.Matrix4Converter))]
+        //[JsonConverter(typeof(JsonConverters.Matrix4Converter))]
         public Matrix4 matrix = Matrix4.Identity;
-        [JsonConverter(typeof(JsonConverters.Vector4Converter))]
+       // [JsonConverter(typeof(JsonConverters.Vector4Converter))]
         public Vector4 matrix2 = new Vector4(6, 5, 7, 3);
         public Test()
         {}
@@ -27,6 +27,12 @@ namespace ArchEngine
             serializer.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
             serializer.Formatting = Newtonsoft.Json.Formatting.Indented;
             serializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            serializer.Converters.Add(new JsonConverters.Matrix4Converter());
+            serializer.Converters.Add(new JsonConverters.Vector4Converter());
+            serializer.Converters.Add(new JsonConverters.Vector3Converter());
+            serializer.Converters.Add(new JsonConverters.Vector2Converter());
+            serializer.Converters.Add(new JsonConverters.IRenderableConverter());
+            //serializer.Converters.Add(new JsonConverters.Converter());
 
             using (StreamWriter sw = new StreamWriter(@"D:\path.json"))
             using (Newtonsoft.Json.JsonWriter writer = new Newtonsoft.Json.JsonTextWriter(sw))
@@ -46,6 +52,15 @@ namespace ArchEngine
                     TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto,
                     Formatting = Newtonsoft.Json.Formatting.Indented,
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    Converters = new List<JsonConverter>()
+                    {
+                        new JsonConverters.Matrix4Converter(),
+                        new JsonConverters.Vector4Converter(),
+                        new JsonConverters.Vector3Converter(),
+                        new JsonConverters.Vector2Converter(),
+                        new JsonConverters.IRenderableConverter()
+
+                    },
                     Error = (sender, eventArgs) => {
                         Console.WriteLine(eventArgs.ErrorContext.Error.Message);  // or write to a log
                         eventArgs.ErrorContext.Handled = true;
