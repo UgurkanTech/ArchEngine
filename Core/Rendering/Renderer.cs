@@ -54,15 +54,21 @@ namespace ArchEngine.Core.Rendering
         
         private int count;
         private Matrix4 selectedRoot;
-        public void RenderRecursively(GameObject parent, Matrix4 parentMatrix, bool selected = false)
+        private bool selectedRootActive = true;
+
+        public void RenderRecursively(GameObject parent, Matrix4 parentMatrix, bool selected = false, bool rootActive = true)
         {
+            
             if (Editor.selectedGameobject == parent && !selected)
             {
                 selectedRoot = parentMatrix;
+                selectedRootActive = rootActive;
                 return;
             }
             parent._components.ForEach(component =>
             {
+                if (!parent.isActive || !rootActive)
+                    return;
                 if (component.GetType() == typeof(MeshRenderer))
                 {
                     MeshRenderer mr = component as MeshRenderer;
@@ -88,7 +94,7 @@ namespace ArchEngine.Core.Rendering
             });
             parent._childs.ForEach(child =>
             {
-                RenderRecursively(child, child.Transform * parent.Transform *  parentMatrix);
+                RenderRecursively(child, child.Transform * parent.Transform *  parentMatrix, rootActive:child.isActive && rootActive);
                 
             });
             
@@ -130,7 +136,7 @@ namespace ArchEngine.Core.Rendering
             GL.Enable(EnableCap.StencilTest);
             foreach (var obj in objs)
             {
-                RenderRecursively(obj, Matrix4.Identity);
+                RenderRecursively(obj, Matrix4.Identity, rootActive:obj.isActive);
             }
             GL.Disable(EnableCap.StencilTest);
 
@@ -138,12 +144,10 @@ namespace ArchEngine.Core.Rendering
             {
                 RenderOutlineRecursively(Editor.selectedGameobject, selectedRoot);
                 GL.Enable(EnableCap.StencilTest);
-                RenderRecursively(Editor.selectedGameobject, selectedRoot, true);
+                RenderRecursively(Editor.selectedGameobject, selectedRoot, true, selectedRootActive);
                 GL.Disable(EnableCap.StencilTest);
             }
-            
-            
-            
+       
         }
 
 

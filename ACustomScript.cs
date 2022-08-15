@@ -30,7 +30,14 @@ namespace ArchEngine
 
         public override void FixedUpdate()
         {
-            gameObject.Transform = Matrix4.Identity * Matrix4.CreateRotationY(Runtime.CurrentRuntime);
+            Matrix4 mat = Matrix4.Identity;
+            
+            
+            mat = Matrix4.CreateScale( gameObject.Transform.ExtractScale());
+            mat *= Matrix4.CreateRotationY(Runtime.CurrentRuntime);
+            mat *= Matrix4.CreateTranslation(gameObject.Transform.ExtractTranslation());
+
+            gameObject.Transform = mat;
             myFloat = Runtime.CurrentRuntime;
         }
     }

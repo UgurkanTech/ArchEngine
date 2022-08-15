@@ -15,7 +15,7 @@ namespace ArchEngine.GUI.Editor.Windows
         public ConsoleWindow()
         {
             Clear();
-            //Console.SetOut(_stringWriter);
+            Console.SetOut(_stringWriter);
         }
         
         public static void Clear()
@@ -65,6 +65,8 @@ namespace ArchEngine.GUI.Editor.Windows
                     //ImGui.TextWrapped(_lines[i]);
                 }
                 ImGui.TextWrapped(_stringWriter.ToString());
+                ImGui.TextColored(Vector4.UnitX, "Broken native wrapping");
+                
 
                 if (oldLength != _stringWriter.GetStringBuilder().Length)
                 {

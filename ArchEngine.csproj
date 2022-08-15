@@ -169,7 +169,7 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="Resources\Textures\Editor\cube2.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="Resources\Shaders\color.frag">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

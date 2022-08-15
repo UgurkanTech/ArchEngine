@@ -22,7 +22,7 @@ namespace ArchEngine.Core.ECS
         
         public GameObject parent = null;
 
-        
+        public bool isActive = true;
         
         public GameObject(String name = "GameObject")
         {
@@ -111,6 +111,8 @@ namespace ArchEngine.Core.ECS
         
         public void Start()
         {
+            if (!isActive)
+                return;
             foreach (var c in _components)
             {
                 c.Start();
@@ -123,6 +125,8 @@ namespace ArchEngine.Core.ECS
 
         public void Update()
         {
+            if (!isActive)
+                return;
             foreach (var c in _components)
             {
                 c.Update();
@@ -135,6 +139,8 @@ namespace ArchEngine.Core.ECS
 
         public void FixedUpdate()
         {
+            if (!isActive)
+                return;
             foreach (var c in _components)
             {
                 c.FixedUpdate();

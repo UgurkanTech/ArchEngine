@@ -34,7 +34,7 @@ namespace ArchEngine.GUI.Editor.Windows
         private static ImGuiTreeNodeFlags flagsNotS = ImGuiTreeNodeFlags.OpenOnArrow |
                                                       ImGuiTreeNodeFlags.SpanFullWidth | ImGuiTreeNodeFlags.DefaultOpen; 
         
-        static byte[] nameBuffer = new byte[100];
+        static byte[] nameBuffer = new byte[50];
         
         
         public static void Draw()
@@ -61,14 +61,19 @@ namespace ArchEngine.GUI.Editor.Windows
 
                if (ImGui.TreeNodeEx("Gameobject", flagsNotS))
                {
-                   ImGui.TextColored(new Vector4(0,200,0,255), "          Name    ");
+                   ImGui.Columns(3, "gameobjects",false);
+                   ImGui.SetColumnWidth(0, 55);
+                   ImGui.SetColumnWidth(1, ImGui.GetWindowSize().X);
+                   ImGui.TextColored(new Vector4(0,200,0,255), "Name");
                 
-                   ImGui.SameLine();
+                   ImGui.NextColumn();
                    //ImGui.NextColumn();
                 
                    unsafe
                    {
-                       if (ImGui.InputText("##Name", nameBuffer, 100, ImGuiInputTextFlags.CallbackAlways | ImGuiInputTextFlags.EnterReturnsTrue, Callback));
+                       if (ImGui.InputText("##Name", nameBuffer, 50, ImGuiInputTextFlags.CallbackAlways | ImGuiInputTextFlags.EnterReturnsTrue, Callback));
+                       ImGui.SameLine();
+                       ImGui.Checkbox("Is Active", ref Editor.selectedGameobject.isActive);
                    }
                }
                ImGui.TreePop();
@@ -84,37 +89,27 @@ namespace ArchEngine.GUI.Editor.Windows
 
 
                     Vector3 roteuler = rot.ToEulerAngles().RadiansToAngles().ToSystemVector3();
-                
+                    
                
-                    ImGui.Columns(4,"transforms", false);
+                    ImGui.Columns(2,"transforms", false);
                     //mGui.SetColumnWidth(0, 90);
+                    ImGui.SetColumnWidth(0, 55);
+                    ImGui.SetColumnWidth(1, ImGui.GetWindowWidth() - 55);
                     
-                    
-                    
-                    ImGui.PushItemWidth(-100.0f);
-                    ImGui.Text("Position");
+                    ImGui.TextColored(new Vector4(0,200,0,255), "Position");
                     ImGui.NextColumn();
-                    ImGui.DragFloat("X##POS", ref pos.X, 0.01f);
+                    ImGui.SetNextItemWidth(ImGui.GetWindowWidth() - 50);
+                    ImGui.DragFloat3("##POS", ref pos, 0.01f);
                     ImGui.NextColumn();
-                    ImGui.DragFloat("Y##POS", ref pos.Y, 0.01f);
+                    ImGui.TextColored(new Vector4(0,200,0,255), "Rotation");
                     ImGui.NextColumn();
-                    ImGui.DragFloat("Z##POS", ref pos.Z, 0.01f);
+                    ImGui.SetNextItemWidth(ImGui.GetWindowWidth() - 50);
+                    ImGui.DragFloat3("##ROT", ref roteuler, 0.01f);
                     ImGui.NextColumn();
-                    ImGui.Text("Rotation");
+                    ImGui.TextColored(new Vector4(0,200,0,255), "Scale");
                     ImGui.NextColumn();
-                    ImGui.DragFloat("X##ROT", ref roteuler.X, 0.01f);
-                    ImGui.NextColumn();
-                    ImGui.DragFloat("Y##ROT", ref roteuler.Y, 0.01f);
-                    ImGui.NextColumn();
-                    ImGui.DragFloat("Z##ROT", ref roteuler.Z, 0.01f);
-                    ImGui.NextColumn();
-                    ImGui.Text("Scale");
-                    ImGui.NextColumn();
-                    ImGui.DragFloat("X##SCL", ref scal.X, 0.01f);
-                    ImGui.NextColumn();
-                    ImGui.DragFloat("Y##SCL", ref scal.Y, 0.01f);
-                    ImGui.NextColumn();
-                    ImGui.DragFloat("Z##SCL", ref scal.Z, 0.01f);
+                    ImGui.SetNextItemWidth(ImGui.GetWindowWidth() - 50);
+                    ImGui.DragFloat3("##SCL", ref scal, 0.01f);
                     
                    // ImGuizmo.Enable(true);
                     //ImGuizmo.SetOrthographic(false);
@@ -132,7 +127,7 @@ namespace ArchEngine.GUI.Editor.Windows
                     mat *= Matrix4.CreateTranslation(pos.ToOpenTkVector3());
                 
                     Editor.selectedGameobject.Transform = mat;
-                    ImGui.PopItemWidth();
+                    
                     ImGui.TreePop();
                 }
                 
