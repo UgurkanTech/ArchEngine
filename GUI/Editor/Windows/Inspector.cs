@@ -146,101 +146,13 @@ namespace ArchEngine.GUI.Editor.Windows
 
                     if (ImGui.TreeNodeEx(component.GetType().Name + "", flagsNotS))
                     {
-                        List<FieldInfo> fields = Attributes.ScanFields(component);
-                        //List<PropertyInfo> properties = Attributes.ScanProperties(component);
-
-                        fields.ForEach(info =>
-                        {
-                            Type type = info.FieldType;
-                            String name = "";
-                            bool hasRange = false;
-                            int rangeMin = 0;
-                            int rangeMax = 0;
-                            foreach (Attribute attr in Attribute.GetCustomAttributes(info))
-                            {
-                                if (attr.GetType() == typeof(InspectorAttribute))
-                                {
-                                    InspectorAttribute ia = (InspectorAttribute)attr;
-                                    name = ia.name ?? info.Name;
-                                    
-                                }
-                                else if (attr.GetType() == typeof(RangeAttribute))
-                                {
-                                    RangeAttribute ra = (RangeAttribute)attr;
-                                    hasRange = true;
-                                    rangeMin = (int)ra.Minimum;
-                                    rangeMax = (int)ra.Maximum;
-
-                                }
-                                
-                            }
-
-                            if (!hasRange)
-                            {
-                                if (type == typeof(float))
-                                {
-                                    float value = (float)info.GetValue(component);
-                                    ImGui.DragFloat(name, ref value, 0.01f);
-                                    info.SetValue(component, value);
-                                }
-                                else if (type == typeof(int))
-                                {
-                                    int value = (int)info.GetValue(component);
-                                    ImGui.DragInt(name, ref value, 1f);
-                                    info.SetValue(component, value);
-
-                                }
-                                else if (type == typeof(Vector3))
-                                {
-                                    Vector3 value = (Vector3)info.GetValue(component);
-                                    ImGui.DragFloat3(name, ref value, 0.01f);
-                                    info.SetValue(component, value);
-
-                                }
-                                else if (type == typeof(OpenTK.Mathematics.Vector3))
-                                {
-                                    Vector3 value = ((OpenTK.Mathematics.Vector3)info.GetValue(component)).ToSystemVector3();
-                                    ImGui.DragFloat3(name, ref value, 0.01f);
-                                    info.SetValue(component, value.ToOpenTkVector3());
-
-                                }
-                                else if (type == typeof(bool))
-                                {
-                                    bool value = ((bool)info.GetValue(component));
-                                    ImGui.Checkbox(name, ref value);
-                                    info.SetValue(component, value);
-
-                                }
-                                else if (type == typeof(Color4))
-                                {
-                                    Color4 c = ((Color4) info.GetValue(component));
-                                    Vector4 value = new Vector4(c.R, c.G, c.B, c.A);
-                                    //ImGui.ColorPicker4(name, ref value);
-                                    ImGui.ColorEdit4(name, ref value);
-                                    info.SetValue(component, new Color4(value.X,value.Y,value.Z, value.W));
-
-                                }
-                            }
-                            else
-                            {
-                                if (type == typeof(float))
-                                {
-                                    float value = (float)info.GetValue(component);
-                                    ImGui.SliderFloat(name, ref value, rangeMin, rangeMax);
-                                    info.SetValue(component, value);
-                                }
-                                else if (type == typeof(int))
-                                {
-                                    int value = (int)info.GetValue(component);
-                                    ImGui.SliderInt(name, ref value, rangeMin,  rangeMax);
-                                    info.SetValue(component, value);
-
-                                }
-                            }
-
-
-                        });
-                        if (fields.Count == 0)
+                        List<MemberInfo> fields = Attributes.ScanFields(component);
+                        List<MemberInfo> properties = Attributes.ScanProperties(component);
+                        
+                        DrawInspectorComponents(fields, component);
+                        DrawInspectorComponents(properties, component);
+                        
+                        if (fields.Count == 0 && properties.Count == 0)
                             ImGui.Text("No options.");
                         ImGui.TreePop();
                     }
@@ -287,6 +199,101 @@ namespace ArchEngine.GUI.Editor.Windows
             ImGui.End();
         }
 
+        private static void DrawInspectorComponents(List<MemberInfo> variables, Component component)
+        {
+            variables.ForEach(info =>
+            {
+
+                 Type type = info.GetVariableType();
+                 String name = "";
+                 bool hasRange = false;
+                 int rangeMin = 0;
+                 int rangeMax = 0;
+                            
+                 foreach (Attribute attr in Attribute.GetCustomAttributes(info))
+                 {
+                     if (attr.GetType() == typeof(InspectorAttribute))
+                     {
+                         InspectorAttribute ia = (InspectorAttribute)attr;
+                         name = ia.name ?? info.Name;
+                                    
+                     }
+                     else if (attr.GetType() == typeof(RangeAttribute))
+                     {
+                         RangeAttribute ra = (RangeAttribute)attr;
+                         hasRange = true;
+                         rangeMin = (int)ra.Minimum;
+                         rangeMax = (int)ra.Maximum;
+
+                     }
+                                
+                 }
+
+                 if (!hasRange)
+                 {
+                     if (type == typeof(float))
+                     {
+                         var value = (float) info.GetValue(component);
+                         ImGui.DragFloat(name, ref value, 0.01f);
+                         info.SetValue(component, value);
+                     }
+                     else if (type == typeof(int))
+                     {
+                         var value = (int) info.GetValue(component);
+                         ImGui.DragInt(name, ref value, 1f);
+                         info.SetValue(component, value);
+                     }
+                     else if (type == typeof(Vector3))
+                     {
+                         var value = (Vector3) info.GetValue(component);
+                         ImGui.DragFloat3(name, ref value, 0.01f);
+                         info.SetValue(component, value);
+                     }
+                     else if (type == typeof(OpenTK.Mathematics.Vector3))
+                     {
+                         var value = ((OpenTK.Mathematics.Vector3) info.GetValue(component)).ToSystemVector3();
+                         ImGui.DragFloat3(name, ref value, 0.01f);
+                         info.SetValue(component, value.ToOpenTkVector3());
+                     }
+                     else if (type == typeof(bool))
+                     {
+                         var value = (bool) info.GetValue(component);
+                         ImGui.Checkbox(name, ref value);
+                         info.SetValue(component, value);
+                     }
+                     else if (type == typeof(Color4))
+                     {
+                         var c = (Color4) info.GetValue(component);
+                         var value = new Vector4(c.R, c.G, c.B, c.A);
+                         //ImGui.ColorPicker4(name, ref value);
+                         ImGui.ColorEdit4(name, ref value);
+                         info.SetValue(component, new Color4(value.X, value.Y, value.Z, value.W));
+                     }
+                     
+                     
+                 }
+                 else
+                 {
+                     if (type == typeof(float))
+                     {
+                         float value = (float)info.GetValue(component);
+                         ImGui.SliderFloat(name, ref value, rangeMin, rangeMax);
+                         info.SetValue(component, value);
+                     }
+                     else if (type == typeof(int))
+                     {
+                         int value = (int)info.GetValue(component);
+                         ImGui.SliderInt(name, ref value, rangeMin,  rangeMax);
+                         info.SetValue(component, value);
+
+                     }
+                 }
+
+ 
+            });
+
+        }
+
        
         
         
@@ -302,4 +309,5 @@ namespace ArchEngine.GUI.Editor.Windows
             return -1;
         }
     }
+    
 }

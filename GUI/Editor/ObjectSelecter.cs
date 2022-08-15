@@ -86,6 +86,14 @@ namespace ArchEngine.GUI.Editor
                         scanRes = gameObject;
                     }
                 }  
+                else if (component.GetType() == typeof(LineRenderer))
+                {
+                    LineRenderer mr = component as LineRenderer;
+                    if (mr.StencilID == id)
+                    {
+                        scanRes = gameObject;
+                    }
+                }  
 
             });
             gameObject._childs.ForEach(child =>

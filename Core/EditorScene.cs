@@ -26,28 +26,28 @@ namespace ArchEngine.Core
             
             MeshRenderer mr = new MeshRenderer();
             mr.mesh = new Cube();
-            mr.mesh.Material = mat;
+            mr.Material = mat;
             
             
             MeshRenderer mr2 = new MeshRenderer();
             mr2.mesh = new Cube();
-            mr2.mesh.Material = mat;
+            mr2.Material = mat;
             
             MeshRenderer mr3 = new MeshRenderer();
             mr3.mesh = new Cube();
-            mr3.mesh.Material = mat;
+            mr3.Material = mat;
             
             MeshRenderer mr4 = new MeshRenderer();
             mr4.mesh = new Cube();
-            mr4.mesh.Material = mat;
+            mr4.Material = mat;
             
             MeshRenderer mr5 = new MeshRenderer();
             mr5.mesh = new Cube();
-            mr5.mesh.Material = mat;
+            mr5.Material = mat;
             
-            MeshRenderer mr7 = new MeshRenderer();
-            mr7.mesh = new Line(Vector3.Zero, Vector3.One);
-            mr7.mesh.Material = mat2;
+            LineRenderer mr7 = new LineRenderer();
+            mr7.line = new Line(Vector3.Zero, Vector3.One);
+            mr7.Material = mat2;
             
             GameObject gm = new GameObject("Cube");
             GameObject gm2 = new GameObject("Cube2");

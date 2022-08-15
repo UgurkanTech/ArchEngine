@@ -30,7 +30,8 @@ namespace ArchEngine.Core
     public class AssetManager
     {
         public static Texture cube;
-        
+        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
+
         public static void LoadEditor()
         {
             cube = TextureManager.LoadFromFile("Resources/Textures/Editor/cube2.png", TextureUnit.Texture0, false);
@@ -76,17 +77,22 @@ namespace ArchEngine.Core
 
         public static void SaveScene()
         {
-            Serializer.Save(Window.activeScene, @"D:\save.json");
+            string path = @"D:\save.json";
+            Serializer.Save(Window.activeScene, path);
+            _log.Info("Scene saved! (" + path + ")");
         }
 
         public static void LoadScene()
         {
+            _log.Info("Closing current scene..");
             Window.activeScene.Dispose();
 
+            _log.Info("Loading new scene..");
             Window.activeScene = Serializer.Load<Scene>("");
-            
+            _log.Info("Initializing new scene..");
             RestoreScene();
             Window.activeScene.Init();
+            _log.Info("Starting new scene..");
             Window.activeScene.Start();
         }
 

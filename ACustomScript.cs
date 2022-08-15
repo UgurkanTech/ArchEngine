@@ -19,7 +19,7 @@ namespace ArchEngine
 
         public override void Update()
         {
-           
+
         }
         
     }

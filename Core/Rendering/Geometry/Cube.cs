@@ -8,25 +8,12 @@ using PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType;
 
 namespace ArchEngine.Core.Rendering.Geometry
 {
-    public class Cube : IRenderable
+    public class Cube : Mesh
     {
-
-
-	    public Material Material { get; set; }
-        public int Vao { get; set; }
-        public int Vbo { get; set; }
-        public int Ibo { get; set; }
-        public float[] Vertices { get; set; }
-        public uint[] Indices { get; set; }
-        public PrimitiveType type { get; set; }
-
-        private static bool initialized = false;
-
-        public Cube()
+	    public Cube()
         {
 	        Vertices = _vertices;
-	        type = PrimitiveType.Triangles;
-	        
+
         }
 
         private readonly float[] _vertices =

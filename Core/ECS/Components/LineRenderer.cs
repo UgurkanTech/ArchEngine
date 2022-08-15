@@ -1,49 +1,53 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Configuration;
-using System.Numerics;
-using ArchEngine.Core.Rendering;
+﻿using System.Runtime.InteropServices;
 using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.Core.Rendering.Textures;
-using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor;
 using Newtonsoft.Json;
+using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.ECS.Components
 {
-    public class MeshRenderer : Component
+    public class LineRenderer : Component
     {
-        
         public Material Material { get; set; }
         public GameObject gameObject { get; set; }
         public bool initialized { get; set; }
-
-        public Mesh mesh;
+        
+        public Line line;
         
         [JsonIgnore]
         public int StencilID  { get; set; }
 
-        public MeshRenderer()
+        [Inspector] public Vector3 StartPos
         {
-            
+            get
+            {
+                return line.StartPos;
+            }
+            set
+            {
+                line.StartPos = value;
+            }
         }
 
+        [Inspector] public Vector3 EndPos {             
+            get
+            {
+                return line.EndPos;
+            }
+            set
+            {
+                line.EndPos = value;
+            } 
+        }
+        
         public void Init()
         {
-            
-            if (!initialized && mesh != null)
+            if (!initialized && line != null)
             {
-                mesh.InitBuffers(Material);
+                line.InitBuffers(Material);
                 initialized = true;
             }
-            //mesh.Material = new Material();
-            
-            
-        }
-
-        public void Render()
-        {
-            
         }
 
         public void Start()
@@ -55,12 +59,10 @@ namespace ArchEngine.Core.ECS.Components
         {
             
         }
-
         
-
         public void Dispose()
         {
-            mesh?.Dispose();
+            line?.Dispose();
             initialized = false;
         }
     }

@@ -2,6 +2,7 @@
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Rendering.Geometry;
+using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.GUI.Editor;
 using ArchEngine.GUI.Editor.Windows;
 using OpenTK.Graphics.OpenGL4;
@@ -13,7 +14,7 @@ namespace ArchEngine.Core.Rendering
     {
         public Framebuffer frameBuffer;
 
-        private IRenderable fsq;
+        private FullScreenQuad fsq;
 
         public Vector2i RenderSize = new Vector2i(800, 600);
 
@@ -23,7 +24,9 @@ namespace ArchEngine.Core.Rendering
             frameBuffer.Init(RenderSize.X, RenderSize.Y);
 
             fsq = new FullScreenQuad();
-            fsq.InitBuffers(true);
+            fsq.Material = new Material();
+            fsq.Material.Shader = ShaderManager.FullscreenShader;
+            fsq.InitBuffers(fsq.Material);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
         }
 
@@ -48,14 +51,7 @@ namespace ArchEngine.Core.Rendering
 
             GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
         }
-
-        public void Render(IRenderable objects, Matrix4 model)
-        {
-
-            objects.Render(model);
-
-        }
-
+        
         private int count;
         private Matrix4 selectedRoot;
         public void RenderRecursively(GameObject parent, Matrix4 parentMatrix, bool selected = false)
@@ -73,7 +69,17 @@ namespace ArchEngine.Core.Rendering
                     if (!mr.initialized)
                         return;
                     GL.StencilFunc(StencilFunction.Always, count, -1);
-                    mr.mesh.Render(parent.Transform * parentMatrix, mr.mesh.type);
+                    mr.mesh.Render(parent.Transform * parentMatrix, mr.Material);
+                    mr.StencilID = count;
+                    count++;
+                }
+                else if (component.GetType() == typeof(LineRenderer))
+                {
+                    LineRenderer mr = component as LineRenderer;
+                    if (!mr.initialized)
+                        return;
+                    GL.StencilFunc(StencilFunction.Always, count, -1);
+                    mr.line.Render(parent.Transform * parentMatrix, mr.Material);
                     mr.StencilID = count;
                     count++;
                 }
@@ -98,6 +104,13 @@ namespace ArchEngine.Core.Rendering
                     mr.mesh.RenderOutline(parent.Transform * parentMatrix);
 
                 }   
+                else if (component.GetType() == typeof(LineRenderer))
+                {
+                    LineRenderer mr = component as LineRenderer;
+                    if (!mr.initialized)
+                        return;
+                    mr.line.RenderOutline(parent.Transform * parentMatrix);
+                }
             });
             parent._childs.ForEach(child =>
             {
@@ -144,7 +157,7 @@ namespace ArchEngine.Core.Rendering
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, frameBuffer.frameBufferTexture); // color attachment texture
             
-            fsq.RawRender();
+            fsq.Render(Matrix4.Zero, fsq.Material);
         }
     }
 }

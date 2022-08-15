@@ -112,7 +112,7 @@ namespace ArchEngine.Core.ECS
             
             MeshRenderer mr = new MeshRenderer();
             mr.mesh = new Cube();
-            mr.mesh.Material = mat;
+            mr.Material = mat;
 
             GameObject go = new GameObject("Gameobject");
             go.AddComponent(mr);

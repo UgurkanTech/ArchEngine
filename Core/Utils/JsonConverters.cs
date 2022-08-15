@@ -19,8 +19,6 @@ namespace ArchEngine.Core.Utils
             {
                 SerializedRenderable sr = new SerializedRenderable();
                 sr.Type = value.GetType();
-                sr.Material = value.Material;
-
                 serializer.Serialize(writer, sr);
 
             }
@@ -32,7 +30,6 @@ namespace ArchEngine.Core.Utils
                 SerializedRenderable sr = serializer.Deserialize<SerializedRenderable>(reader);
                 Type type = asm.GetType(sr.Type.FullName);
                 IRenderable o = Activator.CreateInstance(type) as IRenderable;
-                o.Material = sr.Material;
                 return o;
             }
         }
