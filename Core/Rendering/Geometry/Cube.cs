@@ -16,7 +16,12 @@ namespace ArchEngine.Core.Rendering.Geometry
 
         }
 
-        private readonly float[] _vertices =
+	    public override void Dispose()
+	    {
+		    return;
+	    }
+
+	    private readonly float[] _vertices =
         {
 			//Positions          //UVS         //Normals
 

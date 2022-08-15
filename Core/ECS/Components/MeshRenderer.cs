@@ -25,7 +25,10 @@ namespace ArchEngine.Core.ECS.Components
 
         public MeshRenderer()
         {
-            
+            mesh = Primitives.Cube;
+            Material mat = new Material();
+            mat.Shader = ShaderManager.PbrShader;
+            Material = mat;
         }
 
         public void Init()

@@ -1,5 +1,6 @@
 ﻿using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.GUI.Editor;
+using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
@@ -8,40 +9,11 @@ namespace ArchEngine.Core.Rendering.Geometry
     public class Line  : IRenderable
     {
         
-        public int Vao { get; set; }
-        public int Vbo { get; set; }
-        public int Ibo { get; set; }
-        public float[] Vertices { get; set; }
-        public uint[] Indices { get; set; }
-
-        private Vector3 _StartPos;
-        private Vector3 _EndPos;
-        
-        public Vector3 StartPos
-        {
-            get
-            {
-                return _StartPos;
-            }
-            set
-            {
-                _StartPos = value;
-                UpdatePositions();
-            }
-        }
-
-        public Vector3 EndPos
-        {
-            get
-            {
-                return _EndPos;
-            }
-            set
-            {
-                _EndPos = value;
-                UpdatePositions();
-            }
-        }
+        [JsonIgnore]public int Vao { get; set; }
+        [JsonIgnore]public int Vbo { get; set; }
+        [JsonIgnore] public int Ibo { get; set; }
+        [JsonIgnore] public float[] Vertices { get; set; }
+        [JsonIgnore] public uint[] Indices { get; set; }
 
         public void InitBuffers(Material mat)
         {
@@ -58,7 +30,7 @@ namespace ArchEngine.Core.Rendering.Geometry
             GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false , 0, 0);
         }
 
-        public void UpdatePositions()
+        public void UpdatePositions(Vector3 StartPos, Vector3 EndPos)
         {
             Vertices = new float[]
             {
@@ -107,19 +79,8 @@ namespace ArchEngine.Core.Rendering.Geometry
                 2, 2, 2,
             };
         }
-        
-        public Line(Vector3 start, Vector3 end)
-        {
-            StartPos = start;
-            EndPos = end;
-            Vertices = new float[]
-            {
-                StartPos.X, StartPos.Y, StartPos.Z,
-                EndPos.X, EndPos.Y, EndPos.Z,
-            };
-        }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             GL.DeleteBuffer(Vbo);
             GL.DeleteVertexArray(Vao);

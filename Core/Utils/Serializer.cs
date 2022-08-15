@@ -21,7 +21,8 @@ namespace ArchEngine.Core.Utils
             serializer.Converters.Add(new JsonConverters.Vector4Converter());
             serializer.Converters.Add(new JsonConverters.Vector3Converter());
             serializer.Converters.Add(new JsonConverters.Vector2Converter());
-            serializer.Converters.Add(new JsonConverters.IRenderableConverter());
+            serializer.Converters.Add(new JsonConverters.ShaderConverter());
+            //serializer.Converters.Add(new JsonConverters.IRenderableConverter());
 
             using (StreamWriter sw = new StreamWriter(path))
             using (Newtonsoft.Json.JsonWriter writer = new Newtonsoft.Json.JsonTextWriter(sw))
@@ -49,7 +50,8 @@ namespace ArchEngine.Core.Utils
                         new JsonConverters.Vector4Converter(),
                         new JsonConverters.Vector3Converter(),
                         new JsonConverters.Vector2Converter(),
-                        new JsonConverters.IRenderableConverter()
+                        new JsonConverters.ShaderConverter(),
+                        //new JsonConverters.IRenderableConverter()
 
                     }
                 });

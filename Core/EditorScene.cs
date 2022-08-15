@@ -17,37 +17,26 @@ namespace ArchEngine.Core
 
         public Scene AddDemo()
         {
-            Material mat = new Material();
-            mat.LoadTextures("Resources/Textures/wall");
-            mat.Shader = ShaderManager.PbrShader;
-            
-            Material mat2 = new Material();
-            mat2.Shader = ShaderManager.ColorShader;
             
             MeshRenderer mr = new MeshRenderer();
-            mr.mesh = new Cube();
-            mr.Material = mat;
-            
-            
+
             MeshRenderer mr2 = new MeshRenderer();
-            mr2.mesh = new Cube();
-            mr2.Material = mat;
-            
+    
             MeshRenderer mr3 = new MeshRenderer();
-            mr3.mesh = new Cube();
-            mr3.Material = mat;
+     
             
             MeshRenderer mr4 = new MeshRenderer();
-            mr4.mesh = new Cube();
-            mr4.Material = mat;
-            
+     
             MeshRenderer mr5 = new MeshRenderer();
-            mr5.mesh = new Cube();
-            mr5.Material = mat;
+         
             
             LineRenderer mr7 = new LineRenderer();
-            mr7.line = new Line(Vector3.Zero, Vector3.One);
-            mr7.Material = mat2;
+
+            
+            LineRenderer mr8 = new LineRenderer();
+            mr8.StartPos = Vector3.One;
+            mr8.EndPos = Vector3.One + Vector3.One;
+
             
             GameObject gm = new GameObject("Cube");
             GameObject gm2 = new GameObject("Cube2");
@@ -56,10 +45,8 @@ namespace ArchEngine.Core
             GameObject gm5 = new GameObject("Cube-2");
             
             
-            
-            
             GameObject gm8 = new GameObject("Line");
-            
+            GameObject gm9 = new GameObject("Line2");
             
             
             gm2.Transform = Matrix4.CreateTranslation(new Vector3(2f, 0f, 0)) * Matrix4.CreateScale(.7f);
@@ -78,12 +65,17 @@ namespace ArchEngine.Core
             gm4.AddChild(gm5);
             
             
-            gm8.AddComponent(new ACustomScript());
+            gm2.AddComponent(new ACustomScript());
             
             
             AddGameObject(gm8);
             gm8.Transform = Matrix4.CreateTranslation(-3, 0, 0);
             gm8.AddComponent(mr7);
+            
+            
+            AddGameObject(gm9);
+            gm9.Transform = Matrix4.CreateTranslation(-4, 0,0);
+            gm9.AddComponent(mr8);
             return this;
         }
     }

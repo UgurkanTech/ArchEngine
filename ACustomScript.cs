@@ -21,6 +21,32 @@ namespace ArchEngine
         {
 
         }
-        
+
+       
+        public override void Start()
+        {
+           
+        }
+
+        public override void FixedUpdate()
+        {
+            gameObject.Transform = Matrix4.Identity * Matrix4.CreateRotationY(Runtime.CurrentRuntime);
+            myFloat = Runtime.CurrentRuntime;
+        }
     }
+}
+
+
+public static class Runtime
+{
+    static Runtime() 
+    {
+        var ThisProcess = System.Diagnostics.Process.GetCurrentProcess(); LastSystemTime = (long)(System.DateTime.Now - ThisProcess.StartTime).TotalMilliseconds; ThisProcess.Dispose();
+        StopWatch = new System.Diagnostics.Stopwatch(); StopWatch.Start();
+    }
+    private static long LastSystemTime;
+    private static System.Diagnostics.Stopwatch StopWatch;
+
+    //Public.
+    public static float CurrentRuntime { get { return (StopWatch.ElapsedMilliseconds + LastSystemTime) / 1000f; } }
 }

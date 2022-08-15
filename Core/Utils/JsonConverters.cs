@@ -17,22 +17,62 @@ namespace ArchEngine.Core.Utils
         {
             public override void WriteJson(JsonWriter writer, IRenderable value, JsonSerializer serializer)
             {
-                SerializedRenderable sr = new SerializedRenderable();
-                sr.Type = value.GetType();
-                serializer.Serialize(writer, sr);
+                //SerializedRenderable sr = new SerializedRenderable();
+                //sr.Type = value.GetType();
+                //serializer.Serialize(writer, sr);
 
+                serializer.Serialize(writer, value);
             }
 
             public override IRenderable ReadJson(JsonReader reader, Type objectType, IRenderable existingValue, bool hasExistingValue,
                 JsonSerializer serializer)
             {
-                Assembly asm = typeof(Cube).Assembly;
-                SerializedRenderable sr = serializer.Deserialize<SerializedRenderable>(reader);
-                Type type = asm.GetType(sr.Type.FullName);
-                IRenderable o = Activator.CreateInstance(type) as IRenderable;
-                return o;
+                if (false)
+                {
+                    Assembly asm = typeof(Cube).Assembly;
+                    SerializedRenderable sr = serializer.Deserialize<SerializedRenderable>(reader);
+                    Type type = asm.GetType(sr.Type.FullName);
+
+                    if (type == typeof(Cube))
+                    {
+                        return Primitives.Cube;
+                    }
+                    else if (type == typeof(Line))
+                    {
+                        return Primitives.Line;
+                    }
+                }
+
+                return serializer.Deserialize<IRenderable>(reader);
             }
         }
+        
+        public class ShaderConverter : JsonConverter<Shader>
+        {
+            public override void WriteJson(JsonWriter writer, Shader value, JsonSerializer serializer)
+            {
+       
+                serializer.Serialize(writer, value.hash);
+            }
+
+            public override Shader ReadJson(JsonReader reader, Type objectType, Shader existingValue, bool hasExistingValue,
+                JsonSerializer serializer)
+            {
+                string hash = serializer.Deserialize<string>(reader);
+                foreach (var sha in ShaderManager.shaders)
+                {
+                    if (sha.hash.Equals(hash))
+                    {
+                        Console.WriteLine("shader found!!!");
+                        return sha;
+                    }
+                }
+                Console.WriteLine("No shader found!!!");
+                
+                return null;
+            }
+        }
+        
         
         public class Vector2Converter : JsonConverter<Vector2>
         {

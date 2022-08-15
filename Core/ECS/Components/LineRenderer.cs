@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using ArchEngine.Core.Rendering;
 using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.GUI.Editor;
@@ -17,27 +18,43 @@ namespace ArchEngine.Core.ECS.Components
         
         [JsonIgnore]
         public int StencilID  { get; set; }
+        
+        
+        private Vector3 _StartPos { get; set; }
+        private Vector3 _EndPos { get; set; }
 
+        public LineRenderer()
+        {
+            Material mat = new Material();
+            mat.Shader = ShaderManager.ColorShader;
+            Material = mat;
+            line = Primitives.Line;
+            StartPos = Vector3.Zero;
+            EndPos = Vector3.One;
+        }
+        
         [Inspector] public Vector3 StartPos
         {
             get
             {
-                return line.StartPos;
+                return _StartPos;
             }
             set
             {
-                line.StartPos = value;
+                _StartPos = value;
+                line?.UpdatePositions(_StartPos, _EndPos);
             }
         }
 
         [Inspector] public Vector3 EndPos {             
             get
             {
-                return line.EndPos;
+                return _EndPos;
             }
             set
             {
-                line.EndPos = value;
+                _EndPos = value;
+                line?.UpdatePositions(_StartPos, _EndPos);
             } 
         }
         
@@ -62,7 +79,7 @@ namespace ArchEngine.Core.ECS.Components
         
         public void Dispose()
         {
-            line?.Dispose();
+            //line?.Dispose();
             initialized = false;
         }
     }

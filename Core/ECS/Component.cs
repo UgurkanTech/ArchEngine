@@ -16,6 +16,7 @@ namespace ArchEngine.Core.ECS
         public void Init();
         public void Start();
         public void Update();
+        public virtual void FixedUpdate(){}
 
 
         public static List<Type> GetAllComponents()

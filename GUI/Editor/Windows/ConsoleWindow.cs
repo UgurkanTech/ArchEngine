@@ -15,7 +15,7 @@ namespace ArchEngine.GUI.Editor.Windows
         public ConsoleWindow()
         {
             Clear();
-            Console.SetOut(_stringWriter);
+            //Console.SetOut(_stringWriter);
         }
         
         public static void Clear()

@@ -16,18 +16,17 @@ namespace ArchEngine.Core.Rendering.Textures
 
         public Material()
         {
-            Shader = ShaderManager.PbrShader;
             LoadTextures("Resources/Textures/wall");
         }
         
         
         public void Use(Matrix4 model)
         {
-            albedoMap.Use();
-            normalMap.Use();
-            metallicMap.Use();
-            roughnessMap.Use();
-            aoMap.Use();
+            albedoMap?.Use();
+            normalMap?.Use();
+            metallicMap?.Use();
+            roughnessMap?.Use();
+            aoMap?.Use();
             
             Shader.SetMatrix4("model", model);
             Shader.Use();

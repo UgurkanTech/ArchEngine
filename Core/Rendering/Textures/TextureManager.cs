@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
@@ -10,9 +11,16 @@ namespace ArchEngine.Core.Rendering.Textures
 {
     public class TextureManager
     {
-        
+        public static List<Texture> Textures = new List<Texture>();
+
         public static Texture LoadFromFile(string path, TextureUnit textureUnit = TextureUnit.Texture0, bool flip = true)
         {
+            foreach (var texture in Textures)
+            {
+                if (texture.hash.Equals(path))
+                    return texture;
+            }
+            
             // Generate handle
             int handle = GL.GenTexture();
 
@@ -98,7 +106,10 @@ namespace ArchEngine.Core.Rendering.Textures
             // Here is an example of mips in action https://en.wikipedia.org/wiki/File:Mipmap_Aliasing_Comparison.png
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
-            return new Texture(handle).SetUnit(textureUnit);
+            Texture t = new Texture(handle).SetUnit(textureUnit);
+            t.hash = path;
+            Textures.Add(t);
+            return t;
         }
 
 

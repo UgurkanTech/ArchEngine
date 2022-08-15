@@ -79,6 +79,7 @@ namespace ArchEngine.Core.Rendering
                     if (!mr.initialized)
                         return;
                     GL.StencilFunc(StencilFunction.Always, count, -1);
+                    mr.line.UpdatePositions(mr.StartPos, mr.EndPos);
                     mr.line.Render(parent.Transform * parentMatrix, mr.Material);
                     mr.StencilID = count;
                     count++;
@@ -109,6 +110,7 @@ namespace ArchEngine.Core.Rendering
                     LineRenderer mr = component as LineRenderer;
                     if (!mr.initialized)
                         return;
+                    mr.line.UpdatePositions(mr.StartPos, mr.EndPos);
                     mr.line.RenderOutline(parent.Transform * parentMatrix);
                 }
             });

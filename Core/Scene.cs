@@ -47,6 +47,14 @@ namespace ArchEngine.Core.ECS
             }
         }
         
+        public void FixedUpdate()
+        {
+            foreach (var c in gameObjects)
+            {
+                c.FixedUpdate();
+            }
+        }
+        
         public void AddGameObject(GameObject gameObject)
         {
             gameObjects.Add(gameObject);
@@ -106,17 +114,8 @@ namespace ArchEngine.Core.ECS
         
         public static void SpawnObject()
         {
-            Material mat = new Material();
-            mat.LoadTextures("Resources/Textures/wall");
-            mat.Shader = ShaderManager.PbrShader;
-            
-            MeshRenderer mr = new MeshRenderer();
-            mr.mesh = new Cube();
-            mr.Material = mat;
-
             GameObject go = new GameObject("Gameobject");
-            go.AddComponent(mr);
-                    
+                        
             Window.activeScene.AddGameObject(go);
         }
 

@@ -133,7 +133,17 @@ namespace ArchEngine.Core.ECS
             }
         }
 
-
+        public void FixedUpdate()
+        {
+            foreach (var c in _components)
+            {
+                c.FixedUpdate();
+            }
+            foreach (var child in _childs)
+            {
+                child.FixedUpdate();
+            }
+        }
         public void Dispose()
         {
             foreach (var component in _components)

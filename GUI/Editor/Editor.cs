@@ -8,6 +8,7 @@ using ArchEngine.GUI.Editor.Windows;
 using ImGuiNET;
 using OpenTK.Graphics.OpenGL4;
 using static ArchEngine.GUI.Editor.Attributes;
+using GL = OpenTK.Graphics.ES11.GL;
 using Scene = ArchEngine.GUI.Editor.Windows.Scene;
 using Vector2 = System.Numerics.Vector2;
 
@@ -33,6 +34,24 @@ namespace ArchEngine.GUI.Editor
             Inspector.Draw();
             
             ConsoleWindow.Draw();
+
+            ImGui.BeginMainMenuBar();
+            if (ImGui.BeginMenu("File"))
+            {
+                if (ImGui.MenuItem("Save Scene"))
+                {
+                    AssetManager.SaveScene();
+                }
+                if (ImGui.MenuItem("Load Scene"))
+                {
+                    AssetManager.LoadScene();
+                }
+                
+                
+                ImGui.EndMenu();
+            }
+            
+            ImGui.EndMainMenuBar();
         }
         
 

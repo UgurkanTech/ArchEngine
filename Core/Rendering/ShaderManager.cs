@@ -1,4 +1,5 @@
-﻿using ArchEngine.Core.Rendering.Camera;
+﻿using System.Collections.Generic;
+using ArchEngine.Core.Rendering.Camera;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering
@@ -14,7 +15,9 @@ namespace ArchEngine.Core.Rendering
         public static Shader PbrShader;
         public static Shader ColorShader;
         public static Shader FullscreenShader;
-        
+
+        public static List<Shader> shaders = new List<Shader>();
+
         public static void LoadShaders()
         {
             //DefaultShader = new Shader("Resources/Shaders/shader.vert", "Resources/Shaders/shader.frag");

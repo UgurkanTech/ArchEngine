@@ -1,6 +1,4 @@
 
-`
-0Core/Utils/Serialization/SerializedRenderable.cs,2\a\2a79d6b5f60f4723b03932bba75d42097563ae1c
 B
 GUI/ImGUI/Theme.cs,4\9\497623a1bc30dab78f86ff078a602afcc8817d0d
 U
@@ -17,7 +15,5 @@ V
 -Core/Utils/Serialization/SerializedVector2.cs,1\f\1f3e60d576d72964c7a0ee6a26729d13a5ac8667
 ]
 -Core/Utils/Serialization/SerializedMatrix4.cs,b\2\b2be7c7c340d4d120605c173f068fad47ec0eaba
-S
-#Core/Rendering/Textures/Material.cs,b\d\bd793f84eec617d9d3a144bb9601e7e9e3a12594
 O
 Core/Rendering/Camera/Camera.cs,d\9\d92cc2debb02971e3c1c5757cc9115c660e99777

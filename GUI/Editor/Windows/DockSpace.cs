@@ -20,8 +20,8 @@ namespace ArchEngine.GUI.Editor.Windows
             
             ImGuiWindowFlags windowFlags =  ImGuiWindowFlags.NoDocking;
             
-            ImGui.SetNextWindowPos(new Vector2(0,0), ImGuiCond.Always);
-            ImGui.SetNextWindowSize(new Vector2(Window.WindowSize.X, Window.WindowSize.Y));
+            ImGui.SetNextWindowPos(new Vector2(0,10), ImGuiCond.Always);
+            ImGui.SetNextWindowSize(new Vector2(Window.WindowSize.X, Window.WindowSize.Y ));
             
  
             windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove |
@@ -30,12 +30,17 @@ namespace ArchEngine.GUI.Editor.Windows
             bool pOpen = true;
             
             ImGui.Begin("Dockspace Demo", ref pOpen, windowFlags);
+
             
             
+
+           
 
             // Dockspace
             ImGui.DockSpace(ImGui.GetID("Dockspace"));
             ImGui.End();
+            
+
             //ImGui.SetNextWindowDockID(ImGui.GetID("Dockspace"));
         }
     }

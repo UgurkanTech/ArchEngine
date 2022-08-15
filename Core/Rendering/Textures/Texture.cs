@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
+using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL4;
 using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
@@ -8,10 +9,11 @@ namespace ArchEngine.Core.Rendering.Textures
     // A helper class, much like Shader, meant to simplify loading textures.
     public class Texture
     {
-        public readonly int handle;
-        public string name;
-        public TextureUnit unit;
+        [JsonIgnore]public readonly int handle;
+        [JsonIgnore]public string name;
+        [JsonIgnore] public TextureUnit unit;
 
+        public string hash;
         public Texture(int glHandle)
         {
             handle = glHandle;

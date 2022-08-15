@@ -237,7 +237,7 @@ namespace ArchEngine.Core
             // - Only update at 60 frames / s
             while (_delta >= 1.0) {
 	            //fixedGameLoop();   // - Update function
-	            
+	            activeScene.FixedUpdate();
 	            
 	            _fixedUpdates++;
 	            _delta--;

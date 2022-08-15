@@ -13,12 +13,16 @@ namespace ArchEngine.Core.Rendering
 
         private readonly Dictionary<string, int> _uniformLocations;
 
+        public string hash { get; set; }
+
         // This is how you create a simple shader.
         // Shaders are written in GLSL, which is a language very similar to C in its semantics.
         // The GLSL source is compiled *at runtime*, so it can optimize itself for the graphics card it's currently being used on.
         // A commented example of GLSL can be found in shader.vert.
         public Shader(string vertPath, string fragPath)
         {
+            ShaderManager.shaders.Add(this);
+            hash = vertPath + "-" +fragPath;
             // There are several different types of shaders, but the only two you need for basic rendering are the vertex and fragment shaders.
             // The vertex shader is responsible for moving around vertices, and uploading that data to the fragment shader.
             //   The vertex shader won't be too important here, but they'll be more important later.
