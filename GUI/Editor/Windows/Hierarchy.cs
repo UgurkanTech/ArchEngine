@@ -49,23 +49,19 @@ namespace ArchEngine.GUI.Editor.Windows
                 }
                 if (ImGui.MenuItem("Delete selected Gameobject"))
                 {
-                    if (Editor.selectedGameobject != null)
+                    if (Editor.selectedGameobject.parent != null)
                     {
-                        if (Editor.selectedGameobject.parent != null)
-                        {
-                            Editor.selectedGameobject.parent.RemoveChild(Editor.selectedGameobject);
-                        }
-                        else
-                        {
-                            Window.activeScene.RemoveGameObject(Editor.selectedGameobject);
-                        }
-                    
-                        Editor.selectedGameobject.Dispose();
-                        Editor.selectedGameobject = null;
-                        selected = -1;
+                        Editor.selectedGameobject.parent.RemoveChild(Editor.selectedGameobject);
                     }
-                    
+                    else
+                    {
+                        Window.activeScene.RemoveGameObject(Editor.selectedGameobject);
+                    }
+
+                    selected = -1;
+
                 }
+
                 ImGui.EndPopup();
             }
             
@@ -87,6 +83,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 for (int i = 0; i < Window.activeScene.gameObjects.Count; i++)
                 {
                     AddToHierarchyRecursively(Window.activeScene.gameObjects[i], i);
+                    
                     if (arrayModifiedWait)
                         break;
                 }
@@ -242,12 +239,18 @@ namespace ArchEngine.GUI.Editor.Windows
             if (ImGui.TreeNodeEx(gameObject.name, (selected == index ? flags | ImGuiTreeNodeFlags.Selected : flags) | (gameObject._childs.Count == 0 ? ImGuiTreeNodeFlags.Bullet : ImGuiTreeNodeFlags.None)))
             {
                 if (ImGui.BeginDragDropSource( ImGuiDragDropFlags.SourceNoPreviewTooltip | ImGuiDragDropFlags.SourceNoDisableHover)){}
-
                 
                 
                 if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenBlockedByActiveItem))
                 {
                     DragDrop(gameObject, sceneIndex);
+                }
+                
+                if (ImGui.IsItemClicked(ImGuiMouseButton.Left) || ImGui.IsItemClicked(ImGuiMouseButton.Right))
+                {
+                    Console.WriteLine("selection changed");
+                    selected = index;
+                    Editor.selectedGameobject = gameObject;
                 }
 
                 if (needsSelectUpdate)
@@ -264,11 +267,7 @@ namespace ArchEngine.GUI.Editor.Windows
                     
                 }
                 
-                if (ImGui.IsItemHovered() && ImGui.IsMouseClicked(ImGuiMouseButton.Left))
-                {
-                    selected = index;
-                    Editor.selectedGameobject = gameObject;
-                }
+
 
                 for (int i = 0; i < gameObject._childs.Count; i++)
                 {
