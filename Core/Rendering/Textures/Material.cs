@@ -12,7 +12,7 @@ namespace ArchEngine.Core.Rendering.Textures
         public Texture roughnessMap;
         public Texture aoMap;
 
-        public Shader Shader;
+        public Shader Shader { get; set; }
 
         public Material()
         {
@@ -20,7 +20,7 @@ namespace ArchEngine.Core.Rendering.Textures
         }
         
         
-        public void Use(Matrix4 model)
+        public virtual void Use(Matrix4 model)
         {
             albedoMap?.Use();
             normalMap?.Use();

@@ -20,7 +20,6 @@ using Newtonsoft.Json.Serialization;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common.Input;
-using Polenter.Serialization;
 using Camera = ArchEngine.Core.Rendering.Camera.Camera;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 using Scene = ArchEngine.Core.ECS.Scene;

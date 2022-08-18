@@ -15,6 +15,8 @@ namespace ArchEngine.Core.Rendering
         public static Shader PbrShader;
         public static Shader ColorShader;
         public static Shader FullscreenShader;
+        public static Shader SkyboxShader;
+        public static Shader CubemapShader;
 
         public static List<Shader> shaders = new List<Shader>();
 
@@ -30,6 +32,8 @@ namespace ArchEngine.Core.Rendering
             
             TextShader = new Shader("Resources/Shaders/text.vert", "Resources/Shaders/text.frag");
             FullscreenShader = new Shader("Resources/Shaders/fullscreen.vert", "Resources/Shaders/fullscreen.frag");
+            SkyboxShader = new Shader("Resources/Shaders/skybox.vert", "Resources/Shaders/skybox.frag");
+            CubemapShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/cubemap.frag");
         }
 
         public static void StartShaders()
@@ -77,6 +81,12 @@ namespace ArchEngine.Core.Rendering
             
             ColorShader.SetMatrix4("view", camera.GetViewMatrix());
             ColorShader.SetMatrix4("projection", camera.GetProjectionMatrix());
+
+            Matrix3 mat3 = new Matrix3(camera.GetViewMatrix());
+            
+            SkyboxShader.SetMatrix4("view", new Matrix4(mat3));
+            SkyboxShader.SetMatrix4("projection", camera.GetProjectionMatrix());
+            
             
             //PbrShader.SetVector3("lightPositions[0]", new Vector3(1.2f ,1.2f,1.2f));
             //PbrShader.SetVector3("lightColors[0]", new Vector3(10,10,10));

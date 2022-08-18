@@ -125,9 +125,11 @@ namespace ArchEngine.Core
             _log.Info("Arch Engine started!");
             
             //Attributes.ScanAttiributes(this);
-            
+            _skyboxRenderer = new SkyboxRenderer();
+            _skyboxRenderer.Init();
         }
-        
+
+        private SkyboxRenderer _skyboxRenderer;
 
         public static bool LockCursor = false;
 
@@ -163,12 +165,13 @@ namespace ArchEngine.Core
 	
 	        
 	        _renderer.Use();
-	        
+	        _skyboxRenderer.Render();
 	        _renderer.RenderAllChildObjects(activeScene.gameObjects);
+
+	       
 	        
-	        
-	        //_renderer.DisplayFullScreen(ShaderManager.FullscreenShader);
-            
+
+
 	        _font.RenderText(ShaderManager.TextShader,"FPS: " + _fps + ", TPS: " + _ticks, 0.0f - (_renderer.RenderSize.X / 2f), 0.0f + (_renderer.RenderSize.Y  / 2f) - 50, 1f);
             
 	        GL.Viewport(0, 0, Size.X, Size.Y);
@@ -184,10 +187,10 @@ namespace ArchEngine.Core
             
             Editor.DrawEditor();
             ImGui.PopStyleVar(2);
-            //ImGui.ShowFontSelector("ad");
+
             _controller.Render();
             
-
+            //_renderer.DisplayFullScreen(ShaderManager.FullscreenShader);
             
             SwapBuffers();
         }

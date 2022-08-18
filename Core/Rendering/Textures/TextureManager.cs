@@ -112,6 +112,64 @@ namespace ArchEngine.Core.Rendering.Textures
             return t;
         }
 
+        public static Texture LoadCubemapFromFile(string FolderPath, bool flip = true)
+        {
+            List<string> faces = new List<string>();
+            faces.Add(FolderPath + "/right.png");
+            faces.Add(FolderPath + "/left.png");
+            faces.Add(FolderPath + "/top.png");
+            faces.Add(FolderPath + "/bottom.png");
+            faces.Add(FolderPath + "/front.png");
+            faces.Add(FolderPath + "/back.png");
+            
+            // Generate handle
+            int handle = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, handle); //check this
 
+            for(int i = 0; i < faces.Count; i++)
+            {
+                try
+                {
+                    
+                    using var image = new Bitmap(faces[i]);
+                    if (flip)
+                    {
+                        image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                    }
+                    var data = image.LockBits(
+                        new Rectangle(0, 0, image.Width, image.Height),
+                        ImageLockMode.ReadOnly,
+                        System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + i,
+                        0,
+                        PixelInternalFormat.Rgba,
+                        image.Width,
+                        image.Height,
+                        0,
+                        PixelFormat.Bgra,
+                        PixelType.UnsignedByte,
+                        data.Scan0);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Texture not found: " + FolderPath);
+                    Console.WriteLine(e);
+                    return new Texture(0).SetUnit(TextureUnit.Texture0);
+                }
+                
+                GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+
+                GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+                GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
+                GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR, (int)TextureWrapMode.ClampToEdge);
+                
+            }
+            Texture t = new Texture(handle).SetUnit(TextureUnit.Texture0);
+            t.hash = FolderPath;
+            Textures.Add(t);
+            return t;
+        }
     }
 }

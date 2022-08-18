@@ -76,6 +76,8 @@ namespace ArchEngine.Core
             AddGameObject(gm9);
             gm9.Transform = Matrix4.CreateTranslation(-4, 0,0);
             gm9.AddComponent(mr8);
+            
+            
             return this;
         }
     }
