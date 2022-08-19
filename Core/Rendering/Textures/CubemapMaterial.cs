@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering.Textures
 {
     public class CubemapMaterial : Material
     {
-        public Texture albedoMap { get; set; }
+        [JsonIgnore] public Texture albedoMap { get; set; }
 
-        public Shader Shader { get; set; }
+        [JsonIgnore] public Shader Shader { get; set; }
         
         public CubemapMaterial()
         {

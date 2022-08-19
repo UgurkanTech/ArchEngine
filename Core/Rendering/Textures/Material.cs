@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 
@@ -6,17 +7,17 @@ namespace ArchEngine.Core.Rendering.Textures
 {
     public class Material
     {
-        public Texture albedoMap;
-        public Texture normalMap;
-        public Texture metallicMap;
-        public Texture roughnessMap;
-        public Texture aoMap;
+        [JsonIgnore] public Texture albedoMap;
+        [JsonIgnore] public Texture normalMap;
+        [JsonIgnore] public Texture metallicMap;
+        [JsonIgnore] public Texture roughnessMap;
+        [JsonIgnore] public Texture aoMap;
 
         public Shader Shader { get; set; }
-
+        public string MaterialHash  { get; set; }
         public Material()
         {
-            LoadTextures("Resources/Textures/wall");
+            //LoadTextures("Resources/Textures/wall");
         }
         
         
@@ -34,6 +35,7 @@ namespace ArchEngine.Core.Rendering.Textures
 
         public void LoadTextures(string folderPath)
         {
+            MaterialHash = folderPath;
             albedoMap = TextureManager.LoadFromFile(folderPath + "/albedo.png", TextureUnit.Texture0);
             normalMap = TextureManager.LoadFromFile(folderPath + "/normal.png", TextureUnit.Texture1);
             metallicMap = TextureManager.LoadFromFile(folderPath + "/metallic.png", TextureUnit.Texture2);

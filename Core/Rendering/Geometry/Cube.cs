@@ -10,10 +10,11 @@ namespace ArchEngine.Core.Rendering.Geometry
 {
     public class Cube : Mesh
     {
+	    
 	    public Cube()
         {
 	        Vertices = _vertices;
-
+	        MeshHash = "Primitive:Cube";
         }
 
 	    public override void Dispose()

@@ -102,7 +102,7 @@ namespace ArchEngine.Core
             Mesh mesh = new Mesh();
             mesh.Vertices = vertList.ToArray();
             mesh.Indices = indicesList.ToArray();
-            
+            mesh.MeshHash = filePath;
             Console.WriteLine("imported model verts: " + vertList.Count + " - indices: " + indicesList.Count);
             return mesh;
         } 

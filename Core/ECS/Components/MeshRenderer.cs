@@ -14,11 +14,11 @@ namespace ArchEngine.Core.ECS.Components
     public class MeshRenderer : Component
     {
         
-        public Material Material { get; set; }
+        [Inspector()] public Material Material { get; set; }
         public GameObject gameObject { get; set; }
         public bool initialized { get; set; }
 
-        public Mesh mesh;
+        [Inspector()] public Mesh mesh;
         
         [JsonIgnore]
         public int StencilID  { get; set; }
@@ -28,6 +28,7 @@ namespace ArchEngine.Core.ECS.Components
             mesh = Primitives.Cube;
             Material mat = new Material();
             mat.Shader = ShaderManager.PbrShader;
+            mat.LoadTextures("Resources/Textures/wall");
             Material = mat;
         }
 

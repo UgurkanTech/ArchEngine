@@ -8,12 +8,13 @@ namespace ArchEngine.Core.Rendering.Geometry
 {
     public class Mesh : IRenderable
     {
+        [JsonIgnore] public string MeshHash  { get; set; }
         [JsonIgnore] public int Vao { get; set; }
         [JsonIgnore] public int Vbo { get; set; }
         [JsonIgnore] public int Ibo { get; set; }
         [JsonIgnore] public float[] Vertices { get; set; }
         
-        [JsonIgnore]public int[] Indices { get; set; }
+        [JsonIgnore] public int[] Indices { get; set; }
         
         private bool initialized { get; set; }
         

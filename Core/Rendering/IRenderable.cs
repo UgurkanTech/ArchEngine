@@ -8,7 +8,7 @@ namespace ArchEngine.Core.Rendering
 {
     public interface IRenderable : IDisposable
     {
-
+      
         public int Vao { get; set; }
         public int Vbo { get; set; }
         public int Ibo  { get; set; }

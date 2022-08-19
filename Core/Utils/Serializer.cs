@@ -22,6 +22,8 @@ namespace ArchEngine.Core.Utils
             serializer.Converters.Add(new JsonConverters.Vector3Converter());
             serializer.Converters.Add(new JsonConverters.Vector2Converter());
             serializer.Converters.Add(new JsonConverters.ShaderConverter());
+            serializer.Converters.Add(new JsonConverters.MeshConverter());
+            serializer.Converters.Add(new JsonConverters.MaterialConverter());
             //serializer.Converters.Add(new JsonConverters.IRenderableConverter());
 
             using (StreamWriter sw = new StreamWriter(path))
@@ -51,6 +53,8 @@ namespace ArchEngine.Core.Utils
                         new JsonConverters.Vector3Converter(),
                         new JsonConverters.Vector2Converter(),
                         new JsonConverters.ShaderConverter(),
+                        new JsonConverters.MeshConverter(),
+                        new JsonConverters.MaterialConverter(),
                         //new JsonConverters.IRenderableConverter()
 
                     }

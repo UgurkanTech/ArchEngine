@@ -27,16 +27,10 @@ L
 Resources/Shaders/color.frag,6\b\6bca221009d248c778448738e6637e7167d6fd45
 `
 0Core/Utils/Serialization/SerializedRenderable.cs,2\a\2a79d6b5f60f4723b03932bba75d42097563ae1c
-H
-Core/Utils/Serializer.cs,b\1\b1bd175017557ac631b1aa984c0a43bda30ecb5d
 E
 Core/ECS/Component.cs,0\3\0345a8b34c91b3f03d31c28a3838d71b7f3e521b
 B
 Core/ECS/Script.cs,2\e\2e8c09a8cae01e167b98d1d3f421b2bf9dc80765
-=
-Core/Scene.cs,e\e\ee560e8bac23dbd2364421fa189df7d68bda87e6
-S
-#Core/ECS/Components/LineRenderer.cs,1\e\1e020cd2a730bde9bc2ee3f53ae40d05b8279dbd
 K
 GUI/Editor/Windows/Scene.cs,1\7\177dc131661ab2c8ce126d33682d89a11ba3a9a0
 H
@@ -52,13 +46,9 @@ L
 B
 GUI/ImGUI/Theme.cs,4\9\497623a1bc30dab78f86ff078a602afcc8817d0d
 O
-GUI/Editor/Windows/Inspector.cs,1\1\11a4953fac63dadd7ef29f18c1e6bb38a6ddf5f0
-O
 GUI/Editor/Windows/Hierarchy.cs,1\6\1636e2d16a5b49109e4489adaab7a901f8fd7784
 7
 Arch.cs,3\e\3e35a7d79993ab8266523b10b0290035f2022f6b
-L
-Core/Utils/JsonConverters.cs,c\d\cda4a48c3bedb518014b543fa7031846be833aa9
 N
 Resources/Shaders/cubemap.frag,e\0\e04365a1737519679f1dbc8eaf3e4d2686a09bd7
 N
@@ -78,25 +68,15 @@ M
 M
 Resources/Shaders/skybox.vert,b\5\b585da2bf2f6d159854442acf9d5ebd216905677
 O
-Core/Rendering/Geometry/Cube.cs,3\9\392377b58bfdf250fe20c3e683707332665cc1c5
-Z
-*Core/Rendering/Textures/CubemapMaterial.cs,1\b\1b45cc250aa713b9cf2f6ea8da4634a114eadf12
-O
 Core/Rendering/ShaderManager.cs,e\f\ef8a6a67a0a072638b5fa0cba6f7e005c9a55f44
 J
 Resources/Shaders/pbr.vert,4\3\431e8659fd92a6ca22a7c52a91b11abb856bc74d
 @
 ACustomScript.cs,2\8\2890700c4118c1278ceff0457f4a0f91c45e0801
-S
-#Core/ECS/Components/MeshRenderer.cs,f\5\f55f5007364a86c339004af20e012c61bf1370f9
 H
 Core/Utils/Extensions.cs,3\3\330d15099503e370314306bc511169df6304cf05
 >
 Core/Window.cs,5\a\5aa96f6ceb083a13ab401d27c909fce1abb24c2e
-O
-Core/Rendering/Geometry/Mesh.cs,5\a\5a26851ce2ebcce46aae9ec7b0c7fe45208cc0c7
-M
-Core/Rendering/IRenderable.cs,2\f\2f5264fdf8bf25d2034d4d730337ec4c81c541bf
 A
 ArchEngine.csproj,3\9\39a7eb8b71f8594094386abeb86153769dc7fa3b
 >
@@ -105,3 +85,5 @@ M
 ArchEngine.csproj.DotSettings,0\f\0f045fce361eb6bb1ce1015e7fc5a4b7c575f135
 Y
 )Core/Rendering/Textures/TextureManager.cs,2\a\2ac0109eae3f9426fc88871868fd6449f9a62ae1
+M
+Core/Rendering/Framebuffer.cs,2\5\25b1315c80f3970a35ba527daca5c873214670fa

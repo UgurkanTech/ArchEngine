@@ -8,7 +8,6 @@ namespace ArchEngine.Core.Rendering.Geometry
 {
     public class Line  : IRenderable
     {
-        
         [JsonIgnore]public int Vao { get; set; }
         [JsonIgnore]public int Vbo { get; set; }
         [JsonIgnore] public int Ibo { get; set; }

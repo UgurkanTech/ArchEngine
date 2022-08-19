@@ -13,7 +13,7 @@ namespace ArchEngine.Core.Rendering
             GL.DeleteVertexArray(Vao);
             GL.DeleteBuffer(Ibo);
         }
-
+        
         public int Vao { get; set; }
         public int Vbo { get; set; }
         public int Ibo { get; set; }

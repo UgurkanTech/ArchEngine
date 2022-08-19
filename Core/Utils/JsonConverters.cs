@@ -42,8 +42,59 @@ namespace ArchEngine.Core.Utils
                         return Primitives.Line;
                     }
                 }
-
                 return serializer.Deserialize<IRenderable>(reader);
+            }
+        }
+        public class MeshConverter : JsonConverter<Mesh>
+        {
+            public override void WriteJson(JsonWriter writer, Mesh value, JsonSerializer serializer)
+            {
+                //SerializedRenderable sr = new SerializedRenderable();
+                //sr.Type = value.GetType();
+                //serializer.Serialize(writer, sr);
+
+                serializer.Serialize(writer, value.MeshHash);
+            }
+
+            public override Mesh ReadJson(JsonReader reader, Type objectType, Mesh existingValue, bool hasExistingValue,
+                JsonSerializer serializer)
+            {
+                var meshHash = serializer.Deserialize<string>(reader);
+                
+                return AssetManager.GetMeshByFilePath(meshHash);
+            }
+        }
+        
+        public class MaterialConverter : JsonConverter<Material>
+        {
+            public override void WriteJson(JsonWriter writer, Material value, JsonSerializer serializer)
+            {
+       
+                serializer.Serialize(writer, value.Shader.hash + "@@@" + value.MaterialHash);
+            }
+
+            public override Material ReadJson(JsonReader reader, Type objectType, Material existingValue, bool hasExistingValue,
+                JsonSerializer serializer)
+            {
+                string hash = serializer.Deserialize<string>(reader);
+                var shader = hash.Split("@@@")[0];
+                var matHash = hash.Split("@@@")[1];
+
+                Material mat = new Material();
+                mat.MaterialHash = matHash;
+                
+                
+                foreach (var sha in ShaderManager.shaders)
+                {
+                    if (sha.hash.Equals(shader))
+                    {
+                        mat.Shader = sha;
+                        mat.LoadTextures(mat.MaterialHash);
+                        return mat;
+                    }
+                }
+
+                return null;
             }
         }
         
