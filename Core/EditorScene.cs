@@ -32,7 +32,7 @@ namespace ArchEngine.Core
             
             mat *= Matrix4.CreateScale( 0.5f);
             mat *= Matrix4.CreateRotationX(0f);
-            mat *= Matrix4.CreateTranslation(new Vector3(0,0,-3));
+            mat *= Matrix4.CreateTranslation(new Vector3(0,0,0));
 
             gm.Transform = mat;
             

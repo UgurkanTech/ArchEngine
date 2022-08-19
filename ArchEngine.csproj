@@ -291,7 +291,6 @@
 
     <ItemGroup>
       <Folder Include="Core\Physics\Collisions" />
-      <Folder Include="Core\Rendering\Lighting" />
       <Folder Include="Libs\Dlls" />
       <Folder Include="Resources\Textures\Skybox" />
       <Folder Include="runtimes\win-x64\native" />

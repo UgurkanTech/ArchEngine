@@ -47,19 +47,21 @@ namespace ArchEngine.Core.Rendering
             
             
             PbrShader.SetInt("material.diffuse", 0);
-            PbrShader.SetInt("material.specular", 1);
-            PbrShader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
-            PbrShader.SetFloat("material.shininess", 32.0f);
+            PbrShader.SetInt("material.specular", 3);
+            
+            //PbrShader.SetVector3("material.specular", new Vector3(1f, 0f, 0f));
+            PbrShader.SetFloat("material.shininess", 24.0f);
 
             // Directional light needs a direction, in this example we just use (-0.2, -1.0, -0.3f) as the lights direction
             PbrShader.SetVector3("light.direction", new Vector3(-0.2f, -1.0f, -0.3f));
             PbrShader.SetVector3("light.ambient", new Vector3(0.7f));
             PbrShader.SetVector3("light.diffuse", new Vector3(1f));
-            PbrShader.SetVector3("light.specular", new Vector3(0.1f));
+            PbrShader.SetVector3("light.specular", new Vector3(1f));
             
             
-            Matrix4 ortho = Matrix4.CreateOrthographic(800, 600, 0, 100);
-            TextShader.SetMatrix4("projection", ortho);
+            
+            //Matrix4 ortho = Matrix4.CreateOrthographic(800, 600, 0, 100);
+            //TextShader.SetMatrix4("projection", CameraManager.EditorCamera.GetProjectionMatrix());
             
             
         }
