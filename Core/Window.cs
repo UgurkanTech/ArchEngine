@@ -118,19 +118,26 @@ namespace ArchEngine.Core
             
             //activeScene = new EditorScene().AddDemo2();
             activeScene = new VoxelScene();
-            
+            //throw new Exception();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             activeScene.Init();
-            
+            sw.Stop();
+            Console.WriteLine("Scene Init: " + sw.ElapsedMilliseconds);
             
             new Editor();
+            sw.Reset();
+            sw.Start();
             activeScene.Start();
+            sw.Stop();
+            Console.WriteLine("Scene Start: " + sw.ElapsedMilliseconds);
             _log.Info("Arch Engine started!");
             
             //Attributes.ScanAttiributes(this);
             _skyboxRenderer = new SkyboxRenderer();
             _skyboxRenderer.Init();
 
-            
+           
             
         }
 

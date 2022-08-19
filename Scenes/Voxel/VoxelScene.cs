@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using ArchEngine.Core;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Rendering;
@@ -18,13 +20,17 @@ namespace ArchEngine.Scenes.Voxel
             mat.Shader = ShaderManager.PbrShader;
             mat.LoadAlbedo("Resources/Textures/tiles", TextureMagFilter.Nearest, TextureMinFilter.Nearest);
 
-            for (int i = 0; i < 25; i++)
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            for (int i = 0; i < 15; i++)
             {
-                for (int j = 0; j < 25; j++)
+                for (int j = 0; j < 15; j++)
                 {
                     AddGameObject(GenerateWorldChunk(mat, new Vector3(i * 1.6f, -9f, j * 1.6f)));
                 }
             }
+            sw.Stop();
+            Console.WriteLine("World gen:" + sw.ElapsedMilliseconds);
             
         }
 
@@ -48,26 +54,28 @@ namespace ArchEngine.Scenes.Voxel
             Vector2[] uvs = null;
             int[] indices = null;
             MeshGenerator.generateMesh(ref blocks, ref verts, ref indices, ref uvs);
-            
-            List<float> vertList = new List<float>();
+
+            float[] vertList = new float[verts.Length * 8];
+            int c = 0;
             for (int i = 0; i < verts.Length; i++)
             {
-                vertList.Add(verts[i].X);
-                vertList.Add(verts[i].Y);
-                vertList.Add(verts[i].Z);
+                vertList[c] = (verts[i].X);
+                vertList[c+1] = (verts[i].Y);
+                vertList[c+2] = (verts[i].Z);
                 
-                vertList.Add(uvs[i].X);
-                vertList.Add(uvs[i].Y);
+                vertList[c+3] = (uvs[i].X);
+                vertList[c+4] = (uvs[i].Y);
                 
-                vertList.Add(verts[i].X);
-                vertList.Add(verts[i].Y);
-                vertList.Add(verts[i].Z);
+                vertList[c+5] = (verts[i].X);
+                vertList[c+6] = (verts[i].Y);
+                vertList[c+7] = (verts[i].Z);
+                c += 8;
             }
 
             Mesh mesh = new Mesh();
-            mesh.Vertices = vertList.ToArray();
+            mesh.Vertices = vertList;
             mesh.Indices = indices;
-            vertList.Clear();
+            vertList = null;
             indices = null;
             uvs = null;
             return mesh;

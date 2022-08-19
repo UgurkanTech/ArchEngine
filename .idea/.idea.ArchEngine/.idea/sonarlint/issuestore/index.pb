@@ -101,8 +101,6 @@ U
 %Core/Rendering/Lighting/PointLight.cs,7\1\71d6c772e17185cecebbd4fd7ecab64bed0a495f
 [
 +Core/Rendering/Lighting/DirectionalLight.cs,7\c\7c6e4b221a26193a5d7ee0aa5c5574b069807334
-S
-#GUI/Editor/Windows/ConsoleWindow.cs,0\a\0aad16299e50bcf6c67dc2a4748bae6a9da66c6f
 O
 Core/Rendering/ShaderManager.cs,e\f\ef8a6a67a0a072638b5fa0cba6f7e005c9a55f44
 C
