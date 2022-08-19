@@ -44,6 +44,12 @@ namespace ArchEngine.Core.Rendering.Textures
 
         }
 
+        public void LoadAlbedo(string folderPath, TextureMagFilter mag = TextureMagFilter.Linear, TextureMinFilter min = TextureMinFilter.Linear)
+        {
+            MaterialHash = folderPath;
+            albedoMap = TextureManager.LoadFromFile(folderPath + "/albedo.png", TextureUnit.Texture0, true, mag, min);
+        }
+
 
     }
 }

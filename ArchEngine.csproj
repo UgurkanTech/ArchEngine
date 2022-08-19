@@ -287,13 +287,18 @@
       <None Update="Resources\Models\sword.fbx">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="runtimes\win-x64\native\FastNoise.dll">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Textures\tiles\albedo.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Core\Physics\Collisions" />
-      <Folder Include="Libs\Dlls" />
       <Folder Include="Resources\Textures\Skybox" />
-      <Folder Include="runtimes\win-x64\native" />
+      <Folder Include="Resources\Textures\tiles" />
     </ItemGroup>
 
     <ItemGroup>

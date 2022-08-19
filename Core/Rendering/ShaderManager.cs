@@ -54,9 +54,9 @@ namespace ArchEngine.Core.Rendering
 
             // Directional light needs a direction, in this example we just use (-0.2, -1.0, -0.3f) as the lights direction
             PbrShader.SetVector3("light.direction", new Vector3(-0.2f, -1.0f, -0.3f));
-            PbrShader.SetVector3("light.ambient", new Vector3(0.7f));
+            PbrShader.SetVector3("light.ambient", new Vector3(0.6f));
             PbrShader.SetVector3("light.diffuse", new Vector3(1f));
-            PbrShader.SetVector3("light.specular", new Vector3(1f));
+            PbrShader.SetVector3("light.specular", new Vector3(0.6f));
             
             
             

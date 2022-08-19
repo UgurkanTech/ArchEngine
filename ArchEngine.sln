@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arch Engine", "ArchEngine.csproj", "{E19B4DE4-C610-4DA0-BE9A-6CD3A90E364D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchTest", "..\ArchTest\ArchTest\ArchTest.csproj", "{61E06C37-D5FE-4413-B01A-ECE6E1049404}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechZone", "..\TechZone\TechZone\TechZone.csproj", "{523AE0E0-B8D5-4C33-B274-5F285118EF8C}"
 EndProject
 Global
@@ -16,10 +14,6 @@ Global
 		{E19B4DE4-C610-4DA0-BE9A-6CD3A90E364D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E19B4DE4-C610-4DA0-BE9A-6CD3A90E364D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E19B4DE4-C610-4DA0-BE9A-6CD3A90E364D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61E06C37-D5FE-4413-B01A-ECE6E1049404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61E06C37-D5FE-4413-B01A-ECE6E1049404}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61E06C37-D5FE-4413-B01A-ECE6E1049404}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61E06C37-D5FE-4413-B01A-ECE6E1049404}.Release|Any CPU.Build.0 = Release|Any CPU
 		{523AE0E0-B8D5-4C33-B274-5F285118EF8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{523AE0E0-B8D5-4C33-B274-5F285118EF8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{523AE0E0-B8D5-4C33-B274-5F285118EF8C}.Release|Any CPU.ActiveCfg = Release|Any CPU

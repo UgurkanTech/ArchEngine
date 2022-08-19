@@ -29,32 +29,22 @@ E
 Core/ECS/Component.cs,0\3\0345a8b34c91b3f03d31c28a3838d71b7f3e521b
 B
 Core/ECS/Script.cs,2\e\2e8c09a8cae01e167b98d1d3f421b2bf9dc80765
-K
-GUI/Editor/Windows/Scene.cs,1\7\177dc131661ab2c8ce126d33682d89a11ba3a9a0
 H
 Core/Rendering/Shader.cs,0\e\0e5c856adfb21897cbdddc4165428c1e1a1e11cc
 O
 GUI/Editor/Windows/DockSpace.cs,5\f\5f16eefe01372b2aeb98a184c30246c47a2c6db4
 D
 GUI/Editor/Editor.cs,0\f\0fa114a39a3db3c5ab4b9026a270039d517c08f6
-F
-Core/ECS/GameObject.cs,d\0\d024b44c8e63b243506809f007c3baf37948a42d
 L
 GUI/ImGUI/ImGuiController.cs,7\a\7ab9cf5973c340a52cc8880d68fe7cca4892748f
 B
 GUI/ImGUI/Theme.cs,4\9\497623a1bc30dab78f86ff078a602afcc8817d0d
 O
 GUI/Editor/Windows/Hierarchy.cs,1\6\1636e2d16a5b49109e4489adaab7a901f8fd7784
-7
-Arch.cs,3\e\3e35a7d79993ab8266523b10b0290035f2022f6b
 N
 Resources/Shaders/cubemap.frag,e\0\e04365a1737519679f1dbc8eaf3e4d2686a09bd7
 N
 Resources/Shaders/cubemap.vert,2\8\28df203bc47d2d2facbb1b14b8a16e3652aecd49
-J
-Core/Rendering/Renderer.cs,5\2\52605bad6f842b0ab056e021af0135d2b26ff43f
-S
-#GUI/Editor/Windows/ConsoleWindow.cs,0\a\0aad16299e50bcf6c67dc2a4748bae6a9da66c6f
 U
 %Core/ECS/Components/SkyboxRenderer.cs,0\f\0fc6d6db57fa2c49726103d3479c974686b277cd
 O
@@ -85,7 +75,37 @@ S
 #Core/ECS/Components/LineRenderer.cs,1\e\1e020cd2a730bde9bc2ee3f53ae40d05b8279dbd
 Y
 )Core/Rendering/Geometry/FullScreenQuad.cs,5\5\55c35032748fc3bcf8369602a85c3af473599242
-D
-Core/AssetManager.cs,0\3\03741d0ebfce69a7fe0dae30614cc5574097f00d
 H
 Core/Utils/Serializer.cs,b\1\b1bd175017557ac631b1aa984c0a43bda30ecb5d
+M
+Core/Rendering/IRenderable.cs,2\f\2f5264fdf8bf25d2034d4d730337ec4c81c541bf
+L
+Core/Utils/JsonConverters.cs,c\d\cda4a48c3bedb518014b543fa7031846be833aa9
+=
+Core/Scene.cs,e\e\ee560e8bac23dbd2364421fa189df7d68bda87e6
+O
+Core/Rendering/Geometry/Cube.cs,3\9\392377b58bfdf250fe20c3e683707332665cc1c5
+O
+GUI/Editor/Windows/Inspector.cs,1\1\11a4953fac63dadd7ef29f18c1e6bb38a6ddf5f0
+M
+Resources/Shaders/shader.vert,3\f\3fcbcbbcb437ec4ae93248f45abc47c52b2e72b1
+M
+Resources/Shaders/shader.frag,9\c\9c929e5a5cb47133308e48fe9b0bc5563bec896d
+J
+Resources/Shaders/pbr.vert,4\3\431e8659fd92a6ca22a7c52a91b11abb856bc74d
+R
+"Core/Rendering/Textures/Texture.cs,1\9\19d9166b4d2eeba302fbc0a2a2d68aeb2cd5a431
+J
+Resources/Shaders/pbr.frag,4\0\409dfd8a5d4cd067dbb743abce391876cf9a7ac0
+U
+%Core/Rendering/Lighting/PointLight.cs,7\1\71d6c772e17185cecebbd4fd7ecab64bed0a495f
+[
++Core/Rendering/Lighting/DirectionalLight.cs,7\c\7c6e4b221a26193a5d7ee0aa5c5574b069807334
+S
+#GUI/Editor/Windows/ConsoleWindow.cs,0\a\0aad16299e50bcf6c67dc2a4748bae6a9da66c6f
+O
+Core/Rendering/ShaderManager.cs,e\f\ef8a6a67a0a072638b5fa0cba6f7e005c9a55f44
+C
+Core/EditorScene.cs,5\4\547b8fa30c7aa2eaa2f86ca03353366d5f0d8661
+D
+Scenes/FastNoise2.cs,8\8\88dcd7e0d41f67d79ed1d7f36384a6d2fdfda3d1

@@ -104,6 +104,8 @@ namespace ArchEngine.Core
             mesh.Indices = indicesList.ToArray();
             mesh.MeshHash = filePath;
             Console.WriteLine("imported model verts: " + vertList.Count + " - indices: " + indicesList.Count);
+            vertList.Clear();
+            indicesList.Clear();
             return mesh;
         } 
         
