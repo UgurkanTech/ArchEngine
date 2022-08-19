@@ -13,7 +13,7 @@ namespace ArchEngine.Core.Rendering.Geometry
         [JsonIgnore] public int Ibo { get; set; }
         [JsonIgnore] public float[] Vertices { get; set; }
         
-        [JsonIgnore]public uint[] Indices { get; set; }
+        [JsonIgnore]public int[] Indices { get; set; }
         
         private bool initialized { get; set; }
         
@@ -30,14 +30,7 @@ namespace ArchEngine.Core.Rendering.Geometry
             
             VerticesCount = Vertices.Length;
             
-            if (Indices != null)
-            {
-                IndicesCount = Indices.Length;
-                Ibo = GL.GenBuffer();
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, Ibo);
-                GL.BufferData(BufferTarget.ElementArrayBuffer, IndicesCount * sizeof(uint), Indices, BufferUsageHint.StaticDraw);
 
-            }
 
             Vbo = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, Vbo);
@@ -65,6 +58,14 @@ namespace ArchEngine.Core.Rendering.Geometry
             GL.VertexAttribPointer(normalLocation, 3, VertexAttribPointerType.Float, false , 8 * sizeof(float), 5 * sizeof(float));
 
 
+            if (Indices != null) //do this after vao
+            {
+                IndicesCount = Indices.Length;
+                Ibo = GL.GenBuffer();
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, Ibo);
+                GL.BufferData(BufferTarget.ElementArrayBuffer, Indices.Length * sizeof(uint), Indices, BufferUsageHint.StaticDraw);
+            }
+            
             Vertices = null;
             Indices = null;
             initialized = true;
@@ -75,10 +76,12 @@ namespace ArchEngine.Core.Rendering.Geometry
             mat.Use(Model);
             GL.BindVertexArray(Vao);
             
-            if (Indices != null)
+            if (IndicesCount != 0)
             {
+              
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, Ibo);
-                GL.DrawElements(BeginMode.Triangles, IndicesCount, DrawElementsType.UnsignedInt, Ibo);
+                GL.DrawElements(BeginMode.Triangles, IndicesCount, DrawElementsType.UnsignedInt, 0);
+                
             }
             else
             {
@@ -95,10 +98,12 @@ namespace ArchEngine.Core.Rendering.Geometry
             ShaderManager.ColorShader.Use();
             GL.BindVertexArray(Vao);
             
-            if (Indices != null)
+            if (IndicesCount != 0)
             {
+              
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, Ibo);
-                GL.DrawElements(BeginMode.Triangles, IndicesCount, DrawElementsType.UnsignedInt, Ibo);
+                GL.DrawElements(BeginMode.Triangles, IndicesCount, DrawElementsType.UnsignedInt, 0);
+                
             }
             else
             {

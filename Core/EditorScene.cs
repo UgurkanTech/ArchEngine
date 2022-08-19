@@ -15,6 +15,30 @@ namespace ArchEngine.Core
         {
         }
 
+        public Scene AddDemo2()
+        {
+            Material m = new Material();
+            m.Shader = ShaderManager.PbrShader;
+            m.LoadTextures("Resources/Textures/backpack");
+            MeshRenderer mr2 = new MeshRenderer();
+            mr2.Material = m;
+            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/backpack.obj");
+            
+            GameObject gm = new GameObject("Backpack");
+            gm.AddComponent(mr2);
+            AddGameObject(gm);
+            
+            Matrix4 mat = Matrix4.Identity;
+            
+            mat *= Matrix4.CreateScale( 0.5f);
+            mat *= Matrix4.CreateRotationX(0f);
+            mat *= Matrix4.CreateTranslation(new Vector3(0,0,-3));
+
+            gm.Transform = mat;
+            
+            return this;
+        }
+        
         public Scene AddDemo()
         {
             
@@ -32,6 +56,8 @@ namespace ArchEngine.Core
             
             LineRenderer mr7 = new LineRenderer();
 
+            
+            
             
             LineRenderer mr8 = new LineRenderer();
             mr8.StartPos = Vector3.One;
@@ -65,7 +91,7 @@ namespace ArchEngine.Core
             gm4.AddChild(gm5);
             
             
-            gm2.AddComponent(new ACustomScript());
+            //gm2.AddComponent(new ACustomScript());
             
             
             AddGameObject(gm8);

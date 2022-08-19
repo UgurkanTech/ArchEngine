@@ -18,7 +18,7 @@ namespace ArchEngine.Core.Rendering
         public int Vbo { get; set; }
         public int Ibo { get; set; }
         public float[] Vertices { get; set; }
-        public uint[] Indices { get; set; }
+        public int[] Indices { get; set; }
         private bool initialized { get; set; }
         
         private int IndicesCount { get; set; }

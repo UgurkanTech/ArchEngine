@@ -115,7 +115,7 @@ namespace ArchEngine.Core
             _controller.DrawLoadingBarAndSwapBuffers(this, 90, "Initializing scene...");
             _log.Info("Initializing scene...");
             
-            activeScene = new EditorScene().AddDemo();
+            activeScene = new EditorScene().AddDemo2();
             
             activeScene.Init();
             
@@ -127,6 +127,8 @@ namespace ArchEngine.Core
             //Attributes.ScanAttiributes(this);
             _skyboxRenderer = new SkyboxRenderer();
             _skyboxRenderer.Init();
+
+            
         }
 
         private SkyboxRenderer _skyboxRenderer;
@@ -155,7 +157,7 @@ namespace ArchEngine.Core
 	        }
 	        
 	        activeScene.Update();
-	        
+	        //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
 	        
 	        _controller.Update(this, (float) e.Time);
 	        
@@ -168,7 +170,7 @@ namespace ArchEngine.Core
 	        _skyboxRenderer.Render();
 	        _renderer.RenderAllChildObjects(activeScene.gameObjects);
 
-	       
+	        //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
 	        
 
 

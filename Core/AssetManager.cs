@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -22,6 +23,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common.Input;
 using Camera = ArchEngine.Core.Rendering.Camera.Camera;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
+using Mesh = ArchEngine.Core.Rendering.Geometry.Mesh;
 using Scene = ArchEngine.Core.ECS.Scene;
 
 namespace ArchEngine.Core
@@ -55,25 +57,56 @@ namespace ArchEngine.Core
             return new WindowIcon(images);
 
         }
-        
-        public void GetMeshByFilePath(string filePath)
+
+        public static Mesh GetMeshByFilePath(string filePath)
         {
-            //if (_meshCache.ContainsKey(filePath)) return _meshCache[filePath];
-
             var assimpContext = new Assimp.AssimpContext();
-            var assimpScene = assimpContext.ImportFile(filePath, PostProcessSteps.GenerateNormals | PostProcessSteps.GenerateUVCoords | PostProcessSteps.Triangulate);
+            var assimpScene = assimpContext.ImportFile(filePath,
+  PostProcessSteps.GenerateSmoothNormals | PostProcessSteps.SortByPrimitiveType | PostProcessSteps.OptimizeGraph | PostProcessSteps.OptimizeMeshes | 
+                PostProcessSteps.JoinIdenticalVertices | PostProcessSteps.ValidateDataStructure | PostProcessSteps.CalculateTangentSpace | PostProcessSteps.GenerateNormals |
+                PostProcessSteps.Triangulate | PostProcessSteps.FixInFacingNormals   | PostProcessSteps.FlipUVs 
+                  );
 
-            if (assimpScene.MeshCount > 1) throw new NotSupportedException("single meshes supported.");
-
+            //if (assimpScene.MeshCount > 1) throw new NotSupportedException("single meshes supported.");
             var assimpMesh = assimpScene.Meshes.First();
 
-        
-        
-            //assimpMesh.MaterialIndex
-            // _meshCache.Add(filePath, modelMesh);
-            //return modelMesh;
-        }
+            var verts = assimpMesh.Vertices.ToArray();
+            var faces = assimpMesh.Faces.ToArray();
+            var uvs = assimpMesh.TextureCoordinateChannels[0].ToArray();
+            var normals = assimpMesh.Normals.ToArray();
 
+            List<float> vertList = new List<float>();
+            List<int> indicesList = new List<int>();
+            for (int i = 0; i < verts.Length; i++)
+            {
+                vertList.Add(verts[i].X);
+                vertList.Add(verts[i].Y);
+                vertList.Add(verts[i].Z);
+                
+                vertList.Add(uvs[i].X);
+                vertList.Add(uvs[i].Y);
+                
+                vertList.Add(normals[i].X);
+                vertList.Add(normals[i].Y);
+                vertList.Add(normals[i].Z);
+                
+            }
+            for (int i = 0; i < faces.Length; i++)
+            {
+                for (int j = 0; j < faces[i].Indices.Count; j++)
+                {
+                    indicesList.Add(faces[i].Indices[j]);
+                }
+            }
+
+            Mesh mesh = new Mesh();
+            mesh.Vertices = vertList.ToArray();
+            mesh.Indices = indicesList.ToArray();
+            
+            Console.WriteLine("imported model verts: " + vertList.Count + " - indices: " + indicesList.Count);
+            return mesh;
+        } 
+        
         public static void SaveScene()
         {
             string path = @"D:\save.json";

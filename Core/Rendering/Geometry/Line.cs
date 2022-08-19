@@ -13,7 +13,7 @@ namespace ArchEngine.Core.Rendering.Geometry
         [JsonIgnore]public int Vbo { get; set; }
         [JsonIgnore] public int Ibo { get; set; }
         [JsonIgnore] public float[] Vertices { get; set; }
-        [JsonIgnore] public uint[] Indices { get; set; }
+        [JsonIgnore] public int[] Indices { get; set; }
 
         public void InitBuffers(Material mat)
         {

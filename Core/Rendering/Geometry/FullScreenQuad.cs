@@ -16,7 +16,7 @@ namespace ArchEngine.Core.Rendering.Geometry
         public int Vbo { get; set; }
         public int Ibo { get; set; }
         public float[] Vertices { get; set; }
-        public uint[] Indices { get; set; }
+        public int[] Indices { get; set; }
         public void InitBuffers(Material mat)
         {
             Vbo = GL.GenBuffer();
