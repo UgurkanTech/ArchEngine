@@ -14,6 +14,7 @@ using ArchEngine.Core.ECS;
 using ArchEngine.Core.Rendering.Camera;
 using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.Core.Utils;
+using ArchEngine.GUI.Editor;
 using Assimp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -128,6 +129,7 @@ namespace ArchEngine.Core
             Window.activeScene.Init();
             _log.Info("Starting new scene..");
             Window.activeScene.Start();
+            Editor.selectedGameobject = null;
         }
 
         public static void RestoreScene()

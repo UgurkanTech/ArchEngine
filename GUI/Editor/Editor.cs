@@ -27,7 +27,7 @@ namespace ArchEngine.GUI.Editor
         public static void DrawEditor()
         {
             DockSpace.Draw();
-
+            Toolbar.Draw();
             Scene.Draw();
             
             Hierarchy.Draw();

@@ -18,6 +18,7 @@ namespace ArchEngine.Core.Rendering
 
         public Vector2i RenderSize = new Vector2i(800, 600);
 
+        public PolygonMode mode = PolygonMode.Fill;
         public Renderer()
         {
             frameBuffer = new Framebuffer();
@@ -131,7 +132,7 @@ namespace ArchEngine.Core.Rendering
 
         public void RenderAllChildObjects(List<GameObject> objs)
         {
-            
+            GL.PolygonMode(MaterialFace.FrontAndBack, mode);
             count = 1;
             GL.Enable(EnableCap.StencilTest);
             foreach (var obj in objs)
@@ -147,7 +148,7 @@ namespace ArchEngine.Core.Rendering
                 RenderRecursively(Editor.selectedGameobject, selectedRoot, true, selectedRootActive);
                 GL.Disable(EnableCap.StencilTest);
             }
-       
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
         }
 
 

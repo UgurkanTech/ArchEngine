@@ -15,7 +15,9 @@ using ArchEngine.GUI;
 using ArchEngine.GUI.Editor;
 using ArchEngine.GUI.ImGUI;
 using ArchEngine.Scenes.Voxel;
+using IconFonts;
 using ImGuiNET;
+using ImGuizmoNET;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
@@ -36,8 +38,9 @@ namespace ArchEngine.Core
         public static Scene activeScene;
         
         ImGuiController _controller;
-        
 
+        public static bool started = false;
+        
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
         {
@@ -77,20 +80,20 @@ namespace ArchEngine.Core
             _log.Info("Loading fonts...");
             _font = new FreeTypeFont(64);
             
-            Thread.Sleep(100);
+      
             _controller.DrawLoadingBarAndSwapBuffers(this, 40, "Loading renderer..");
             
             
             _log.Info("Loading Renderer...");
             _renderer = new Renderer();
-            Thread.Sleep(100);
+          
             
             _controller.DrawLoadingBarAndSwapBuffers(this, 60, "Loading shaders...");
             
 			CameraManager.Init(Size.X / (float)Size.Y);
 			_log.Info("Loading shaders...");
             ShaderManager.LoadShaders();
-            Thread.Sleep(100);
+       
             _log.Info("Starting shaders...");
             ShaderManager.StartShaders();
 
@@ -111,13 +114,12 @@ namespace ArchEngine.Core
             _controller.DrawLoadingBarAndSwapBuffers(this, 80, "Loading scene objects...");
             
             _log.Info("Loading scene objects...");
-            Thread.Sleep(100);
-           
+
             _controller.DrawLoadingBarAndSwapBuffers(this, 90, "Initializing scene...");
             _log.Info("Initializing scene...");
             
             //activeScene = new EditorScene().AddDemo2();
-            activeScene = new VoxelScene();
+            activeScene = new EditorScene().AddDemo();
             //throw new Exception();
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -126,11 +128,6 @@ namespace ArchEngine.Core
             Console.WriteLine("Scene Init: " + sw.ElapsedMilliseconds);
             
             new Editor();
-            sw.Reset();
-            sw.Start();
-            activeScene.Start();
-            sw.Stop();
-            Console.WriteLine("Scene Start: " + sw.ElapsedMilliseconds);
             _log.Info("Arch Engine started!");
             
             //Attributes.ScanAttiributes(this);
@@ -145,6 +142,8 @@ namespace ArchEngine.Core
 
         public static bool LockCursor = false;
 
+        private bool firstStart = true;
+        
         // Now that initialization is done, let's create our render loop.
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -152,10 +151,7 @@ namespace ArchEngine.Core
 
 	        GL.Enable(EnableCap.DepthTest);
 	        GL.DepthFunc(DepthFunction.Less);
-	        
-	        
-	        
-	        
+
 	        if (LockCursor)
 	        {
 		        CursorGrabbed = true;
@@ -165,8 +161,23 @@ namespace ArchEngine.Core
 		        CursorGrabbed = false;
 		        CursorVisible = true;
 	        }
+
+	        if (firstStart && started)
+	        {
+		        Stopwatch sw = new Stopwatch();
+		        sw.Start();
+		        activeScene.Start();
+		        sw.Stop();
+		        _log.Info("Scene start took " + sw.ElapsedMilliseconds + "ms");
+		        firstStart = false;
+	        }
+	        if (started)
+		        activeScene.Update();
+	        else
+		        firstStart = true;
 	        
-	        activeScene.Update();
+
+
 	        //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
 	        
 	        _controller.Update(this, (float) e.Time);
@@ -188,7 +199,7 @@ namespace ArchEngine.Core
 	        //GL.CullFace(CullFaceMode.Back);
 
 	        _font.RenderText(ShaderManager.TextShader,"FPS: " + _fps + ", TPS: " + _ticks, 0.0f - (_renderer.RenderSize.X / 2f), 0.0f + (_renderer.RenderSize.Y  / 2f) - 50, 1f);
-            
+
 	        GL.Viewport(0, 0, Size.X, Size.Y);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
@@ -199,8 +210,10 @@ namespace ArchEngine.Core
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
             
+
             
             Editor.DrawEditor();
+            
             ImGui.PopStyleVar(2);
 
             _controller.Render();
@@ -255,7 +268,10 @@ namespace ArchEngine.Core
             // - Only update at 60 frames / s
             while (_delta >= 1.0) {
 	            //fixedGameLoop();   // - Update function
-	            activeScene.FixedUpdate();
+	            if (started)
+	            {
+		            activeScene.FixedUpdate();
+	            }
 	            
 	            _fixedUpdates++;
 	            _delta--;

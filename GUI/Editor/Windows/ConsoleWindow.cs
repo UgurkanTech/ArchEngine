@@ -1,21 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Numerics;
 using System.Text;
 using ArchEngine.Core;
+using IconFonts;
 using ImGuiNET;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace ArchEngine.GUI.Editor.Windows
 {
+    public class ConsoleDecorator : TextWriter
+    {
+        private TextWriter consoleOriginal;
+
+        public ConsoleDecorator(TextWriter consoleTextWriter)
+        {
+            consoleOriginal = consoleTextWriter;
+        }
+        public override void WriteLine(string value)
+        {
+            consoleOriginal.WriteLine(value);
+            ConsoleWindow._stringWriter.WriteLine(value);
+            // Fire event here with value
+        }
+        public override void Write(string value)
+        {
+            consoleOriginal.Write(value);
+            ConsoleWindow._stringWriter.Write(value);
+            // Fire event here with value
+        }
+        public override void Write(object value)
+        {
+            consoleOriginal.Write(value);
+            ConsoleWindow._stringWriter.Write(value);
+            // Fire event here with value
+        }
+        public override Encoding Encoding { get; }
+        
+    }
+    
     public class ConsoleWindow
     {
         private static List<string> _lines = new List<string>();
-        private static StringWriter _stringWriter = new StringWriter();
+        public static StringWriter _stringWriter = new StringWriter();
+        
+        private static bool autoscroll = true;
         public ConsoleWindow()
         {
             Clear();
-            //Console.SetOut(_stringWriter);
+            Console.SetOut(new ConsoleDecorator(Console.Out));
+            
         }
         
         public static void Clear()
@@ -36,16 +71,15 @@ namespace ArchEngine.GUI.Editor.Windows
         {
             
             
-            ImGui.SetNextWindowPos(new System.Numerics.Vector2(25,100), ImGuiCond.FirstUseEver);
-            ImGui.SetNextWindowSize(new System.Numerics.Vector2(150, 300), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowPos(new Vector2(25,100), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(new Vector2(150, 300), ImGuiCond.FirstUseEver);
             ImGui.Begin("Arch Console");
             
 
             ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.2f, 0,0,1));
             
-            if (ImGui.SmallButton("Clear"))
+            if (ImGui.SmallButton("Clear "  + FontAwesome5.ArrowDown))
                 Clear();
-            
             ImGui.PopStyleColor();
             ImGui.SameLine();
             if (ImGui.SmallButton("Options"))
@@ -68,7 +102,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 ImGui.TextColored(Vector4.UnitX, "Broken native wrapping");
                 
 
-                if (oldLength != _stringWriter.GetStringBuilder().Length)
+                if (autoscroll && oldLength != _stringWriter.GetStringBuilder().Length)
                 {
                     oldLength = _stringWriter.GetStringBuilder().Length;
                     ImGui.SetScrollHereY(1.0f);
@@ -77,19 +111,11 @@ namespace ArchEngine.GUI.Editor.Windows
                 ImGui.EndChild();
             }
 
-            bool asd = false;
+            
             if (ImGui.BeginPopup("Options"))
             {
-                ImGui.Checkbox("Auto-scroll", ref asd);
-                if (ImGui.Button("Save scene"))
-                {
-                    AssetManager.SaveScene();
-                }
-                if (ImGui.Button("Load scene"))
-                {
-                    AssetManager.LoadScene();
-                }
-                
+                ImGui.Checkbox("Auto-scroll", ref autoscroll);
+
                 ImGui.EndPopup();
             }
             
@@ -125,7 +151,8 @@ namespace ArchEngine.GUI.Editor.Windows
 
         private static unsafe int Callback(ImGuiInputTextCallbackData* data)
         {
-            if (ImGui.IsKeyPressed(ImGuiKey.Enter))
+            
+            if (ImGui.IsKeyPressed((int)Keys.Enter))
             {
                 //_lines.Add(Encoding.ASCII.GetString(data->Buf, data->BufTextLen));
                 Console.WriteLine("Invalid command: " + Encoding.ASCII.GetString(data->Buf, data->BufTextLen));

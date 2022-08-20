@@ -4,10 +4,8 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
-using System.Numerics;
 using System.Reflection;
 using System.Text;
-using ArchEngine.Core;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.Rendering.Camera;
 using ArchEngine.Core.Rendering.Geometry;
@@ -18,11 +16,10 @@ using ImGuiNET;
 using Microsoft.VisualBasic.CompilerServices;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using Component = ArchEngine.Core.ECS.Component;
 using Quaternion = OpenTK.Mathematics.Quaternion;
-using Vector2 = System.Numerics.Vector2;
-using Vector3 = System.Numerics.Vector3;
-using Vector4 = System.Numerics.Vector4;
+using Window = ArchEngine.Core.Window;
 
 namespace ArchEngine.GUI.Editor.Windows
 {
@@ -41,8 +38,8 @@ namespace ArchEngine.GUI.Editor.Windows
         
         public static void Draw()
         {
-            ImGui.SetNextWindowPos(new System.Numerics.Vector2(400,100), ImGuiCond.FirstUseEver);
-            ImGui.SetNextWindowSize(new System.Numerics.Vector2(370, 220), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowPos(new Vector2(400,100), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(new Vector2(370, 220), ImGuiCond.FirstUseEver);
             
             ImGui.Begin("Inspector");
 
@@ -87,12 +84,12 @@ namespace ArchEngine.GUI.Editor.Windows
                 ImGui.Columns(1);
                 if (ImGui.TreeNodeEx("Transform", flagsNotS))
                 {
-                    Vector3 pos = mat.ExtractTranslation().ToSystemVector3();
+                    Vector3 pos = mat.ExtractTranslation();
                     Quaternion rot = mat.ExtractRotation();
-                    Vector3 scal = mat.ExtractScale().ToSystemVector3();
+                    Vector3 scal = mat.ExtractScale();
 
 
-                    Vector3 roteuler = rot.ToEulerAngles().RadiansToAngles().ToSystemVector3();
+                    Vector3 roteuler = rot.ToEulerAngles().RadiansToAngles();
                     
                
                     ImGui.Columns(2,"transforms", false);
@@ -126,9 +123,9 @@ namespace ArchEngine.GUI.Editor.Windows
                     
                     //ImGuizmo.Manipulate(ref camV.Row0.X, ref camP.Row0.X, operation, MODE.LOCAL, ref mat.Row0.X);
                     
-                    mat = Matrix4.CreateScale( scal.ToOpenTkVector3().GetNonZero());
-                    mat *= Matrix4.CreateFromQuaternion(Quaternion.FromEulerAngles(roteuler.ToOpenTkVector3().DegreesToRadians()));
-                    mat *= Matrix4.CreateTranslation(pos.ToOpenTkVector3());
+                    mat = Matrix4.CreateScale( scal.GetNonZero());
+                    mat *= Matrix4.CreateFromQuaternion(Quaternion.FromEulerAngles(roteuler.DegreesToRadians()));
+                    mat *= Matrix4.CreateTranslation(pos);
                 
                     Editor.selectedGameobject.Transform = mat;
                     
@@ -251,9 +248,9 @@ namespace ArchEngine.GUI.Editor.Windows
                      }
                      else if (type == typeof(OpenTK.Mathematics.Vector3))
                      {
-                         var value = ((OpenTK.Mathematics.Vector3) info.GetValue(component)).ToSystemVector3();
+                         var value = ((OpenTK.Mathematics.Vector3) info.GetValue(component));
                          ImGui.DragFloat3(name, ref value, 0.01f);
-                         info.SetValue(component, value.ToOpenTkVector3());
+                         info.SetValue(component, value);
                      }
                      else if (type == typeof(bool))
                      {
@@ -324,7 +321,7 @@ namespace ArchEngine.GUI.Editor.Windows
         
         private static unsafe int Callback(ImGuiInputTextCallbackData* data)
         {
-            if (ImGui.IsKeyPressed(ImGuiKey.Enter))
+            if (ImGui.IsKeyPressed((int)Keys.Enter))
             {
                 if (Editor.selectedGameobject == null)
                     return -1;

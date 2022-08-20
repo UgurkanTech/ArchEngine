@@ -5,8 +5,8 @@ using ArchEngine.Core.ECS;
 using ArchEngine.GUI.Editor.Windows;
 using ImGuiNET;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using Scene = ArchEngine.GUI.Editor.Windows.Scene;
-using Vector2 = System.Numerics.Vector2;
 
 namespace ArchEngine.GUI.Editor.Windows
 {

@@ -35,7 +35,7 @@ namespace ArchEngine.Core.ECS
                 //_log.Info("Starting gameobject: " + c.name);
                 c.Start();
             }
-
+            
             isRunning = true;
         }
 

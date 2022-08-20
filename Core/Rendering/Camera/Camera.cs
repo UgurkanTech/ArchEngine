@@ -47,7 +47,7 @@ namespace ArchEngine.Core.Rendering.Camera
         public Vector3 Position { get; set; }
 
         // This is simply the aspect ratio of the viewport, used for the projection matrix.
-        public float AspectRatio { private get; set; }
+        public float AspectRatio { get; set; }
       
         public Vector3 Front => _front;
       
@@ -104,7 +104,7 @@ namespace ArchEngine.Core.Rendering.Camera
         // Get the projection matrix using the same method we have used up until this point
         public Matrix4 GetProjectionMatrix()
         {
-            return Matrix4.CreatePerspectiveFieldOfView(_fov, AspectRatio, 0.01f, 100f);
+            return Matrix4.CreatePerspectiveFieldOfView(_fov, AspectRatio, 0.01f, 200f);
         }
 
         // This function is going to update the direction vertices using some of the math learned in the web tutorials.

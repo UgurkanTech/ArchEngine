@@ -5,15 +5,13 @@ using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Numerics;
 using System.Runtime.CompilerServices;
+using IconFonts;
 using ImGuizmoNET;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common.Input;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using Vector2 = System.Numerics.Vector2;
-using Vector4 = System.Numerics.Vector4;
 using Window = ArchEngine.Core.Window;
 
 namespace ArchEngine.GUI.ImGUI
@@ -39,7 +37,7 @@ namespace ArchEngine.GUI.ImGUI
         private int _windowWidth;
         private int _windowHeight;
 
-        private System.Numerics.Vector2 _scaleFactor = System.Numerics.Vector2.One;
+        private Vector2 _scaleFactor = Vector2.One;
 
         /// <summary>
         /// Constructs a new ImGuiController.
@@ -75,8 +73,11 @@ namespace ArchEngine.GUI.ImGUI
             ImGui.NewFrame();
             
             
-            //ImGuizmo.SetImGuiContext(context);
-            //ImGuizmo.BeginFrame(); 
+            ImGuizmo.SetImGuiContext(context);
+            ImGuizmo.BeginFrame(); 
+            ImGuizmo.Enable(true);
+            //FontAwesome5.Construct();
+            
             _frameBegun = true;
         }
         
@@ -87,8 +88,8 @@ namespace ArchEngine.GUI.ImGUI
         {
             int sizeX = 250, sizeY = 100;
             Update(gw, 1f);
-            ImGui.SetNextWindowPos(new System.Numerics.Vector2((Window.WindowSize.X / 2f) - (sizeX/2f), (Window.WindowSize.Y / 2f) - (sizeY/2f)), ImGuiCond.Once);
-            ImGui.SetNextWindowSize(new System.Numerics.Vector2(sizeX, sizeY), ImGuiCond.Once);
+            ImGui.SetNextWindowPos(new Vector2((Window.WindowSize.X / 2f) - (sizeX/2f), (Window.WindowSize.Y / 2f) - (sizeY/2f)), ImGuiCond.Once);
+            ImGui.SetNextWindowSize(new Vector2(sizeX, sizeY), ImGuiCond.Once);
             ImGui.Begin("Loading Engine", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoBackground);
             
            
@@ -195,6 +196,8 @@ void main()
         /// <summary>
         /// Recreates the device texture used to render text.
         /// </summary>
+        static ImFontConfig fontConfig;
+        static OpenTK.Mathematics.Vector2i glyphSize;
         public void RecreateFontDeviceTexture()
         {
             unsafe
@@ -205,28 +208,35 @@ void main()
                 (*nativeConfig).OversampleV = 3;
                 (*nativeConfig).RasterizerMultiply = 1f;
                 (*nativeConfig).GlyphExtraSpacing = new Vector2(0, 0);
-                
+                (*nativeConfig).MergeMode = 0;
 
+                
+                
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/arial.ttf", 13, nativeConfig);
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-brands-400.ttf", 13, nativeConfig);
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-solid-900.ttf", 13, nativeConfig);
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/Sweet16mono.ttf", 13, nativeConfig);
                 ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/Ruda-Bold.ttf", 13f, nativeConfig);
+                //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-regular-400.ttf", 13f, nativeConfig);
+                
+                FontAwesome5.Construct();
+                //(*nativeConfig).MergeMode = 1;
+                //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-regular-400.ttf", 13f, nativeConfig);
                 
 
-                ImGuiNative.ImFontConfig_destroy(nativeConfig);
-                
+                //ImGuiNative.ImFontConfig_destroy(nativeConfig);
+               
                 
                 ImGuiIOPtr io = ImGui.GetIO();
                 io.Fonts.GetTexDataAsRGBA32(out byte* pixels, out int width, out int height, out int bytesPerPixel);
                 //io.Fonts.GetTexDataAsRGBA32(out IntPtr pixels, out int width, out int height, out int bytesPerPixel);
-
+                
                 _fontTexture = new Texture("ImGui Text Atlas", width, height, (IntPtr)pixels);
                 _fontTexture.SetMagFilter(TextureMagFilter.Linear);
                 _fontTexture.SetMinFilter(TextureMinFilter.Linear);
 
                 io.Fonts.SetTexID((IntPtr)_fontTexture.GLTexture);
-
+                
                 io.Fonts.ClearTexData();
             }
             
@@ -280,7 +290,7 @@ void main()
         private void SetPerFrameImGuiData(float deltaSeconds)
         {
             ImGuiIOPtr io = ImGui.GetIO();
-            io.DisplaySize = new System.Numerics.Vector2(
+            io.DisplaySize = new Vector2(
                 _windowWidth / _scaleFactor.X,
                 _windowHeight / _scaleFactor.Y);
             io.DisplayFramebufferScale = _scaleFactor;
@@ -309,7 +319,7 @@ void main()
                 
                 var screenPoint = new Vector2i((int)MouseState.X, (int)MouseState.Y);
                 var point = screenPoint;//wnd.PointToClient(screenPoint);
-                io.MousePos = new System.Numerics.Vector2(point.X, point.Y);
+                io.MousePos = new Vector2(point.X, point.Y);
             
                 foreach (Keys key in Enum.GetValues(typeof(Keys)))
                 {

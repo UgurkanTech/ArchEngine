@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Numerics;
 using System.Reflection;
 using System.Text;
 using ArchEngine.Core;
@@ -17,9 +16,6 @@ using ImGuiNET;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using Quaternion = OpenTK.Mathematics.Quaternion;
-using Vector2 = System.Numerics.Vector2;
-using Vector3 = System.Numerics.Vector3;
-using Vector4 = System.Numerics.Vector4;
 
 namespace ArchEngine.GUI.Editor.Windows
 {
@@ -37,8 +33,8 @@ namespace ArchEngine.GUI.Editor.Windows
             
            
             
-            ImGui.SetNextWindowPos(new System.Numerics.Vector2(25,100), ImGuiCond.FirstUseEver);
-            ImGui.SetNextWindowSize(new System.Numerics.Vector2(150, 300), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowPos(new Vector2(25,100), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(new Vector2(150, 300), ImGuiCond.FirstUseEver);
             ImGui.Begin("Hierarchy");
 
             if (ImGui.BeginPopupContextWindow())

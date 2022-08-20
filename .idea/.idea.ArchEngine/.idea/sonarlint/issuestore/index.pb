@@ -1,8 +1,6 @@
 
 U
 %Core/Rendering/Camera/EditorCamera.cs,d\5\d57e09ed851709acc9f60b3a24d6d0b8046cf2ed
-V
-&Core/Rendering/Camera/CameraManager.cs,e\e\ee37548c944531d765658b4c6047763e0f6b1235
 ]
 -Core/Utils/Serialization/SerializedVector3.cs,b\b\bb2da6e834c2b777f58e6435bc7b44fb8eb72655
 ]
@@ -11,8 +9,6 @@ V
 -Core/Utils/Serialization/SerializedMatrix4.cs,b\2\b2be7c7c340d4d120605c173f068fad47ec0eaba
 K
 Resources/Shaders/text.vert,0\b\0b2ebebb1faa9abde42c9e09b011a6825ea37df2
-L
-GUI/Editor/ObjectSelecter.cs,4\0\40ec265701caa9c7ab327e9730c340c32aee875c
 H
 GUI/Editor/Attributes.cs,f\4\f41f2a1924aa7483034addbe65fe70eacd276b2c
 U
@@ -31,24 +27,12 @@ B
 Core/ECS/Script.cs,2\e\2e8c09a8cae01e167b98d1d3f421b2bf9dc80765
 H
 Core/Rendering/Shader.cs,0\e\0e5c856adfb21897cbdddc4165428c1e1a1e11cc
-O
-GUI/Editor/Windows/DockSpace.cs,5\f\5f16eefe01372b2aeb98a184c30246c47a2c6db4
-D
-GUI/Editor/Editor.cs,0\f\0fa114a39a3db3c5ab4b9026a270039d517c08f6
-L
-GUI/ImGUI/ImGuiController.cs,7\a\7ab9cf5973c340a52cc8880d68fe7cca4892748f
-B
-GUI/ImGUI/Theme.cs,4\9\497623a1bc30dab78f86ff078a602afcc8817d0d
-O
-GUI/Editor/Windows/Hierarchy.cs,1\6\1636e2d16a5b49109e4489adaab7a901f8fd7784
 N
 Resources/Shaders/cubemap.frag,e\0\e04365a1737519679f1dbc8eaf3e4d2686a09bd7
 N
 Resources/Shaders/cubemap.vert,2\8\28df203bc47d2d2facbb1b14b8a16e3652aecd49
 U
 %Core/ECS/Components/SkyboxRenderer.cs,0\f\0fc6d6db57fa2c49726103d3479c974686b277cd
-O
-Core/Rendering/Camera/Camera.cs,d\9\d92cc2debb02971e3c1c5757cc9115c660e99777
 M
 Resources/Shaders/skybox.frag,5\1\5137ead1a8588a173ef611ada47923eda28f0567
 M
@@ -83,8 +67,6 @@ L
 Core/Utils/JsonConverters.cs,c\d\cda4a48c3bedb518014b543fa7031846be833aa9
 O
 Core/Rendering/Geometry/Cube.cs,3\9\392377b58bfdf250fe20c3e683707332665cc1c5
-O
-GUI/Editor/Windows/Inspector.cs,1\1\11a4953fac63dadd7ef29f18c1e6bb38a6ddf5f0
 M
 Resources/Shaders/shader.vert,3\f\3fcbcbbcb437ec4ae93248f45abc47c52b2e72b1
 M
@@ -113,33 +95,11 @@ S
 #Core/Rendering/Textures/Material.cs,b\d\bd793f84eec617d9d3a144bb9601e7e9e3a12594
 ?
 Scenes/Block.cs,8\e\8e055a790d5a7f580e8209300bdac87d3d1ddd5b
-D
-Core/AssetManager.cs,0\3\03741d0ebfce69a7fe0dae30614cc5574097f00d
 O
 Core/Rendering/Geometry/Mesh.cs,5\a\5a26851ce2ebcce46aae9ec7b0c7fe45208cc0c7
 7
 Arch.cs,3\e\3e35a7d79993ab8266523b10b0290035f2022f6b
-S
-#GUI/Editor/Windows/ConsoleWindow.cs,0\a\0aad16299e50bcf6c67dc2a4748bae6a9da66c6f
-F
-Core/ECS/GameObject.cs,d\0\d024b44c8e63b243506809f007c3baf37948a42d
-K
-GUI/Editor/Windows/Scene.cs,1\7\177dc131661ab2c8ce126d33682d89a11ba3a9a0
-J
-Core/Rendering/Renderer.cs,5\2\52605bad6f842b0ab056e021af0135d2b26ff43f
-H
-Scenes/BlockGenerator.cs,2\e\2e91854bcb1ace853c95c9dc61f1317a76d6a4b3
-J
-Scenes/Voxel/VoxelScene.cs,2\f\2f55cd3d5d6ef8389e5c2e4481bd5c57bfb866f2
 A
 Scenes/Globals.cs,5\c\5cc1d32f46164c9785720ca3943e8b830ec3871b
 Y
 )Core/Rendering/Textures/TextureManager.cs,2\a\2ac0109eae3f9426fc88871868fd6449f9a62ae1
-S
-#Core/ECS/Components/MeshRenderer.cs,f\5\f55f5007364a86c339004af20e012c61bf1370f9
-=
-Core/Scene.cs,e\e\ee560e8bac23dbd2364421fa189df7d68bda87e6
->
-Core/Window.cs,5\a\5aa96f6ceb083a13ab401d27c909fce1abb24c2e
-G
-Scenes/MeshGenerator.cs,a\3\a32c6daab1279c19b8b312bcd8bc9a8ca297cff5

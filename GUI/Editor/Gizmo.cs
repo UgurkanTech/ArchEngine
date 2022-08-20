@@ -1,31 +1,52 @@
 ﻿using System;
 using System.Linq;
-using System.Numerics;
+using ArchEngine.Core.Rendering.Camera;
 using Assimp;
 using ImGuiNET;
+using ImGuizmoNET;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace ArchEngine.GUI.Editor
 {
     public class Gizmo
     {
+        public static bool usingGizmo = false;
+        public static TransformOperation op = TransformOperation.Translate;
         public static void Draw()
         {
-            uint col = ImGui.ColorConvertFloat4ToU32(new Vector4(1.0f, 1.0f, 0.4f, 1.0f));
+            var cameraView = CameraManager.EditorCamera.GetViewMatrix();
+            var cameraProj = CameraManager.EditorCamera.GetProjectionMatrix();
+            if (Editor.selectedGameobject != null)
+            {
+                ImGuizmo.SetDrawlist();
+                ImGuizmo.SetOrthographic(true);
+                if (ImGui.IsWindowHovered())
+                {
+                    if (ImGui.IsKeyDown((int)Keys.Q)) op = TransformOperation.Translate;
+                    if (ImGui.IsKeyDown((int)Keys.E)) op = TransformOperation.Rotate;
+                    if (ImGui.IsKeyDown((int)Keys.R)) op = TransformOperation.Scale;
+                }
+                ImGuizmo.SetGizmoSizeClipSpace(0.3f);
+                ImGuizmo.SetRect(ImGui.GetWindowPos().X, ImGui.GetWindowPos().Y, ImGui.GetItemRectSize().X, ImGui.GetItemRectSize().Y);
+                
+                var transform = Editor.selectedGameobject.Transform;
+                
+                ImGuizmo.Manipulate(ref cameraView.Row0.X, ref cameraProj.Row0.X, op, TransformMode.Local, ref transform.Row0.X);
+                
+                if (ImGuizmo.IsUsing())
+                {
+                    Editor.selectedGameobject.Transform = transform;
+                    usingGizmo = true;
+                }
+                else
+                {
+                    usingGizmo = false;
+                }
+   
+            }
 
-
-            Vector2 pos = ImGui.GetWindowPos() + ImGui.GetWindowContentRegionMin();
-            Vector2 pos2 = ImGui.GetWindowPos() + ImGui.GetWindowContentRegionMax();
-            Vector2 middle = (pos2 + pos) / 2;
-            
-            
-            //ImGui.GetWindowDrawList().AddCircle(pos, 20, col, 15, 2);
-            //ImGui.GetWindowDrawList().AddCircle(pos2, 20, col, 15, 2);
-            //ImGui.GetWindowDrawList().AddCircle(middle, 20, col, 15, 2);
-            
-            //ImGui.GetWindowDrawList().AddText(middle, col, "Test");
-            var assimpNetimporter = new Assimp.AssimpContext();
-
-           
+            //ImGuizmo.DrawGrid(ref cameraView.Row0.X, ref cameraProj.Row0.X, ref grid.Row0.X, 50);
         }
 
     }

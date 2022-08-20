@@ -20,6 +20,7 @@ namespace ArchEngine.Scenes.Voxel
             mat.Shader = ShaderManager.PbrShader;
             mat.LoadAlbedo("Resources/Textures/tiles", TextureMagFilter.Nearest, TextureMinFilter.Nearest);
 
+            return;
             Stopwatch sw = new Stopwatch();
             sw.Start();
             for (int i = 0; i < 15; i++)

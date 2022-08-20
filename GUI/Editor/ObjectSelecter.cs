@@ -19,7 +19,8 @@ namespace ArchEngine.GUI.Editor
     {
         public static void SelectObject()
         {
-            if (ImGui.IsMouseClicked(ImGuiMouseButton.Left))
+            
+            if (ImGui.IsMouseReleased(ImGuiMouseButton.Left) && !Gizmo.usingGizmo)
             {
                 int window_width = Window._renderer.RenderSize.X;
                 int window_height = Window._renderer.RenderSize.Y;
