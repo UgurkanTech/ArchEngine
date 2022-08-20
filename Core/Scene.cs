@@ -22,7 +22,7 @@ namespace ArchEngine.Core.ECS
             
             foreach (var c in gameObjects)
             {
-                _log.Info("Initializing gameobject: " + c.name);
+                //_log.Info("Initializing gameobject: " + c.name);
                 c.Init();
             }
             
@@ -32,7 +32,7 @@ namespace ArchEngine.Core.ECS
         {
             foreach (var c in gameObjects)
             {
-                _log.Info("Starting gameobject: " + c.name);
+                //_log.Info("Starting gameobject: " + c.name);
                 c.Start();
             }
 

@@ -126,7 +126,7 @@ public class MeshGenerator
                 tempVector.Y = ( i / Globals.XZMax ) % Globals.YMax;
                 tempVector.Z = i / ( Globals.XZMax * Globals.YMax );
                         
-                vertices[vertCount] = (tempVector + (faces[f*4])).;
+                vertices[vertCount] = (tempVector + (faces[f*4]));
                 vertices[vertCount+1] = (tempVector + (faces[f*4+1]));
                 vertices[vertCount+2] = (tempVector + (faces[f*4+2]));
                 vertices[vertCount+3] = (tempVector + (faces[f*4+3]));
