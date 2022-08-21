@@ -26,10 +26,8 @@ namespace ArchEngine.GUI.Editor.Windows
             ImGui.SetNextWindowPos(new Vector2(50,50), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowSize(new Vector2(300, 300), ImGuiCond.FirstUseEver);
     
-           
+
             ImGui.Begin("Scene");
-            
-            
             
             //pass the texture of the FBO
             //window.getRenderTexture() is the texture of the FBO

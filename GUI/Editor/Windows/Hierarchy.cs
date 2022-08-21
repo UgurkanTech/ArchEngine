@@ -231,7 +231,15 @@ namespace ArchEngine.GUI.Editor.Windows
         {
             index++;
 
-            ImGui.ImageButton((IntPtr) AssetManager.cube.handle, new Vector2(12, 12)); ImGui.SameLine();
+            if (ImGui.ImageButtonEx(ImGui.GetID(index + "HierarchyEyeButton"), Icons.Texture, new Vector2(12, 12), Icons.GetUV0FromID(gameObject.isActive ? 231 : 230),
+                    Icons.GetUV1FromID(gameObject.isActive ? 231 : 230),
+                    Vector2.Zero, Vector4.Zero, Vector4.One))
+            {
+                gameObject.isActive = false;
+                Console.WriteLine("clicked");
+            }
+
+             ImGui.SameLine();
             if (ImGui.TreeNodeEx(gameObject.name, (selected == index ? flags | ImGuiTreeNodeFlags.Selected : flags) | (gameObject._childs.Count == 0 ? ImGuiTreeNodeFlags.Bullet : ImGuiTreeNodeFlags.None)))
             {
                 if (ImGui.BeginDragDropSource( ImGuiDragDropFlags.SourceNoPreviewTooltip | ImGuiDragDropFlags.SourceNoDisableHover)){}

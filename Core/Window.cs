@@ -15,7 +15,6 @@ using ArchEngine.GUI;
 using ArchEngine.GUI.Editor;
 using ArchEngine.GUI.ImGUI;
 using ArchEngine.Scenes.Voxel;
-using IconFonts;
 using ImGuiNET;
 using ImGuizmoNET;
 using OpenTK.Graphics.OpenGL4;
@@ -40,11 +39,13 @@ namespace ArchEngine.Core
         ImGuiController _controller;
 
         public static bool started = false;
+
+        public static Window instance;
         
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
         {
-
+	        Window.instance = this;
         }
 
         public static Renderer _renderer;
@@ -119,7 +120,7 @@ namespace ArchEngine.Core
             _log.Info("Initializing scene...");
             
             //activeScene = new EditorScene().AddDemo2();
-            activeScene = new EditorScene().AddDemo();
+            activeScene = new EditorScene().AddDemo2();
             //throw new Exception();
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -198,7 +199,7 @@ namespace ArchEngine.Core
 	        
 	        //GL.CullFace(CullFaceMode.Back);
 
-	        _font.RenderText(ShaderManager.TextShader,"FPS: " + _fps + ", TPS: " + _ticks, 0.0f - (_renderer.RenderSize.X / 2f), 0.0f + (_renderer.RenderSize.Y  / 2f) - 50, 1f);
+	        _font.RenderText(ShaderManager.TextShader,"FPS: " + _fps + ", TPS: " + _ticks + ", Verts: " + ((_renderer.TotalVertices > 1000) ? (_renderer.TotalVertices / 1000 + "K") : _renderer.TotalVertices) , 0.0f - (_renderer.RenderSize.X / 2f), 0.0f + (_renderer.RenderSize.Y  / 2f) - 25, 0.5f);
 
 	        GL.Viewport(0, 0, Size.X, Size.Y);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Rendering.Geometry;
@@ -19,6 +20,9 @@ namespace ArchEngine.Core.Rendering
         public Vector2i RenderSize = new Vector2i(800, 600);
 
         public PolygonMode mode = PolygonMode.Fill;
+
+        public long TotalVertices;
+        private long vertCount;
         public Renderer()
         {
             frameBuffer = new Framebuffer();
@@ -77,6 +81,7 @@ namespace ArchEngine.Core.Rendering
                         return;
                     GL.StencilFunc(StencilFunction.Always, count, -1);
                     mr.mesh.Render(parent.Transform * parentMatrix, mr.Material);
+                    vertCount += mr.mesh.VerticesCount;
                     mr.StencilID = count;
                     count++;
                 }
@@ -149,6 +154,8 @@ namespace ArchEngine.Core.Rendering
                 GL.Disable(EnableCap.StencilTest);
             }
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            TotalVertices = vertCount;
+            vertCount = 0;
         }
 
 

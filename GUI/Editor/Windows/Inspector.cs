@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using ArchEngine.Core;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.Rendering.Camera;
 using ArchEngine.Core.Rendering.Geometry;
@@ -31,7 +32,7 @@ namespace ArchEngine.GUI.Editor.Windows
                                               ImGuiTreeNodeFlags.SpanFullWidth;
         
         private static ImGuiTreeNodeFlags flagsNotS = ImGuiTreeNodeFlags.OpenOnArrow |
-                                                      ImGuiTreeNodeFlags.SpanFullWidth | ImGuiTreeNodeFlags.DefaultOpen; 
+                                                      ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.DefaultOpen; 
         
         static byte[] nameBuffer = new byte[50];
         
@@ -58,23 +59,28 @@ namespace ArchEngine.GUI.Editor.Windows
                 // ImGui.SetColumnWidth(0, 100);
 
 
-                if (ImGui.TreeNodeEx("Gameobject", flagsNotS))
+                ImGui.Columns(2, "gameobjects", false);
+                ImGui.SetColumnWidth(0, 75);
+                ImGui.SetColumnWidth(1, ImGui.GetWindowSize().X);
+                //ImGui.TextColored(new Vector4(0, 200, 0, 255), "Name");
+                if (ImGui.ImageButton((IntPtr) AssetManager.cube.handle, new Vector2(25, 25)))
                 {
-                    ImGui.Columns(3, "gameobjects", false);
-                    ImGui.SetColumnWidth(0, 55);
-                    ImGui.SetColumnWidth(1, ImGui.GetWindowSize().X);
-                    ImGui.TextColored(new Vector4(0, 200, 0, 255), "Name");
-
-                    ImGui.NextColumn();
-                    //ImGui.NextColumn();
-
-                    unsafe
+                    Window._log.Info("Benchmark started for gameobject Start(): " + Editor.selectedGameobject.name);
+                    Clock.BenchmarkCpu(() =>
                     {
-                        if (ImGui.InputText("##Name", nameBuffer, 50,
-                                ImGuiInputTextFlags.CallbackAlways | ImGuiInputTextFlags.EnterReturnsTrue, Callback)) ;
-                        ImGui.SameLine();
-                        ImGui.Checkbox("Is Active", ref Editor.selectedGameobject.isActive);
-                    }
+                        Editor.selectedGameobject.Start();
+                    }, 1);
+                    Window._log.Info("Benchmark finished for gameobject: " + Editor.selectedGameobject.name);
+                }
+                ImGui.SameLine();
+                ImGui.Checkbox("##SetActiveInspector", ref Editor.selectedGameobject.isActive);
+                ImGui.NextColumn();
+                unsafe
+                {
+                    ImGui.InputTextEx("##NameInspector", "Name", Editor.selectedGameobject.name,50,
+                        new Vector2(ImGui.GetWindowSize().X - 75, 20), ImGuiInputTextFlags.CallbackAlways | ImGuiInputTextFlags.EnterReturnsTrue,
+                        Callback);
+                    
                 }
 
                 ImGui.TreePop();
@@ -133,15 +139,33 @@ namespace ArchEngine.GUI.Editor.Windows
                 }
                 ImGui.Dummy(new Vector2(0, 15));
                 ImGui.Columns();
-                
-                
-                
-                Editor.selectedGameobject._components.ForEach(component =>
+
+                for (int i = 0; i < Editor.selectedGameobject._components.Count; i++)
                 {
+                    var component = Editor.selectedGameobject._components[i];
                     if (component.GetType() == typeof(GameObject)) return;
                     ImGui.Separator();
+
+                    ImGui.Columns(2, "inspectorTreeTitle", false);
+                    ImGui.SetColumnWidth(0, ImGui.GetWindowSize().X - 30);
+                    ImGui.SetColumnWidth(1, 30);
                     if (ImGui.TreeNodeEx(component.GetType().Name + "", flagsNotS))
                     {
+                        ImGui.NextColumn();
+                        ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.2f, 0,0,1));
+                        if (ImGui.ImageButtonEx(ImGui.GetID("DeleteComponent" + component.GetType().Name), Icons.Texture, new Vector2(15, 15), Icons.GetUV0FromID(21), Icons.GetUV1FromID(21),
+                                Vector2.Zero, Vector4.Zero, Vector4.One))
+                        {
+                            ImGui.PopStyleColor();
+                            Editor.selectedGameobject.RemoveComponent(component);
+                            break;
+                        }
+                        else
+                        {
+                            ImGui.PopStyleColor();
+                        }
+                        
+                        ImGui.Columns();
                         List<MemberInfo> fields = Attributes.ScanFields(component);
                         List<MemberInfo> properties = Attributes.ScanProperties(component);
                         
@@ -153,8 +177,9 @@ namespace ArchEngine.GUI.Editor.Windows
                         ImGui.TreePop();
                     }
                     
+                }
                 
-                });
+
                 
                 if (ImGui.BeginPopup("Components"))
                 {
@@ -167,6 +192,7 @@ namespace ArchEngine.GUI.Editor.Windows
                             Component o = Activator.CreateInstance(type) as Component;
                             o.Init();
                             Editor.selectedGameobject.AddComponent(o);
+                            ImGui.CloseCurrentPopup();
                         }
                         
                     }
@@ -272,11 +298,14 @@ namespace ArchEngine.GUI.Editor.Windows
                          ImGui.Indent(5);
                          ImGui.Text("Material:");
                          ImGui.Indent(10);
+                         ImGui.Image(Icons.Texture, new Vector2(15, 15), Icons.GetUV0FromID(215), Icons.GetUV1FromID(215)); ImGui.SameLine();
                          ImGui.Button(mat?.MaterialHash, new Vector2(ImGui.GetColumnWidth(), 15));
                          ImGui.Unindent(10);
                          ImGui.Text("Shaders:");
                          ImGui.Indent(10);
+                         ImGui.Image(Icons.Texture, new Vector2(15, 15), Icons.GetUV0FromID(215), Icons.GetUV1FromID(215)); ImGui.SameLine();
                          ImGui.Button(mat?.Shader?.hash.Split("-")[0] + "", new Vector2(ImGui.GetColumnWidth(), 15));
+                         ImGui.Image(Icons.Texture, new Vector2(15, 15), Icons.GetUV0FromID(215), Icons.GetUV1FromID(215)); ImGui.SameLine();
                          ImGui.Button(mat?.Shader?.hash.Split("-")[1] + "", new Vector2(ImGui.GetColumnWidth(), 15));
                          ImGui.Unindent(15);
                      }
@@ -287,6 +316,7 @@ namespace ArchEngine.GUI.Editor.Windows
                          ImGui.Indent(5);
                          ImGui.Text("Mesh:");
                          ImGui.Indent(10);
+                         ImGui.Image(Icons.Texture, new Vector2(15, 15), Icons.GetUV0FromID(215), Icons.GetUV1FromID(215)); ImGui.SameLine();
                          ImGui.Button(mesh?.MeshHash + "", new Vector2(ImGui.GetColumnWidth(), 15));
                          ImGui.Unindent(15);
                      }

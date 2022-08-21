@@ -33,14 +33,12 @@ namespace ArchEngine
             
             //Test.Run();
             //return;
-            
-            using (var window = new Window(GameWindowSettings.Default, nativeWindowSettings))
-            {
-                window.VSync = VSyncMode.Adaptive;
-                window.Location = new Vector2i(1920 / 2 - 400, 1080 / 2 - 300);
-                _log.Info("Creating window...");
-                window.Run();
-            }
+
+            using var window = new Window(GameWindowSettings.Default, nativeWindowSettings);
+            window.VSync = VSyncMode.Adaptive;
+            window.Location = new Vector2i(1920 / 2 - 400, 1080 / 2 - 300);
+            _log.Info("Creating window...");
+            window.Run();
         }
 
     }

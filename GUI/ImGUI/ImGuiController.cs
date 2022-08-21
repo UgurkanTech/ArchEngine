@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.CompilerServices;
-using IconFonts;
 using ImGuizmoNET;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common.Input;
@@ -219,7 +218,6 @@ void main()
                 ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/Ruda-Bold.ttf", 13f, nativeConfig);
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-regular-400.ttf", 13f, nativeConfig);
                 
-                FontAwesome5.Construct();
                 //(*nativeConfig).MergeMode = 1;
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-regular-400.ttf", 13f, nativeConfig);
                 

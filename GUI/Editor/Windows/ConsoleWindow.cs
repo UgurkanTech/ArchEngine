@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using ArchEngine.Core;
-using IconFonts;
 using ImGuiNET;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
@@ -19,6 +20,25 @@ namespace ArchEngine.GUI.Editor.Windows
             consoleOriginal = consoleTextWriter;
         }
         public override void WriteLine(string value)
+        {
+            consoleOriginal.WriteLine(value);
+            ConsoleWindow._stringWriter.WriteLine(value);
+            // Fire event here with value
+        }
+        
+        public override void WriteLine(int value)
+        {
+            consoleOriginal.WriteLine(value);
+            ConsoleWindow._stringWriter.WriteLine(value);
+            // Fire event here with value
+        }
+        public override void WriteLine(object value)
+        {
+            consoleOriginal.WriteLine(value);
+            ConsoleWindow._stringWriter.WriteLine(value);
+            // Fire event here with value
+        }
+        public override void WriteLine(long value)
         {
             consoleOriginal.WriteLine(value);
             ConsoleWindow._stringWriter.WriteLine(value);
@@ -78,14 +98,30 @@ namespace ArchEngine.GUI.Editor.Windows
 
             ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.2f, 0,0,1));
             
-            if (ImGui.SmallButton("Clear "  + FontAwesome5.ArrowDown))
+                
+            if (ImGui.ImageButtonEx(ImGui.GetID("ClearConsole"), Icons.Texture, new Vector2(20, 20), Icons.GetUV0FromID(21),
+                    Icons.GetUV1FromID(21),
+                    Vector2.Zero, Vector4.Zero, Vector4.One))
+            {
                 Clear();
+            }
             ImGui.PopStyleColor();
+            
+ 
             ImGui.SameLine();
-            if (ImGui.SmallButton("Options"))
-                ImGui.OpenPopup("Options");
 
-           
+            if (ImGui.ImageButtonEx(ImGui.GetID("SettingsConsole"), Icons.Texture, new Vector2(20, 20),
+                    Icons.GetUV0FromID(302),
+                    Icons.GetUV1FromID(302),
+                    Vector2.Zero, Vector4.Zero, Vector4.One))
+            {
+                ImGui.OpenPopup("Options");
+            }
+
+  
+
+            
+            
             //ImGui.TextWrapped("Console window");
             
             ImGui.Separator();

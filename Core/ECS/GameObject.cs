@@ -53,9 +53,26 @@ namespace ArchEngine.Core.ECS
             }
             return false;
         }
-        
+        public bool HasComponent(Type type)
+        {
+            foreach (var component in _components)
+            {
+                if (component.GetType() ==type)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public void AddComponent(Component component)
         {
+            if (HasComponent(component.GetType()))
+            {
+                Window._log.Info("GameObject already has the same component.");
+                return;
+            }
+                
+            
             _components.Add(component);
             component.gameObject = this;
         }
@@ -70,6 +87,17 @@ namespace ArchEngine.Core.ECS
             for(int i = 0; i < _components.Count; i++)
             {
                 if (_components[i].GetType() == typeof(T))
+                {
+                    _components.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+        public void RemoveComponent(Component component)
+        {
+            for(int i = 0; i < _components.Count; i++)
+            {
+                if (_components[i].GetType() == component.GetType())
                 {
                     _components.RemoveAt(i);
                     return;

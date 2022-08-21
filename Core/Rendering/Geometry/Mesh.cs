@@ -19,7 +19,7 @@ namespace ArchEngine.Core.Rendering.Geometry
         private bool initialized { get; set; }
         
         private int IndicesCount { get; set; }
-        private int VerticesCount { get; set; }
+        [JsonIgnore] public int VerticesCount { get; set; }
 
         public void InitBuffers(Material mat)
         {
