@@ -37,7 +37,7 @@ namespace ArchEngine.GUI.Editor.Windows
             ImGui.SetNextWindowSize(new Vector2(150, 300), ImGuiCond.FirstUseEver);
             ImGui.Begin("Hierarchy");
 
-            if (ImGui.BeginPopupContextWindow("HierarchyPopup"))
+            if (ImGui.BeginPopupContextWindow())
             {
                 if (ImGui.MenuItem("Add New Gameobject"))
                 {
@@ -45,21 +45,19 @@ namespace ArchEngine.GUI.Editor.Windows
                 }
                 if (ImGui.MenuItem("Delete selected Gameobject"))
                 {
-                    if (Editor.selectedGameobject != null)
+                    if (Editor.selectedGameobject.parent != null)
                     {
-                        if (Editor.selectedGameobject.parent != null)
-                        {
-                            Editor.selectedGameobject.parent.RemoveChild(Editor.selectedGameobject);
-                        }
-                        else
-                        {
-                            Window.activeScene.RemoveGameObject(Editor.selectedGameobject);
-                        }
-
-                        selected = -1;
+                        Editor.selectedGameobject.parent.RemoveChild(Editor.selectedGameobject);
                     }
+                    else
+                    {
+                        Window.activeScene.RemoveGameObject(Editor.selectedGameobject);
+                    }
+
+                    selected = -1;
+
                 }
-    
+
                 ImGui.EndPopup();
             }
             
@@ -268,9 +266,9 @@ namespace ArchEngine.GUI.Editor.Windows
                     else if (Editor.selectedGameobject.Equals(gameObject))
                     {
                         selected = index;
-                        
+                        needsSelectUpdate = false;
                     }
-                    needsSelectUpdate = false;
+                    
                 }
                 
 

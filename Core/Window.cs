@@ -41,8 +41,6 @@ namespace ArchEngine.Core
         public static bool started = false;
 
         public static Window instance;
-
-        private bool isWindowFocussed = true;
         
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
@@ -151,13 +149,6 @@ namespace ArchEngine.Core
         protected override void OnRenderFrame(FrameEventArgs e)
         {
 	        base.OnRenderFrame(e);
-	        if (!isWindowFocussed)
-	        {
-		        Thread.Sleep(50);
-		        return;
-	        }
-				
-
 
 	        GL.Enable(EnableCap.DepthTest);
 	        GL.DepthFunc(DepthFunction.Less);
@@ -323,13 +314,6 @@ namespace ArchEngine.Core
             base.OnMouseWheel(e);
 
             CameraManager.UpdateMouseWheelInput(e);
-        }
-        
-
-        protected override void OnFocusedChanged(FocusedChangedEventArgs e)
-        {
-	        base.OnFocusedChanged(e);
-	        isWindowFocussed = e.IsFocused;
         }
 
 
