@@ -28,7 +28,8 @@ namespace ArchEngine.Core.ECS.Components
             mesh = Primitives.Cube;
             Material mat = new Material();
             mat.Shader = ShaderManager.PbrShader;
-            mat.LoadTextures("Resources/Textures/wall");
+            mat.MaterialHash = "";
+            //mat.LoadTextures("Resources/Textures/wall");
             Material = mat;
         }
 

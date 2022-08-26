@@ -122,7 +122,8 @@ namespace ArchEngine.Core
             _log.Info("Initializing scene...");
             
             //activeScene = new EditorScene().AddDemo2();
-            activeScene = new EditorScene().AddDemo2();
+            activeScene = new VoxelScene();
+            
             //throw new Exception();
             Stopwatch sw = new Stopwatch();
             sw.Start();

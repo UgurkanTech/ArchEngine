@@ -78,7 +78,7 @@ namespace ArchEngine.Core.Rendering.Textures
             catch (Exception e)
             {
                 Console.WriteLine("Texture not found: " + path);
-                Console.WriteLine(e);
+                //Console.WriteLine(e);
                 return new Texture(0).SetUnit(textureUnit);
             }
 
@@ -153,7 +153,7 @@ namespace ArchEngine.Core.Rendering.Textures
                 catch (Exception e)
                 {
                     Console.WriteLine("Texture not found: " + FolderPath);
-                    Console.WriteLine(e);
+                    //Console.WriteLine(e);
                     return new Texture(0).SetUnit(TextureUnit.Texture0);
                 }
                 

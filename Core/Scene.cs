@@ -20,38 +20,40 @@ namespace ArchEngine.Core.ECS
         public void Init()
         {
             
-            foreach (var c in gameObjects)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
                 //_log.Info("Initializing gameobject: " + c.name);
-                c.Init();
+                gameObjects[i].Init();
             }
             
         }
         
         public void Start()
         {
-            foreach (var c in gameObjects)
+            isRunning = true;
+            for (int i = 0; i < gameObjects.Count; i++)
             {
                 //_log.Info("Starting gameobject: " + c.name);
-                c.Start();
+                gameObjects[i].Start();
             }
             
-            isRunning = true;
+            
         }
 
         public void Update()
         {
-            foreach (var c in gameObjects)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
-                c.Update();
+                //_log.Info("Updating gameobject: " + c.name);
+                gameObjects[i].Update();
             }
         }
         
         public void FixedUpdate()
         {
-            foreach (var c in gameObjects)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
-                c.FixedUpdate();
+                gameObjects[i].FixedUpdate();
             }
         }
         

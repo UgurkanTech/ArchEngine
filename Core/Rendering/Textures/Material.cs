@@ -48,6 +48,7 @@ namespace ArchEngine.Core.Rendering.Textures
         {
             MaterialHash = folderPath;
             albedoMap = TextureManager.LoadFromFile(folderPath + "/albedo.png", TextureUnit.Texture0, true, mag, min);
+            roughnessMap = TextureManager.LoadFromFile(folderPath + "/roughness.png", TextureUnit.Texture3,true, mag, min);
         }
 
 
