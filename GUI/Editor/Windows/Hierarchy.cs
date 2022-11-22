@@ -235,7 +235,7 @@ namespace ArchEngine.GUI.Editor.Windows
                     Icons.GetUV1FromID(gameObject.isActive ? 231 : 230),
                     Vector2.Zero, Vector4.Zero, Vector4.One))
             {
-                gameObject.isActive = false;
+                gameObject.isActive = !gameObject.isActive;
                 Console.WriteLine("clicked");
             }
 
