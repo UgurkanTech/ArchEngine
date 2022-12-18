@@ -43,7 +43,7 @@ namespace ArchEngine.Core.Rendering.Geometry
 
             if (mat.Shader == null)
             {
-                throw new Exception("No shader!!");
+                throw new Exception("No shader found!");
             }
             
             var vertexLocation = mat.Shader.GetAttribLocation("aPos");
