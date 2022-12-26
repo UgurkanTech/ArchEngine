@@ -67,7 +67,7 @@ namespace ArchEngine.Core.Rendering.Geometry
                 GL.BufferData(BufferTarget.ElementArrayBuffer, Indices.Length * sizeof(uint), Indices, BufferUsageHint.StaticDraw);
             }
             
-            Vertices = null;
+            //Vertices = null; //required for physics
             Indices = null;
             initialized = true;
         }

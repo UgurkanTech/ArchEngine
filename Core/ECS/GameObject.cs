@@ -72,9 +72,8 @@ namespace ArchEngine.Core.ECS
                 return;
             }
                 
-            
-            _components.Add(component);
             component.gameObject = this;
+            _components.Add(component);
         }
 
         public void AddChild(GameObject child)
