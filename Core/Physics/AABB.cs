@@ -25,8 +25,8 @@ namespace ArchEngine.Core.Physics
             {
                 Vector3 vertex = new Vector3(vertices[i], vertices[i + 1], vertices[i + 2]);
                 
-                vertex += gameobject.Transform.ExtractTranslation();
-                
+               // vertex += gameobject.Transform.ExtractTranslation();
+               
                 Min.X = Math.Min(Min.X, vertex.X);
                 Min.Y = Math.Min(Min.Y, vertex.Y);
                 Min.Z = Math.Min(Min.Z, vertex.Z);
@@ -42,6 +42,7 @@ namespace ArchEngine.Core.Physics
         //brute-force approach to broad-phase collision detection with AABBs
         public static bool IsCollidingBounds(AABB aabb, List<AABB> aabbList)
         {
+
             foreach (AABB aabb2 in aabbList)
             {
                 if (aabb.gameobject.name == aabb2.gameobject.name) continue; //self-collision
@@ -71,6 +72,9 @@ namespace ArchEngine.Core.Physics
                 float max1 = float.MinValue;
                 float min2 = float.MaxValue;
                 float max2 = float.MinValue;
+                
+
+                
                 for (int i = 0; i < vertices1.Length; i += 8)
                 {
                     Vector3 vertex = new Vector3(vertices1[i], vertices1[i + 1], vertices1[i + 2]);
@@ -108,23 +112,7 @@ namespace ArchEngine.Core.Physics
         };
         
         
-        Vector3[] TransformVertices(Vector3[] vertices, Matrix4 transform)
-        {
-            // Transform the vertices using the transformation matrix
-            Vector3[] transformedVertices = new Vector3[vertices.Length];
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                Vector3 transformedVertex;
-                Vector3 vertex = vertices[i];
-                transformedVertex.X = vertex.X * transform.M11 + vertex.Y * transform.M12 + vertex.Z * transform.M13 + transform.M14;
-                transformedVertex.Y = vertex.X * transform.M21 + vertex.Y * transform.M22 + vertex.Z * transform.M23 + transform.M24;
-                transformedVertex.Z = vertex.X * transform.M31 + vertex.Y * transform.M32 + vertex.Z * transform.M33 + transform.M34;
-                transformedVertices[i] = transformedVertex;
-                
-            }
-            return transformedVertices;
-        }
-        Vector3 TransformVertex(Vector3 vertex, Matrix4 transform)
+        static Vector3 TransformVertex(Vector3 vertex, Matrix4 transform)
         {
             // Transform the vertex using the transformation matrix
             Vector3 transformedVertex;
@@ -133,45 +121,44 @@ namespace ArchEngine.Core.Physics
             transformedVertex.Z = vertex.X * transform.M31 + vertex.Y * transform.M32 + vertex.Z * transform.M33 + transform.M34;
             return transformedVertex;
         }
-        
-        Vector3[] ScaleVertices(Vector3[] vertices, float scale)
+        static Vector3 ScaleVertices(Vector3 vertex, Vector3 scale)
         {
             // Create a transformation matrix for scaling
             Matrix4 transform = Matrix4.CreateScale(scale);
 
-            // Transform the vertices using the scaling matrix
-            Vector3[] scaledVertices = TransformVertices(vertices, transform);
-            return scaledVertices;
+            // Transform the vertex using the scaling matrix
+            Vector3 scaledVertex = TransformVertex(vertex, transform);
+            return scaledVertex;
         }
 
-        Vector3[] RotateVerticesX(Vector3[] vertices, float angle)
+        static Vector3 RotateVerticesX(Vector3 vertex, float angle)
         {
             // Create a transformation matrix for rotation around the x-axis
             Matrix4 transform = Matrix4.CreateRotationX(angle);
 
-            // Transform the vertices using the rotation matrix
-            Vector3[] rotatedVertices = TransformVertices(vertices, transform);
-            return rotatedVertices;
+            // Transform the vertex using the rotation matrix
+            Vector3 rotatedVertex = TransformVertex(vertex, transform);
+            return rotatedVertex;
         }
 
-        Vector3[] RotateVerticesY(Vector3[] vertices, float angle)
+        static Vector3 RotateVerticesY(Vector3 vertex, float angle)
         {
             // Create a transformation matrix for rotation around the y-axis
             Matrix4 transform = Matrix4.CreateRotationY(angle);
 
-            // Transform the vertices using the rotation matrix
-            Vector3[] rotatedVertices = TransformVertices(vertices, transform);
-            return rotatedVertices;
+            // Transform the vertex using the rotation matrix
+            Vector3 rotatedVertex = TransformVertex(vertex, transform);
+            return rotatedVertex;
         }
 
-        Vector3[] RotateVerticesZ(Vector3[] vertices, float angle)
+        static Vector3 RotateVerticesZ(Vector3 vertex, float angle)
         {
             // Create a transformation matrix for rotation around the z-axis
             Matrix4 transform = Matrix4.CreateRotationZ(angle);
 
-            // Transform the vertices using the rotation matrix
-            Vector3[] rotatedVertices = TransformVertices(vertices, transform);
-            return rotatedVertices;
+            // Transform the vertex using the rotation matrix
+            Vector3 rotatedVertex = TransformVertex(vertex, transform);
+            return rotatedVertex;
         }
     }
 }
