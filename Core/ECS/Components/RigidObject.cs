@@ -10,6 +10,7 @@ namespace ArchEngine.Core.Physics
     {
         public void Dispose()
         {
+            initialized = false;
         }
 
         public GameObject gameObject { get; set; }
@@ -37,9 +38,9 @@ namespace ArchEngine.Core.Physics
             Velocity += Acceleration.Divide(Window.FixedFps);
             Move();
         }
-       
 
-        private bool _UseGravity { get; set; }
+
+        private bool _UseGravity = false;
         [Inspector] public bool UseGravity
         {
             get

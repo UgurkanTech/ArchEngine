@@ -22,13 +22,13 @@ namespace ArchEngine.Core.ECS.Components
         
         public void Init()
         {
-            Aabb = new AABB();
-            Aabb.gameobject = gameObject;
+
 
         }
         public void Start()
         {
-            
+            Aabb = new AABB();
+            Aabb.gameobject = gameObject;
             MeshRenderer renderer = gameObject.GetComponent<MeshRenderer>();
             if (renderer == null)
             {

@@ -10,24 +10,14 @@ namespace ArchEngine
 {
     public class ACustomScript : Script
     {
-        
-        [Inspector] public float myFloat;
+        [Inspector] public float myFloat1;
+        [Inspector] public float myFloat2;
         [Inspector] public Vector3 myVector3;
         [Inspector][Range(0, 20)] public int myIntSlider;
-        [Inspector] public bool check;
-        [Inspector] public Color4 color;
-
-        public override void Update()
-        {
-
-        }
-
-       
-        public override void Start()
-        {
-           
-        }
-
+        [Inspector] public bool myCheckbox;
+        [Inspector] public Color4 myColor;
+        public override void Update() {}
+        public override void Start() {}
         public override void FixedUpdate()
         {
             Matrix4 mat = Matrix4.Identity;
@@ -38,11 +28,10 @@ namespace ArchEngine
             mat *= Matrix4.CreateTranslation(gameObject.Transform.ExtractTranslation());
 
             gameObject.Transform = mat;
-            myFloat = Runtime.CurrentRuntime;
+            myFloat1 = Runtime.CurrentRuntime;
         }
     }
 }
-
 
 public static class Runtime
 {

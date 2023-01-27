@@ -3,10 +3,6 @@ M
 Scenes/Voxel/MeshGenerator.cs,4\2\4203b8fc5a79b79126dd2726515dbe3b841f6837
 N
 Scenes/Voxel/BlockGenerator.cs,4\b\4b95ca6273409de3b4278902fc3a6c27a526f2f9
-S
-#Core/Rendering/Textures/Material.cs,b\d\bd793f84eec617d9d3a144bb9601e7e9e3a12594
-O
-Core/Rendering/Camera/Camera.cs,d\9\d92cc2debb02971e3c1c5757cc9115c660e99777
 V
 &Core/Rendering/Camera/CameraManager.cs,e\e\ee37548c944531d765658b4c6047763e0f6b1235
 U
@@ -17,11 +13,85 @@ Y
 )Core/Rendering/Geometry/FullScreenQuad.cs,5\5\55c35032748fc3bcf8369602a85c3af473599242
 H
 Core/Utils/Serializer.cs,b\1\b1bd175017557ac631b1aa984c0a43bda30ecb5d
-=
-Core/Scene.cs,e\e\ee560e8bac23dbd2364421fa189df7d68bda87e6
-D
-Core/AssetManager.cs,0\3\03741d0ebfce69a7fe0dae30614cc5574097f00d
-L
-Core/Utils/JsonConverters.cs,c\d\cda4a48c3bedb518014b543fa7031846be833aa9
 G
 Core/Utils/MathUtils.cs,9\c\9c91251104a62c190857c58f8cf9a2393d374fa7
+O
+Core/Rendering/ShaderManager.cs,e\f\ef8a6a67a0a072638b5fa0cba6f7e005c9a55f44
+H
+Core/Utils/Extensions.cs,3\3\330d15099503e370314306bc511169df6304cf05
+Z
+*Core/Rendering/Textures/CubemapMaterial.cs,1\b\1b45cc250aa713b9cf2f6ea8da4634a114eadf12
+E
+Scenes/Voxel/World.cs,7\8\78d639e6bbee588c541fa95a10604f20f425e370
+O
+Core/Rendering/Geometry/Cube.cs,3\9\392377b58bfdf250fe20c3e683707332665cc1c5
+G
+Core/Utils/Benchmark.cs,b\1\b1644bb1603e69faff31ea674f969defef26bcd3
+M
+Core/Rendering/IRenderable.cs,2\f\2f5264fdf8bf25d2034d4d730337ec4c81c541bf
+O
+GUI/Editor/Windows/Hierarchy.cs,1\6\1636e2d16a5b49109e4489adaab7a901f8fd7784
+7
+Arch.cs,3\e\3e35a7d79993ab8266523b10b0290035f2022f6b
+I
+Core/Utils/VectorUtils.cs,a\4\a4fbd59c59d8135cfcc82e7d1a12d032058a3fb5
+O
+Core/Rendering/Geometry/Mesh.cs,5\a\5a26851ce2ebcce46aae9ec7b0c7fe45208cc0c7
+H
+Core/Rendering/Shader.cs,0\e\0e5c856adfb21897cbdddc4165428c1e1a1e11cc
+R
+"Core/Rendering/Textures/Texture.cs,1\9\19d9166b4d2eeba302fbc0a2a2d68aeb2cd5a431
+R
+"Core/ECS/Components/RigidObject.cs,4\5\4543faa0ff1ba64b99f842caa2eb57695fa06587
+S
+#Core/ECS/Components/LineRenderer.cs,1\e\1e020cd2a730bde9bc2ee3f53ae40d05b8279dbd
+S
+#Core/Rendering/Textures/Material.cs,b\d\bd793f84eec617d9d3a144bb9601e7e9e3a12594
+Y
+)Core/Rendering/Textures/TextureManager.cs,2\a\2ac0109eae3f9426fc88871868fd6449f9a62ae1
+C
+Core/EditorScene.cs,5\4\547b8fa30c7aa2eaa2f86ca03353366d5f0d8661
+D
+Core/AssetManager.cs,0\3\03741d0ebfce69a7fe0dae30614cc5574097f00d
+]
+-Core/Utils/Serialization/SerializedMatrix4.cs,b\2\b2be7c7c340d4d120605c173f068fad47ec0eaba
+L
+Core/Utils/JsonConverters.cs,c\d\cda4a48c3bedb518014b543fa7031846be833aa9
+S
+#Core/Rendering/Text/FreeTypeFont.cs,1\4\14967846ca444001dee7b30032add67acc90486c
+=
+Core/Scene.cs,e\e\ee560e8bac23dbd2364421fa189df7d68bda87e6
+E
+Core/ECS/Component.cs,0\3\0345a8b34c91b3f03d31c28a3838d71b7f3e521b
+F
+Core/ECS/GameObject.cs,d\0\d024b44c8e63b243506809f007c3baf37948a42d
+>
+Core/Window.cs,5\a\5aa96f6ceb083a13ab401d27c909fce1abb24c2e
+S
+#Core/ECS/Components/MeshCollider.cs,e\3\e358806dd2e78fd1dc345b967f899a903d0eec52
+O
+Core/Rendering/Camera/Camera.cs,d\9\d92cc2debb02971e3c1c5757cc9115c660e99777
+H
+GUI/Editor/Attributes.cs,f\4\f41f2a1924aa7483034addbe65fe70eacd276b2c
+D
+Core/Physics/AABB.cs,3\b\3b4a98cd4316ea2adcbec0a2739ec3244572c385
+M
+Core/Rendering/Framebuffer.cs,2\5\25b1315c80f3970a35ba527daca5c873214670fa
+B
+Core/ECS/Script.cs,2\e\2e8c09a8cae01e167b98d1d3f421b2bf9dc80765
+@
+ACustomScript.cs,2\8\2890700c4118c1278ceff0457f4a0f91c45e0801
+M
+Resources/Shaders/skybox.frag,5\1\5137ead1a8588a173ef611ada47923eda28f0567
+M
+Resources/Shaders/skybox.vert,b\5\b585da2bf2f6d159854442acf9d5ebd216905677
+J
+Core/Rendering/Renderer.cs,5\2\52605bad6f842b0ab056e021af0135d2b26ff43f
+S
+#Core/ECS/Components/MeshRenderer.cs,f\5\f55f5007364a86c339004af20e012c61bf1370f9
+K
+Core/Physics/PhysicsCore.cs,c\4\c484ce41fa5ad40179e88f3cd983840b168c67c8
+O
+GUI/Editor/Windows/Inspector.cs,1\1\11a4953fac63dadd7ef29f18c1e6bb38a6ddf5f0
+U
+%Core/ECS/Components/SkyboxRenderer.cs,0\f\0fc6d6db57fa2c49726103d3479c974686b277cd

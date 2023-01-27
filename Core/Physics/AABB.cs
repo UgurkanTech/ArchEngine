@@ -52,10 +52,10 @@ namespace ArchEngine.Core.Physics
                 if (aabb.Min.Z > aabb2.Max.Z || aabb.Max.Z < aabb2.Min.Z) continue;
 
                 
-                Window._log.Warn("colliding!");
+                //Window._log.Warn("colliding!");
                 return isCollidingSAT(aabb, aabb2);
             }
-            Window._log.Warn("not colliding!");
+            //Window._log.Warn("not colliding!");
             return false;
         }
 
@@ -72,8 +72,6 @@ namespace ArchEngine.Core.Physics
                 float max1 = float.MinValue;
                 float min2 = float.MaxValue;
                 float max2 = float.MinValue;
-                
-
                 
                 for (int i = 0; i < vertices1.Length; i += 8)
                 {
@@ -114,7 +112,6 @@ namespace ArchEngine.Core.Physics
         
         static Vector3 TransformVertex(Vector3 vertex, Matrix4 transform)
         {
-            // Transform the vertex using the transformation matrix
             Vector3 transformedVertex;
             transformedVertex.X = vertex.X * transform.M11 + vertex.Y * transform.M12 + vertex.Z * transform.M13 + transform.M14;
             transformedVertex.Y = vertex.X * transform.M21 + vertex.Y * transform.M22 + vertex.Z * transform.M23 + transform.M24;
@@ -123,40 +120,33 @@ namespace ArchEngine.Core.Physics
         }
         static Vector3 ScaleVertices(Vector3 vertex, Vector3 scale)
         {
-            // Create a transformation matrix for scaling
-            Matrix4 transform = Matrix4.CreateScale(scale);
 
-            // Transform the vertex using the scaling matrix
+            Matrix4 transform = Matrix4.CreateScale(scale);
+            
             Vector3 scaledVertex = TransformVertex(vertex, transform);
             return scaledVertex;
         }
 
         static Vector3 RotateVerticesX(Vector3 vertex, float angle)
         {
-            // Create a transformation matrix for rotation around the x-axis
             Matrix4 transform = Matrix4.CreateRotationX(angle);
 
-            // Transform the vertex using the rotation matrix
             Vector3 rotatedVertex = TransformVertex(vertex, transform);
             return rotatedVertex;
         }
 
         static Vector3 RotateVerticesY(Vector3 vertex, float angle)
         {
-            // Create a transformation matrix for rotation around the y-axis
             Matrix4 transform = Matrix4.CreateRotationY(angle);
 
-            // Transform the vertex using the rotation matrix
             Vector3 rotatedVertex = TransformVertex(vertex, transform);
             return rotatedVertex;
         }
 
         static Vector3 RotateVerticesZ(Vector3 vertex, float angle)
         {
-            // Create a transformation matrix for rotation around the z-axis
             Matrix4 transform = Matrix4.CreateRotationZ(angle);
-
-            // Transform the vertex using the rotation matrix
+            
             Vector3 rotatedVertex = TransformVertex(vertex, transform);
             return rotatedVertex;
         }
