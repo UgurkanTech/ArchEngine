@@ -9,18 +9,31 @@
         <ApplicationIcon>arch.ico</ApplicationIcon>
         <Authors>Uğurkan Hoşgör</Authors>
         <Description>OpenGL Game Engine</Description>
+
+      <SelfContained>false</SelfContained>
+      <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+      <PublishSingleFile>true</PublishSingleFile>
+      <PublishReadyToRun>true</PublishReadyToRun>
+      
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <PlatformTarget>x64</PlatformTarget>
+      <Optimize>true</Optimize>
+      <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
       <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
 
+
     <ItemGroup>
       <PackageReference Include="AssimpNet" Version="4.1.0" />
+      <PackageReference Include="Costura.Fody" Version="5.7.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="freetype2" Version="2.6.0.1" />
       <PackageReference Include="log4net" Version="2.0.14" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -119,16 +132,10 @@
       <None Update="Resources\Shaders\lighting.frag">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="arch.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
       <None Update="Resources\Shaders\fullscreen.vert">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="Resources\Shaders\fullscreen.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="log4net.config">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="Libs\ImGui.NET.dll">
@@ -172,9 +179,6 @@
       </None>
       <None Update="Resources\Shaders\color.frag">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="runtimes\win-x64\native\cimgui.dll">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="runtimes\win-x86\native\cimgui.dll">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -287,20 +291,8 @@
       <None Update="Resources\Models\sword.fbx">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="runtimes\win-x64\native\FastNoise.dll">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
       <None Update="Resources\Textures\tiles\albedo.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="runtimes\win-x64\native\cimguizmo.dll">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Libs\Dlls\ImGui.NET.dll">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Libs\Dlls\ImGuizmo.NET.dll">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="Resources\Textures\tiles\roughness.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -308,6 +300,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="costura64" />
       <Folder Include="Resources\Textures\Skybox" />
       <Folder Include="Resources\Textures\tiles" />
     </ItemGroup>
@@ -317,18 +310,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="freetype6.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <Content Include="Resources\Textures\editoricons.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="AssemblyInfo.cs">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -339,4 +323,38 @@
         <HintPath>Libs\Dlls\ImGuizmo.NET.dll</HintPath>
       </Reference>
     </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Libs\Dlls\ImGuizmo.NET.dll" />
+      <EmbeddedResource Include="Libs\Dlls\ImGuizmo.NET.dll" />
+      <None Remove="Libs\Dlls\ImGui.NET.dll" />
+      <EmbeddedResource Include="Libs\Dlls\ImGui.NET.dll" />
+      <None Remove="costura64\cimgui.dll" />
+      <EmbeddedResource Include="costura64\cimgui.dll" />
+      <None Remove="costura64\cimguizmo.dll" />
+      <EmbeddedResource Include="costura64\cimguizmo.dll" />
+      <None Remove="costura64\cimnodes.dll" />
+      <EmbeddedResource Include="costura64\cimnodes.dll" />
+      <None Remove="costura64\cimplot.dll" />
+      <EmbeddedResource Include="costura64\cimplot.dll" />
+      <None Remove="costura64\FastNoise.dll" />
+      <EmbeddedResource Include="costura64\FastNoise.dll" />
+      <None Remove="costura64\assimp.dll" />
+      <EmbeddedResource Include="costura64\assimp.dll" />
+      <None Remove="costura64\glfw3.dll" />
+      <EmbeddedResource Include="costura64\glfw3.dll" />
+      <None Remove="costura64\System.Drawing.Common.dll" />
+      <None Remove="costura64\Microsoft.Win32.SystemEvents.dll" />
+      <None Remove="log4net.dll" />
+      <None Remove="costura64\freetype6.dll" />
+      <EmbeddedResource Include="costura64\freetype6.dll" />
+      <None Remove="costura64\log4net.dll" />
+      <None Remove="arch.png" />
+      <EmbeddedResource Include="arch.png" />
+      <None Remove="log4net.config" />
+      <EmbeddedResource Include="log4net.config">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+  
 </Project>

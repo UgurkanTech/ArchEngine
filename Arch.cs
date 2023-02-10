@@ -17,7 +17,9 @@ namespace ArchEngine
         
         static void Main(string[] args)
         {
-
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            System.IO.Stream file = assembly.GetManifestResourceStream("ArchEngine.log4net.config");
+            log4net.Config.XmlConfigurator.Configure(file);
             _log.Info("Arch Engine initializing...");
             var nativeWindowSettings = new NativeWindowSettings()
             {
