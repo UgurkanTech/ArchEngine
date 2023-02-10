@@ -17,7 +17,7 @@ using ArchEngine.GUI.ImGUI;
 using ArchEngine.Scenes.Voxel;
 using ImGuiNET;
 using ImGuizmoNET;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Common.Input;
@@ -48,6 +48,7 @@ namespace ArchEngine.Core
             : base(gameWindowSettings, nativeWindowSettings)
         {
 	        Window.instance = this;
+
         }
 
         public static Renderer _renderer;
@@ -63,6 +64,7 @@ namespace ArchEngine.Core
             
             _log.Info("Window loading...");
             
+            _log.Info("OpenGL " + APIVersion);
             
             GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -81,6 +83,7 @@ namespace ArchEngine.Core
             AssetManager.LoadEditor();
             
             _log.Info("Loading fonts...");
+            
             _font = new FreeTypeFont(64);
             
       

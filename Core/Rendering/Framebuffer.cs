@@ -25,9 +25,9 @@ namespace ArchEngine.Core.Rendering
             GL.BindTexture(TextureTarget.Texture2D, frameBufferTexture);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb,
                 PixelType.UnsignedByte, IntPtr.Zero);
-            GL.TextureParameter(frameBufferTexture, TextureParameterName.TextureMinFilter,
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
                 (int) TextureMinFilter.Linear);
-            GL.TextureParameter(frameBufferTexture, TextureParameterName.TextureMagFilter,
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
                 (int) TextureMagFilter.Linear);
 
 

@@ -112,7 +112,7 @@ namespace ArchEngine.Core
         
         public static void SaveScene()
         {
-            string path = @"D:\save.json";
+            string path = @"C:\save.json";
             Serializer.Save(Window.activeScene, path);
             _log.Info("Scene saved! (" + path + ")");
         }
@@ -123,7 +123,8 @@ namespace ArchEngine.Core
             Window.activeScene.Dispose();
 
             _log.Info("Loading new scene..");
-            Window.activeScene = Serializer.Load<Scene>("");
+            string path = @"C:\save.json";
+            Window.activeScene = Serializer.Load<Scene>(path);
             _log.Info("Initializing new scene..");
             RestoreScene();
             Window.activeScene.Init();

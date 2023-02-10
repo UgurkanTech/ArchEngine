@@ -91,8 +91,8 @@ namespace ArchEngine.GUI.Editor.Windows
         {
             
             
-            ImGui.SetNextWindowPos(new Vector2(25,100), ImGuiCond.FirstUseEver);
-            ImGui.SetNextWindowSize(new Vector2(150, 300), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowPos(new Vector2(55,100), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(new Vector2(350, 100), ImGuiCond.FirstUseEver);
             ImGui.Begin("Arch Console");
             
 

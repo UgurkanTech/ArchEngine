@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using ArchEngine.Core;
 using ArchEngine.Core.Rendering;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using SharpFont;
 
@@ -45,16 +46,17 @@ namespace ArchEngine.GUI
 
                     
                     int texObj = GL.GenTexture();
+                    
                     GL.BindTexture(TextureTarget.Texture2D, texObj);
                     GL.TexImage2D(TextureTarget.Texture2D, 0,
                                   PixelInternalFormat.R8, bitmap.Width, bitmap.Rows, 0,
                                   PixelFormat.Red, PixelType.UnsignedByte, bitmap.Buffer);
 
                     
-                    GL.TextureParameter(texObj, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                    GL.TextureParameter(texObj, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-                    GL.TextureParameter(texObj, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
-                    GL.TextureParameter(texObj, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
                     
                     
                     Character ch = new Character();

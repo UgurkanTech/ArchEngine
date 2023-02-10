@@ -35,7 +35,7 @@ namespace ArchEngine.Core.Utils
 
         public static T Load<T>(string path)
         {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(File.ReadAllText(@"D:\save.json"),
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(File.ReadAllText(path),
                 new Newtonsoft.Json.JsonSerializerSettings
                 {
                     NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
