@@ -45,15 +45,17 @@ namespace ArchEngine.GUI.Editor.Windows
                 }
                 if (ImGui.MenuItem("Delete selected Gameobject"))
                 {
-                    if (Editor.selectedGameobject.parent != null)
+                    if (Editor.selectedGameobject != null)
                     {
-                        Editor.selectedGameobject.parent.RemoveChild(Editor.selectedGameobject);
+                        if (Editor.selectedGameobject.parent != null)
+                        {
+                            Editor.selectedGameobject.parent.RemoveChild(Editor.selectedGameobject);
+                        }
+                        else
+                        {
+                            Window.activeScene.RemoveGameObject(Editor.selectedGameobject);
+                        }
                     }
-                    else
-                    {
-                        Window.activeScene.RemoveGameObject(Editor.selectedGameobject);
-                    }
-
                     selected = -1;
 
                 }

@@ -22,7 +22,23 @@ namespace ArchEngine.Core.Utils
         {
             return new Vector3(MathHelper.DegreesToRadians(other.X), MathHelper.DegreesToRadians(other.Y), MathHelper.DegreesToRadians(other.Z));
         }
-
+        
+        public static Vector3 Multiply(this Vector3 other, float a)
+        {
+            return new Vector3(other.X * a, other.Y * a, other.Z * a);
+        }
+        public static Vector3 Divide(this Vector3 other, float a)
+        {
+            return new Vector3(other.X / a, other.Y / a, other.Z / a);
+        }
+        public static Vector3 Multiply(this Vector3 other, double a)
+        {
+            return new Vector3((float) (other.X * a), (float) (other.Y * a), (float) (other.Z * a));
+        }
+        public static Vector3 Divide(this Vector3 other, double a)
+        {
+            return new Vector3((float) (other.X / a), (float) (other.Y / a), (float) (other.Z / a));
+        }
         public static Vector3 GetNonZero(this Vector3 other)
         {
             if (other.X == 0 || other.Y == 0 || other.Z == 0)

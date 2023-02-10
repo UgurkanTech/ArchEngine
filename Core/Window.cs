@@ -238,8 +238,8 @@ namespace ArchEngine.Core
         }
 
         
-        
-        static double _limitFps = 1.0 / 30.0; //Physics fps
+        public static double FixedFps = 50.0; //Physics fps
+        static double _limitFps = 1.0 / FixedFps;
 
         double _lastTime = GLFW.GetTime(), _nowTime = 0, _timer = 0, _delta = 0;
 
