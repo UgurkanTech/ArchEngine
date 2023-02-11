@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 public static class BlockGenerator
 {
     static FastNoise noise = new FastNoise("Simplex");

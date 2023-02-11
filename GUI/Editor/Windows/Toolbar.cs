@@ -12,7 +12,7 @@ namespace ArchEngine.GUI.Editor.Windows
         public static void Draw()
         {
             ImGui.SetNextWindowSize(new Vector2(370, 35), ImGuiCond.FirstUseEver);
-            if (ImGui.Begin("Tools", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoScrollbar |ImGuiWindowFlags.NoTitleBar))
+            if (ImGui.Begin("Tools",  ImGuiWindowFlags.NoScrollbar))
             {
                 ImGui.Columns(3);
                

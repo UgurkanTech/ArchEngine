@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ArchEngine.Core;
 using ArchEngine.Core.Rendering;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;

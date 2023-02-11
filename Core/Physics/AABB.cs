@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ArchEngine.Core.ECS;
-using ArchEngine.Scenes.Voxel;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Physics

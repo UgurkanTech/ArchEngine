@@ -1,16 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using ArchEngine.Core.Rendering;
-using ArchEngine.Core.Rendering.Camera;
-using ArchEngine.GUI;
-using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-
-namespace ArchEngine.Core
+﻿namespace ArchEngine.Core
 {
 #if false
     public class TestWindow: GameWindow

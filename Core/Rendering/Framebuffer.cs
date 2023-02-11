@@ -1,5 +1,4 @@
 ﻿using System;
-using ArchEngine.Core.Rendering.Geometry;
 using OpenTK.Graphics.OpenGL;
 
 namespace ArchEngine.Core.Rendering

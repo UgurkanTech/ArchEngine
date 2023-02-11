@@ -1,11 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Configuration;
-using System.Numerics;
-using ArchEngine.Core.Rendering;
+﻿using ArchEngine.Core.Rendering;
 using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.Core.Rendering.Textures;
-using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor;
 using Newtonsoft.Json;
 

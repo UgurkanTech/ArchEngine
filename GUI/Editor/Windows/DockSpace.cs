@@ -1,12 +1,6 @@
-﻿using System;
-using System.Reflection;
-using ArchEngine.Core;
-using ArchEngine.Core.ECS;
-using ArchEngine.GUI.Editor.Windows;
+﻿using ArchEngine.Core;
 using ImGuiNET;
-using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using Scene = ArchEngine.GUI.Editor.Windows.Scene;
 
 namespace ArchEngine.GUI.Editor.Windows
 {

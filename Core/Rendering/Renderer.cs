@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.GUI.Editor;
-using ArchEngine.GUI.Editor.Windows;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 

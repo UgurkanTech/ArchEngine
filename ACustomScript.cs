@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.Design;
-using System.Drawing;
+﻿using System.ComponentModel.DataAnnotations;
 using ArchEngine.Core.ECS;
 using ArchEngine.GUI.Editor;
 using OpenTK.Mathematics;

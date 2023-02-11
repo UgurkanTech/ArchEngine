@@ -1,5 +1,4 @@
 ﻿using ArchEngine.Core.Rendering.Textures;
-using ArchEngine.GUI.Editor;
 using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;

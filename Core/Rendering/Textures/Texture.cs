@@ -1,8 +1,5 @@
-﻿using System.Drawing;
-using System.Drawing.Imaging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL4;
-using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
 namespace ArchEngine.Core.Rendering.Textures
 {

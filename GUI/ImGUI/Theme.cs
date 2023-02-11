@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Runtime.CompilerServices;
-using ImGuiNET;
-using OpenTK.Graphics.ES11;
+﻿using ImGuiNET;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.GUI.ImGUI

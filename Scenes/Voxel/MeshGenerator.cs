@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using OpenTK.Mathematics;
 
 public class MeshGenerator

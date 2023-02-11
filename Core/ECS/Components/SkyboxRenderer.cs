@@ -1,5 +1,4 @@
-﻿using System;
-using ArchEngine.Core.Rendering;
+﻿using ArchEngine.Core.Rendering;
 using ArchEngine.Core.Rendering.Textures;
 using OpenTK.Mathematics;
 

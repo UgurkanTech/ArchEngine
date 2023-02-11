@@ -1,7 +1,5 @@
 ﻿using System;
-using ArchEngine.Core.ECS;
 using ArchEngine.Core.Rendering.Textures;
-using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering

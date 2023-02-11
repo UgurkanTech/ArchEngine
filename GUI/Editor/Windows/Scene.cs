@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 using ArchEngine.Core;
-using ArchEngine.Core.ECS;
-using ArchEngine.Core.Utils;
-using ArchEngine.GUI.Editor.Windows;
 using ImGuiNET;
-using ImGuizmoNET;
-using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using Quaternion = OpenTK.Mathematics.Quaternion;
 
 namespace ArchEngine.GUI.Editor.Windows
 {

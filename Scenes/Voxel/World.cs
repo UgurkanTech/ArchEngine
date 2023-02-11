@@ -1,10 +1,7 @@
 ﻿using ArchEngine.Core.ECS;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using ArchEngine.Core;
-using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Rendering;
 using ArchEngine.Core.Rendering.Geometry;

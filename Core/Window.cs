@@ -1,29 +1,19 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Threading;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Rendering;
 using ArchEngine.Core.Rendering.Camera;
-using ArchEngine.Core.Rendering.Geometry;
-using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.GUI;
 using ArchEngine.GUI.Editor;
 using ArchEngine.GUI.ImGUI;
 using ArchEngine.Scenes.Voxel;
 using ImGuiNET;
-using ImGuizmoNET;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Common.Input;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using Texture = ArchEngine.Core.Rendering.Textures.Texture;
 
 namespace ArchEngine.Core
 {
@@ -132,7 +122,9 @@ namespace ArchEngine.Core
             sw.Start();
             activeScene.Init();
             sw.Stop();
-            Console.WriteLine("Scene Init: " + sw.ElapsedMilliseconds);
+     
+            _log.Info("Scene initialization took: " + sw.ElapsedMilliseconds + "ms");
+            
             
             new Editor();
             _log.Info("Arch Engine started!");

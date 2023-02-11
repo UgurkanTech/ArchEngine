@@ -1,10 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using ArchEngine.Core.ECS;
-using ArchEngine.Core.Utils;
-using ArchEngine.GUI.Editor;
-using Newtonsoft.Json;
-using OpenTK.Mathematics;
+﻿using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering.Camera
 {

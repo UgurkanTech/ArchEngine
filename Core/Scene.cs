@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using ArchEngine.Core.ECS.Components;
-using ArchEngine.Core.Rendering;
-using ArchEngine.Core.Rendering.Geometry;
-using ArchEngine.Core.Rendering.Textures;
 
 namespace ArchEngine.Core.ECS
 {

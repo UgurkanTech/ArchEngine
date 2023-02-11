@@ -1,5 +1,4 @@
-﻿using ArchEngine.Core.ECS;
-using ArchEngine.Core.Rendering.Textures;
+﻿using ArchEngine.Core.Rendering.Textures;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 

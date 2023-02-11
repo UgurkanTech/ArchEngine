@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using ArchEngine.Core;
-using ArchEngine.Core.ECS;
-using ArchEngine.Core.ECS.Components;
-using ArchEngine.Core.Rendering;
-using ArchEngine.Core.Rendering.Geometry;
-using ArchEngine.Core.Rendering.Textures;
-using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
+﻿using ArchEngine.Core.ECS;
 
 namespace ArchEngine.Scenes.Voxel
 {

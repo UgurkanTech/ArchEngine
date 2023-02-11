@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 using ArchEngine.Core;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Common.Input;
 using OpenTK.Windowing.Desktop;
-using Image = OpenTK.Windowing.Common.Input.Image;
 
 namespace ArchEngine
 {
@@ -38,7 +33,7 @@ namespace ArchEngine
 
             using var window = new Window(GameWindowSettings.Default, nativeWindowSettings);
             window.VSync = VSyncMode.Adaptive;
-            window.Location = new Vector2i(1920 / 2 - 400, 1080 / 2 - 300);
+            //window.Location = new Vector2i(1920 / 2 - 400, 1080 / 2 - 300);
             _log.Info("Creating window...");
             window.Run();
         }

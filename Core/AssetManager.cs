@@ -2,29 +2,16 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text.Json;
 using ArchEngine.Core.ECS;
-using ArchEngine.Core.Rendering.Camera;
 using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor;
 using Assimp;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
 using OpenTK.Windowing.Common.Input;
-using Camera = ArchEngine.Core.Rendering.Camera.Camera;
-using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 using Mesh = ArchEngine.Core.Rendering.Geometry.Mesh;
 using Scene = ArchEngine.Core.ECS.Scene;
 
@@ -45,7 +32,7 @@ namespace ArchEngine.Core
         public static WindowIcon LoadWindowIconFromFile(string path)
         {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream file = assembly .GetManifestResourceStream("ArchEngine." + path);
+            System.IO.Stream file = assembly.GetManifestResourceStream("ArchEngine." + path);
             using var image = new Bitmap(file);
             var data = image.LockBits(
                 new Rectangle(0, 0, image.Width, image.Height), 

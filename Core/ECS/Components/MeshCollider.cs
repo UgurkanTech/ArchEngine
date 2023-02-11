@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using ArchEngine.Core.Physics;
+﻿using ArchEngine.Core.Physics;
 using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.GUI.Editor;
 

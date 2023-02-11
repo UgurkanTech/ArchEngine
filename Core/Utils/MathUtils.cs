@@ -1,7 +1,4 @@
-﻿using System;
-using ArchEngine.Core.Rendering.Camera;
-using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
+﻿using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Utils
 {

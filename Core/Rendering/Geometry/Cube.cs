@@ -1,12 +1,4 @@
-﻿using System.Configuration;
-using ArchEngine.Core.ECS;
-using ArchEngine.Core.Rendering.Textures;
-using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType;
-
-namespace ArchEngine.Core.Rendering.Geometry
+﻿namespace ArchEngine.Core.Rendering.Geometry
 {
     public class Cube : Mesh
     {

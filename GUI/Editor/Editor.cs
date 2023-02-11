@@ -1,16 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using ArchEngine.Core;
+﻿using ArchEngine.Core;
 using ArchEngine.Core.ECS;
-using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.GUI.Editor.Windows;
 using ImGuiNET;
-using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using static ArchEngine.GUI.Editor.Attributes;
-using GL = OpenTK.Graphics.ES11.GL;
 using Scene = ArchEngine.GUI.Editor.Windows.Scene;
 using Window = ArchEngine.Core.Window;
 
@@ -24,6 +16,7 @@ namespace ArchEngine.GUI.Editor
         public Editor()
         {
             new ConsoleWindow();
+            new AssetsWindow();
             Icons.LoadIcons();
         }
         
@@ -38,6 +31,8 @@ namespace ArchEngine.GUI.Editor
             
             ConsoleWindow.Draw();
 
+            AssetsWindow.Draw();
+            
             ImGui.BeginMainMenuBar();
             if (ImGui.BeginMenu("File"))
             {

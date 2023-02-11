@@ -1,8 +1,6 @@
 ﻿using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Rendering;
-using ArchEngine.Core.Rendering.Camera;
-using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.Core.Rendering.Textures;
 using OpenTK.Mathematics;
 
