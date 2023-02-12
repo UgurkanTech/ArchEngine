@@ -36,6 +36,7 @@
       </PackageReference>
       <PackageReference Include="freetype2" Version="2.6.0.1" />
       <PackageReference Include="log4net" Version="2.0.14" />
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
       <PackageReference Include="OpenTK" Version="4.7.5" />
       <PackageReference Include="OpenTK.Windowing.Desktop" Version="4.7.5" />

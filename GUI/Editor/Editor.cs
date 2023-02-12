@@ -1,4 +1,6 @@
-﻿using ArchEngine.Core;
+﻿using System;
+using System.Threading;
+using ArchEngine.Core;
 using ArchEngine.Core.ECS;
 using ArchEngine.GUI.Editor.Windows;
 using ImGuiNET;
@@ -13,13 +15,75 @@ namespace ArchEngine.GUI.Editor
 
         public static GameObject selectedGameobject;
 
+        public static FileSystemWatcherClass fileSystemWatcherClass;
+
+        public enum EditorState
+        {
+            NeedsCompiling,
+            Compiling,
+            Idle,
+            Playing
+        }
+
+        public static EditorState state = EditorState.NeedsCompiling;
+
+        private static bool filesChanged = false;
+        public static bool windowFocussedNew = false;
+        public static RuntimeCompiler<Script> compiler;
+
+        public static string projectDir = @"C:\Users\saw\Desktop\Scripts";
         public Editor()
         {
+            fileSystemWatcherClass = new FileSystemWatcherClass(projectDir);
+            fileSystemWatcherClass.Start();
             new ConsoleWindow();
-            new AssetsWindow();
+            new AssetsWindow(projectDir);
+            fileSystemWatcherClass.onChangeEvent += AssetsWindow.UpdateFolder;
+            fileSystemWatcherClass.onChangeEvent += UpdateScripts;
+            
+            compiler = new RuntimeCompiler<Script>();
+            
+            
+
             Icons.LoadIcons();
         }
-        
+
+        public static void UpdateScripts(object sender, EventArgs e)
+        {
+            filesChanged = true;
+        }
+
+        public static void EditorUpdate()
+        {
+            if (filesChanged && windowFocussedNew)
+            {
+                windowFocussedNew = false;
+                filesChanged = false;
+                state = EditorState.NeedsCompiling;
+            }
+
+            if (state == EditorState.NeedsCompiling)
+            {
+                state = EditorState.Compiling;
+                new Thread(() =>
+                {
+                    try
+                    {
+                        compiler.UnLoad();
+                        compiler.Compile(projectDir);
+                        compiler.Load();
+                        Console.WriteLine("Scripts are compiled!");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }  
+                }).Start();
+
+                state = EditorState.Idle;
+            }
+        }
+
         public static void DrawEditor()
         {
             DockSpace.Draw();

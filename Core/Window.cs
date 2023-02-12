@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
@@ -32,7 +33,7 @@ namespace ArchEngine.Core
 
         public static Window instance;
 
-        private bool isWindowFocussed = true;
+        public static bool isWindowFocussed = true;
         
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
@@ -250,7 +251,7 @@ namespace ArchEngine.Core
             {
                 return;
             }
-
+			Editor.EditorUpdate();
             var input = KeyboardState;
             var mouse = MouseState;
             
@@ -326,6 +327,8 @@ namespace ArchEngine.Core
         {
 	        base.OnFocusedChanged(e);
 	        isWindowFocussed = e.IsFocused;
+	        Editor.windowFocussedNew = e.IsFocused;
+
         }
 
 
