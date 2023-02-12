@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using ArchEngine.Core;
 using ArchEngine.Core.ECS;
@@ -34,6 +35,12 @@ namespace ArchEngine.GUI.Editor
         public static string projectDir = @"C:\Users\saw\Desktop\Scripts";
         public Editor()
         {
+            if (!Directory.Exists(projectDir))
+            {
+                projectDir = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                state = EditorState.Compiling; //do not compile
+            }
+            
             fileSystemWatcherClass = new FileSystemWatcherClass(projectDir);
             fileSystemWatcherClass.Start();
             new ConsoleWindow();
@@ -59,7 +66,11 @@ namespace ArchEngine.GUI.Editor
             {
                 windowFocussedNew = false;
                 filesChanged = false;
-                state = EditorState.NeedsCompiling;
+                if (state == EditorState.Idle)
+                {
+                    state = EditorState.NeedsCompiling;
+                }
+                
             }
 
             if (state == EditorState.NeedsCompiling)
