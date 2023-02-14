@@ -14,6 +14,7 @@ namespace ArchEngine.GUI.Editor
             if (dialog.Run() == (int)ResponseType.Accept)
             {
                 Console.WriteLine("Selected folder: " + dialog.Filename);
+            }
 
             dialog.Destroy();
             Application.Run();
