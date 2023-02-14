@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 using ArchEngine.GUI.Editor;
 using ImGuizmoNET;
 using OpenTK.Mathematics;
@@ -59,7 +60,16 @@ namespace ArchEngine.GUI.ImGUI
             io.BackendFlags |= ImGuiBackendFlags.HasMouseCursors;
             io.BackendFlags |= ImGuiBackendFlags.HasSetMousePos;
 
+            //ImGui.LoadIniSettingsFromDisk("layout.ini");
 
+            //mGui.LoadIniSettingsFromMemory();
+            unsafe
+            {
+                fixed (byte* p = Encoding.UTF8.GetBytes("layout.ini"))
+                {
+                    io.NativePtr->IniFilename = p;
+                }
+            }
             
             //ImGuizmo.BeginFrame(); 
             
