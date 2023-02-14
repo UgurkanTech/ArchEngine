@@ -3,10 +3,13 @@ using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using ArchEngine.GUI.Editor;
 using ImGuizmoNET;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using ResourceStream = ArchEngine.GUI.Editor.ResourceStream;
 using Window = ArchEngine.Core.Window;
 
 namespace ArchEngine.GUI.ImGUI
@@ -211,12 +214,15 @@ void main()
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-brands-400.ttf", 13, nativeConfig);
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-solid-900.ttf", 13, nativeConfig);
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/Sweet16mono.ttf", 13, nativeConfig);
-                ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/Ruda-Bold.ttf", 13f, nativeConfig);
+                //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/Ruda-Bold.ttf", 13f, nativeConfig);
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-regular-400.ttf", 13f, nativeConfig);
                 
                 //(*nativeConfig).MergeMode = 1;
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-regular-400.ttf", 13f, nativeConfig);
-                
+                var bytes = new ResourceStream("Resources/Fonts/Ruda-Bold.ttf", null).GetBytes();
+                IntPtr fontDataPointer = Marshal.AllocHGlobal(bytes.Length);
+                Marshal.Copy(bytes, 0, fontDataPointer, bytes.Length);
+                ImGui.GetIO().Fonts.AddFontFromMemoryTTF(fontDataPointer, 13,13f, nativeConfig);
 
                 //ImGuiNative.ImFontConfig_destroy(nativeConfig);
                

@@ -115,9 +115,21 @@ namespace ArchEngine.GUI.Editor.Windows
                 ImGui.OpenPopup("Options");
             }
 
-  
 
             
+            ImGui.SameLine();
+
+            ImGui.BeginChild("ErrorChild", new Vector2(0, 20));
+            ImGui.SetCursorPosY(3);
+            
+            
+            ImGui.Text("Status: " + Editor.state);
+            
+            ImGui.SameLine();
+            int errors = Editor.compiler.errorsCount;
+            ImGui.TextColored(errors == 0 ? new Vector4(0,1,0,1) : new Vector4(1,0,0,1), "Compiler Errors: " + errors);
+
+            ImGui.EndChild();
             
             //ImGui.TextWrapped("Console window");
             

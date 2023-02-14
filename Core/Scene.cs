@@ -11,6 +11,8 @@ namespace ArchEngine.Core.ECS
         
         public List<GameObject> gameObjects = new List<GameObject>(5);
         private bool isRunning = false;
+
+
         
         public void Init()
         {

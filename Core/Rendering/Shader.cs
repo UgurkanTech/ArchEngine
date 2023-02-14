@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using ArchEngine.GUI.Editor;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 
@@ -30,7 +31,7 @@ namespace ArchEngine.Core.Rendering
             //   The fragment shader is what we'll be using the most here.
 
             // Load vertex shader and compile
-            var shaderSource = File.ReadAllText(vertPath);
+            var shaderSource = new ResourceStream(vertPath, null).GetString();
 
             // GL.CreateShader will create an empty shader (obviously). The ShaderType enum denotes which type of shader will be created.
             var vertexShader = GL.CreateShader(ShaderType.VertexShader);
@@ -42,7 +43,7 @@ namespace ArchEngine.Core.Rendering
             CompileShader(vertexShader);
 
             // We do the same for the fragment shader.
-            shaderSource = File.ReadAllText(fragPath);
+            shaderSource = new ResourceStream(fragPath, null).GetString();
             var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
             GL.ShaderSource(fragmentShader, shaderSource);
             CompileShader(fragmentShader);

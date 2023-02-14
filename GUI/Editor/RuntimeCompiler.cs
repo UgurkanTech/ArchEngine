@@ -18,6 +18,8 @@ namespace ArchEngine.GUI.Editor
     private AssemblyLoadContext context;
     private WeakReference contextWeak;
 
+    public int errorsCount = 0;
+
     public List<T> GetObjects()
     {
         return typeObjects;
@@ -47,9 +49,9 @@ namespace ArchEngine.GUI.Editor
         Console.WriteLine(typeObjects.Count + " Objects are loaded.");
     }
    
-    public void Compile(string scriptFolder) 
+    public void Compile(string scriptFolder)
     {
-       
+        errorsCount = 0;
         Console.WriteLine("Compiling scripts..");
         Stopwatch stopWatch = new Stopwatch();
         stopWatch.Start();
@@ -59,7 +61,9 @@ namespace ArchEngine.GUI.Editor
         string[] scripts = new string[scriptFiles.Length];
         for (int i = 0; i < scriptFiles.Length; i++)
         {
+
             scripts[i] = "//" + scriptFiles[i] + "\n" + File.ReadAllText(scriptFiles[i]);
+
         }
 
         // Compile the scripts into an assembly
@@ -68,15 +72,20 @@ namespace ArchEngine.GUI.Editor
         {
             syntaxTrees[i] = CSharpSyntaxTree.ParseText(scripts[i]);
         }
-    
-        string currentNamespaceAssemblyLocation = Assembly.GetExecutingAssembly().Location;
+        
+        //string currentNamespaceAssemblyLocation = Assembly.GetExecutingAssembly().Location;
+        
+        var assembly2 = Assembly.GetExecutingAssembly();
+        var path = assembly2.CodeBase;
+        var uri = new UriBuilder(path).Uri;
+        //Console.WriteLine("path:" + uri.LocalPath);
         var references = new List<MetadataReference>
         {
             MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(System.Console).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(System.Runtime.AssemblyTargetedPatchBandAttribute).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo).Assembly.Location),
-            MetadataReference.CreateFromFile(currentNamespaceAssemblyLocation)
+            MetadataReference.CreateFromFile(uri.LocalPath)
         };
 
         Assembly.GetEntryAssembly().GetReferencedAssemblies().ToList().ForEach(a =>
@@ -99,7 +108,7 @@ namespace ArchEngine.GUI.Editor
                 Console.WriteLine("Compilation failed with errors:");
                 foreach (var diagnostic in result.Diagnostics)
                 {
-                    
+                    errorsCount++;
                     var source = diagnostic.Location.SourceTree.ToString();
                     var fileName = new string(source.TakeWhile(c => c != '\n').ToArray()).Substring(2);
                     var line = diagnostic.Location.GetLineSpan().StartLinePosition;

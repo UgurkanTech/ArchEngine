@@ -9,7 +9,7 @@ namespace ArchEngine.GUI.Editor.Windows
     {
         public static Vector2 MouseScenePos;
         public static Vector2i SceneSize;
-
+        public static bool isFocussed = false;
         private static int frameCounter = 0;
         
         public static void Draw()
@@ -62,7 +62,17 @@ namespace ArchEngine.GUI.Editor.Windows
             {
                 ObjectSelecter.SelectObject();
             }
-            
+            else
+            {
+                isFocussed = false;
+            }
+
+            if (ImGui.IsWindowHovered() && (ImGui.IsMouseDown(ImGuiMouseButton.Left) || ImGui.IsMouseDown(ImGuiMouseButton.Right)))
+            {
+                isFocussed = true;
+            }
+
+
             Gizmo.Draw();
             
             ImGui.End();

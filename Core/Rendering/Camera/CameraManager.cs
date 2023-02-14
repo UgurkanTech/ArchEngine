@@ -1,4 +1,5 @@
-﻿using OpenTK.Mathematics;
+﻿using ArchEngine.GUI.Editor.Windows;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
@@ -25,33 +26,35 @@ namespace ArchEngine.Core.Rendering.Camera
             
             EditorCamera.Update();
 
-            if (input.IsKeyDown(Keys.W))
+            if (Scene.isFocussed)
             {
-                EditorCamera.Position += EditorCamera.Front * cameraSpeed * (float)e.Time; // Forward
+                if (input.IsKeyDown(Keys.W))
+                {
+                    EditorCamera.Position += EditorCamera.Front * cameraSpeed * (float)e.Time; // Forward
+                }
+
+                if (input.IsKeyDown(Keys.S))
+                {
+                    EditorCamera.Position -= EditorCamera.Front * cameraSpeed * (float)e.Time; // Backwards
+                }
+                if (input.IsKeyDown(Keys.A))
+                {
+                    EditorCamera.Position -= EditorCamera.Right * cameraSpeed * (float)e.Time; // Left
+                }
+                if (input.IsKeyDown(Keys.D))
+                {
+                    EditorCamera.Position += EditorCamera.Right * cameraSpeed * (float)e.Time; // Right
+                }
+                if (input.IsKeyDown(Keys.LeftShift))
+                {
+                    EditorCamera.Position += EditorCamera.Up * cameraSpeed * (float)e.Time; // Up
+                }
+                if (input.IsKeyDown(Keys.LeftControl))
+                {
+                    EditorCamera.Position -= EditorCamera.Up * cameraSpeed * (float)e.Time; // Down
+                }
                 
             }
-
-            if (input.IsKeyDown(Keys.S))
-            {
-                EditorCamera.Position -= EditorCamera.Front * cameraSpeed * (float)e.Time; // Backwards
-            }
-            if (input.IsKeyDown(Keys.A))
-            {
-                EditorCamera.Position -= EditorCamera.Right * cameraSpeed * (float)e.Time; // Left
-            }
-            if (input.IsKeyDown(Keys.D))
-            {
-                EditorCamera.Position += EditorCamera.Right * cameraSpeed * (float)e.Time; // Right
-            }
-            if (input.IsKeyDown(Keys.LeftShift))
-            {
-                EditorCamera.Position += EditorCamera.Up * cameraSpeed * (float)e.Time; // Up
-            }
-            if (input.IsKeyDown(Keys.LeftControl))
-            {
-                EditorCamera.Position -= EditorCamera.Up * cameraSpeed * (float)e.Time; // Down
-            }
-            
 
             if (_firstMove)
             {
@@ -66,9 +69,14 @@ namespace ArchEngine.Core.Rendering.Camera
 
                 if (mouse.IsButtonDown(MouseButton.Button2))
                 {
-                    // Apply the camera pitch and yaw (we clamp the pitch in the camera class)
-                    EditorCamera.Yaw += deltaX * sensitivity;
-                    EditorCamera.Pitch -= deltaY * sensitivity; // Reversed since y-coordinates range from bottom to top
+                    if (Scene.isFocussed)
+                    {
+                        // Apply the camera pitch and yaw (we clamp the pitch in the camera class)
+                        EditorCamera.Yaw += deltaX * sensitivity;
+                        EditorCamera.Pitch -= deltaY * sensitivity; // Reversed since y-coordinates range from bottom to top
+                    }
+
+
                 }
             }
             
@@ -76,7 +84,11 @@ namespace ArchEngine.Core.Rendering.Camera
 
         public static void UpdateMouseWheelInput(MouseWheelEventArgs e)
         {
-            EditorCamera.Fov -= e.OffsetY;
+            if (Scene.isFocussed)
+            {
+                EditorCamera.Fov -= e.OffsetY;
+            }
+            
         }
 
     }

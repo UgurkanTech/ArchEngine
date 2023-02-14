@@ -15,7 +15,7 @@ namespace ArchEngine.GUI.Editor
         private static Vector2 tileSize = new Vector2(19, 19);
         public static void LoadIcons()
         {
-            _texture = TextureManager.LoadFromFile("Resources/Textures/editoricons.png");
+            _texture = TextureManager.LoadFromFile("Resources/Textures/Editor/editoricons.png");
         }
 
         public static Vector2 GetUV1FromID(int id)

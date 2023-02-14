@@ -9,7 +9,8 @@
         <ApplicationIcon>arch.ico</ApplicationIcon>
         <Authors>Uğurkan Hoşgör</Authors>
         <Description>OpenGL Game Engine</Description>
-
+      <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+      <SatelliteResourceLanguages>none</SatelliteResourceLanguages>
       <SelfContained>false</SelfContained>
       <RuntimeIdentifier>win-x64</RuntimeIdentifier>
       <PublishSingleFile>true</PublishSingleFile>
@@ -35,6 +36,7 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="freetype2" Version="2.6.0.1" />
+      <PackageReference Include="GtkSharp" Version="3.24.24.38" />
       <PackageReference Include="log4net" Version="2.0.14" />
       <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -46,258 +48,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Shaders\shader.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Shaders\shader.vert">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Shaders\text.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Shaders\text.vert">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\shader.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\shader.vert">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\text.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\text.vert">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\container.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Fonts\FreeSans.ttf">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
       <None Remove="global.json" />
       <None Remove="README.md" />
       <None Remove=".gitignore" />
-      <None Update="Resources\Textures\wall\normal.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\wall\metallic.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\wall\ao.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\wall\albedo.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\wall\roughness.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\pbr.frag">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\pbr.vert">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\background.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\background.vert">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\irradiance.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\cubemap.vert">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\equirectangular.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\prefilter.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\brdf.vert">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\brdf.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\HDR\back.hdr">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\HDR\back.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\lighting.frag">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\fullscreen.vert">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\fullscreen.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Libs\ImGui.NET.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Libs\ImGuizmo.NET.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Libs\ImNodes.NET.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Libs\ImPlot.NET.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Fonts\arial.ttf">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Fonts\fa-solid-900.ttf">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Fonts\fa-regular-400.ttf">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Fonts\fa-brands-400.ttf">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Fonts\OpenFontIcons.ttf">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Fonts\Sweet16mono.ttf">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Fonts\Ruda-Bold.ttf">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\Editor\cube.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\Editor\cube2.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\color.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="runtimes\win-x86\native\cimgui.dll">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="runtimes\win-x86\native\cimguizmo.dll">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="runtimes\win-x86\native\cimnodes.dll">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="runtimes\win-x86\native\cimplot.dll">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\cubemap.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\skybox.vert">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Shaders\skybox.frag">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\Skybox\back.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\Skybox\bottom.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\Skybox\front.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\Skybox\left.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\Skybox\right.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\Skybox\top.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Models\Backpack\backpack.obj">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Models\Backpack\sword.fbx">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Models\Backpack\f16.fbx">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\plastic\albedo.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\plastic\ao.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\plastic\metallic.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\plastic\normal.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\plastic\roughness.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Models\Backpack\shading_scene.fbx">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Models\Backpack\cube.fbx">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\grid\albedo.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\rustediron\albedo.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Models\Backpack\Cessna172.fbx">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\backpack\roughness.jpg" />
-      <None Update="Resources\Textures\backpack\ao.jpg" />
-      <None Update="Resources\Textures\backpack\normal.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\backpack\diffuse.jpg" />
-      <None Update="Resources\Textures\backpack\ao.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\backpack\albedo.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\backpack\metallic.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\backpack\roughness.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Models\f16.fbx">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Models\cube.fbx">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Models\backpack.obj">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Models\shading_scene.fbx">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Models\sword.fbx">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\tiles\albedo.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Textures\tiles\roughness.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -308,12 +61,6 @@
 
     <ItemGroup>
       <None Remove="Libs\freetype6.dll" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="Resources\Textures\editoricons.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
     </ItemGroup>
 
     <ItemGroup>
@@ -352,10 +99,76 @@
       <None Remove="costura64\log4net.dll" />
       <None Remove="arch.png" />
       <EmbeddedResource Include="arch.png" />
+      <None Remove="Resources\Fonts\FreeSans.ttf" />
+      <EmbeddedResource Include="Resources\Fonts\FreeSans.ttf" />
+      <None Remove="Resources\Textures\Editor\editoricons.png" />
+      <EmbeddedResource Include="Resources\Textures\Editor\editoricons.png" />
+      <None Remove="Resources\Fonts\Ruda-Bold.ttf" />
+      <EmbeddedResource Include="Resources\Fonts\Ruda-Bold.ttf" />
+      <None Remove="Resources\Textures\Editor\cube.png" />
+      <EmbeddedResource Include="Resources\Textures\Editor\cube.png" />
+      <None Remove="Resources\Textures\Editor\cube2.png" />
+      <EmbeddedResource Include="Resources\Textures\Editor\cube2.png" />
+      <None Remove="Resources\Textures\Skybox\back.png" />
+      <EmbeddedResource Include="Resources\Textures\Skybox\back.png" />
+      <None Remove="Resources\Shaders\pbr.vert" />
+      <EmbeddedResource Include="Resources\Shaders\pbr.vert" />
+      <None Remove="Resources\Shaders\background.frag" />
+      <EmbeddedResource Include="Resources\Shaders\background.frag" />
+      <None Remove="Resources\Shaders\prefilter.frag" />
+      <EmbeddedResource Include="Resources\Shaders\prefilter.frag" />
+      <None Remove="Resources\Shaders\background.vert" />
+      <EmbeddedResource Include="Resources\Shaders\background.vert" />
+      <None Remove="Resources\Textures\Skybox\bottom.png" />
+      <EmbeddedResource Include="Resources\Textures\Skybox\bottom.png" />
+      <None Remove="Resources\Shaders\shader.frag" />
+      <EmbeddedResource Include="Resources\Shaders\shader.frag" />
+      <None Remove="Resources\Shaders\brdf.frag" />
+      <EmbeddedResource Include="Resources\Shaders\brdf.frag" />
+      <None Remove="Resources\Shaders\shader.vert" />
+      <EmbeddedResource Include="Resources\Shaders\shader.vert" />
+      <None Remove="Resources\Shaders\lighting.frag" />
+      <EmbeddedResource Include="Resources\Shaders\lighting.frag" />
+      <None Remove="Resources\Shaders\line.frag" />
+      <EmbeddedResource Include="Resources\Shaders\line.frag" />
+      <None Remove="Resources\Shaders\line.vert" />
+      <EmbeddedResource Include="Resources\Shaders\line.vert" />
+      <None Remove="Resources\Shaders\pbr.frag" />
+      <EmbeddedResource Include="Resources\Shaders\pbr.frag" />
+      <None Remove="Resources\Shaders\equirectangular.frag" />
+      <EmbeddedResource Include="Resources\Shaders\equirectangular.frag" />
+      <None Remove="Resources\Shaders\fullscreen.frag" />
+      <EmbeddedResource Include="Resources\Shaders\fullscreen.frag" />
+      <None Remove="Resources\Shaders\fullscreen.vert" />
+      <EmbeddedResource Include="Resources\Shaders\fullscreen.vert" />
+      <None Remove="Resources\Shaders\irradiance.frag" />
+      <EmbeddedResource Include="Resources\Shaders\irradiance.frag" />
+      <None Remove="Resources\Shaders\brdf.vert" />
+      <EmbeddedResource Include="Resources\Shaders\brdf.vert" />
+      <None Remove="Resources\Shaders\skybox.frag" />
+      <EmbeddedResource Include="Resources\Shaders\skybox.frag" />
+      <None Remove="Resources\Shaders\color.frag" />
+      <EmbeddedResource Include="Resources\Shaders\color.frag" />
+      <None Remove="Resources\Shaders\skybox.vert" />
+      <EmbeddedResource Include="Resources\Shaders\skybox.vert" />
+      <None Remove="Resources\Shaders\cubemap.frag" />
+      <EmbeddedResource Include="Resources\Shaders\cubemap.frag" />
+      <None Remove="Resources\Shaders\text.frag" />
+      <EmbeddedResource Include="Resources\Shaders\text.frag" />
+      <None Remove="Resources\Shaders\cubemap.vert" />
+      <EmbeddedResource Include="Resources\Shaders\cubemap.vert" />
+      <None Remove="Resources\Shaders\text.vert" />
+      <EmbeddedResource Include="Resources\Shaders\text.vert" />
+      <None Remove="Resources\Textures\Skybox\right.png" />
+      <EmbeddedResource Include="Resources\Textures\Skybox\right.png" />
+      <None Remove="Resources\Textures\Skybox\top.png" />
+      <EmbeddedResource Include="Resources\Textures\Skybox\top.png" />
+      <None Remove="Resources\Textures\Skybox\left.png" />
+      <EmbeddedResource Include="Resources\Textures\Skybox\left.png" />
+      <None Remove="Resources\Textures\Skybox\front.png" />
+      <EmbeddedResource Include="Resources\Textures\Skybox\front.png" />
       <None Remove="log4net.config" />
-      <EmbeddedResource Include="log4net.config">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </EmbeddedResource>
+      <EmbeddedResource Include="log4net.config" />
     </ItemGroup>
   
 </Project>

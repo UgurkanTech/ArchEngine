@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -29,11 +30,9 @@ namespace ArchEngine.Core
 
         }
         
-        public static WindowIcon LoadWindowIconFromFile(string path)
+        public static WindowIcon LoadWindowIcon(Stream stream)
         {
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream file = assembly.GetManifestResourceStream("ArchEngine." + path);
-            using var image = new Bitmap(file);
+            using var image = new Bitmap(stream);
             var data = image.LockBits(
                 new Rectangle(0, 0, image.Width, image.Height), 
                 ImageLockMode.ReadOnly, 

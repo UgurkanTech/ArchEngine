@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ArchEngine.Core.Rendering;
+using ArchEngine.GUI.Editor;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using SharpFont;
@@ -27,7 +28,8 @@ namespace ArchEngine.GUI
             
             Library lib = new Library();
 
-            Face face = new Face(lib, "Resources/Fonts/FreeSans.ttf");
+            var bytes = new ResourceStream("Resources/Fonts/FreeSans.ttf", null).GetBytes();
+            Face face = new Face(lib, bytes, 0);
 
             face.SetPixelSizes(0, pixelheight);
 

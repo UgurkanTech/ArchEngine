@@ -32,9 +32,10 @@ namespace ArchEngine.GUI.Editor
         public static bool windowFocussedNew = false;
         public static RuntimeCompiler<Script> compiler;
 
-        public static string projectDir = @"C:\Users\saw\Desktop\Scripts";
+        public static string projectDir = "";
         public Editor()
         {
+            projectDir = Arch.path;
             if (!Directory.Exists(projectDir))
             {
                 projectDir = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -80,18 +81,36 @@ namespace ArchEngine.GUI.Editor
                 {
                     try
                     {
+                        foreach (var script in compiler.GetObjects())
+                        {
+                            foreach (var activeSceneGameObject in Window.activeScene.gameObjects)
+                            {
+                                foreach (var component in activeSceneGameObject._components)
+                                {
+                                    if (component.GetType() == script.GetType())
+                                    {
+                                        activeSceneGameObject.RemoveComponent(component); //should be added back
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        
                         compiler.UnLoad();
                         compiler.Compile(projectDir);
                         compiler.Load();
                         Console.WriteLine("Scripts are compiled!");
+                        
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
                     }  
+                    state = EditorState.Idle;
                 }).Start();
 
-                state = EditorState.Idle;
+                
             }
         }
 

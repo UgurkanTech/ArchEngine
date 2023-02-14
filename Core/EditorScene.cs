@@ -17,10 +17,11 @@ namespace ArchEngine.Core
         {
             Material m = new Material();
             m.Shader = ShaderManager.PbrShader;
-            m.LoadTextures("Resources/Textures/backpack");
+            m.LoadTextures("Resources/Textures/plastic");
             MeshRenderer mr2 = new MeshRenderer();
             mr2.Material = m;
-            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/backpack.obj");
+            //mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/f16.fbx");
+            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/f16.fbx");
             
             GameObject gm = new GameObject("Backpack");
             gm.AddComponent(mr2);
