@@ -133,8 +133,6 @@ namespace ArchEngine.Core
             //Attributes.ScanAttiributes(this);
             _skyboxRenderer = new SkyboxRenderer();
             _skyboxRenderer.Init();
-
-           
             
         }
 
@@ -143,17 +141,22 @@ namespace ArchEngine.Core
         public static bool LockCursor = false;
 
         private bool firstStart = true;
+
+        private int initLoop = 2;
         
         // Now that initialization is done, let's create our render loop.
         protected override void OnRenderFrame(FrameEventArgs e)
         {
 	        base.OnRenderFrame(e);
-	        if (!isWindowFocussed)
+	        if (!isWindowFocussed && initLoop == 0)
 	        {
 		        Thread.Sleep(50);
 		        return;
 	        }
-				
+	        if (initLoop != 0)
+			{
+				initLoop--;
+			}
 
 
 	        GL.Enable(EnableCap.DepthTest);
@@ -301,6 +304,8 @@ namespace ArchEngine.Core
 	            _frames = 0;
             }
         }
+
+      
 
         protected override void OnResize(ResizeEventArgs e)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using ArchEngine.Core;
 using ImGuiNET;
 using OpenTK.Mathematics;
 
@@ -41,7 +42,8 @@ namespace ArchEngine.GUI.Editor.Windows
             files = _filesAndDirectories.Where(x => !Directory.Exists(x)).ToArray();
             _selectedFileOrDirectoryIndex = -1;
             
-            Console.WriteLine("Folder updated");
+            //Console.WriteLine("Folder updated");
+            Window._log.Info("Project folder file change detected.");
         }
         
         private static bool isFolder = false;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using ArchEngine.Core;
@@ -81,6 +82,7 @@ namespace ArchEngine.GUI.Editor
                 {
                     try
                     {
+                        Dictionary<GameObject, string> typeCache = new Dictionary<GameObject, string>();
                         foreach (var script in compiler.GetObjects())
                         {
                             foreach (var activeSceneGameObject in Window.activeScene.gameObjects)
@@ -90,6 +92,8 @@ namespace ArchEngine.GUI.Editor
                                     if (component.GetType() == script.GetType())
                                     {
                                         activeSceneGameObject.RemoveComponent(component); //should be added back
+                                        typeCache.Add(activeSceneGameObject, component.GetType().ToString());
+                                        component.Dispose();
                                         break;
                                     }
                                 }
@@ -100,7 +104,29 @@ namespace ArchEngine.GUI.Editor
                         compiler.UnLoad();
                         compiler.Compile(projectDir);
                         compiler.Load();
-                        Console.WriteLine("Scripts are compiled!");
+                        
+                        compiler.types.ForEach(script =>
+                        {
+                            foreach (var typeCacheKey in typeCache.Keys)
+                            {
+                                 
+                                if (typeCache[typeCacheKey].Equals(script.ToString()))
+                                {
+                                    Type type = script;
+                                    Component o = Activator.CreateInstance(type) as Component;
+                                    o.Init();
+                                    typeCacheKey.AddComponent(o);
+
+                                }
+                                else
+                                {
+                                    Console.WriteLine(script.ToString() + ": and other not same :" + typeCache[typeCacheKey]);
+                                }
+                            }
+                        });
+                        typeCache.Clear();
+                        //Console.WriteLine("Scripts are compiled!");
+                        Core.Window._log.Info("Scripts are compiled!");
                         
                     }
                     catch (Exception e)

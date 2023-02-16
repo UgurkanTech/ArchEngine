@@ -42,6 +42,8 @@ namespace ArchEngine.GUI.Editor.Windows
                         {
                             Window.activeScene.RemoveGameObject(Editor.selectedGameobject);
                         }
+
+                        Editor.selectedGameobject = null;
                     }
                     selected = -1;
 
@@ -126,7 +128,7 @@ namespace ArchEngine.GUI.Editor.Windows
             if (dragging && !ImGui.IsWindowHovered(ImGuiHoveredFlags.AllowWhenBlockedByActiveItem)) //cancelled
             {
                 dragging = false;
-                Console.WriteLine("drag cancelled");
+                Window._log.Debug("Drag cancelled");
                 dragObj = null;
                 return;
             }
@@ -137,7 +139,7 @@ namespace ArchEngine.GUI.Editor.Windows
 
                 
                 Window.activeScene.MoveGameObjecTo(dragObj, sceneIndex);
-                Console.WriteLine(dragObj?.name + " moved to " + sceneIndex);
+                Window._log.Debug(dragObj?.name + " moved to " + sceneIndex);
                 dragObj = null;
                 return;
             }
@@ -146,7 +148,7 @@ namespace ArchEngine.GUI.Editor.Windows
             if (outside && dragging) //nulled
             {
                 dragging = false;
-                Console.WriteLine("drag nulled");
+                Window._log.Debug("drag nulled");
                 if (dragObj.parent != null)
                 {
                     dragObj.parent.RemoveChild(dragObj);
@@ -181,7 +183,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 if (isParentLooped(dragObj, gameObject))
                 {
                     ImGui.EndDragDropTarget();
-                    Console.WriteLine("drop invalid. parent loop " + gameObject.name);
+                    Window._log.Debug("Drop invalid. Parent looped " + gameObject.name);
                     dragObj = null;
                     return;
                 }
@@ -208,9 +210,8 @@ namespace ArchEngine.GUI.Editor.Windows
                 
                 
                 gameObject.AddChild(dragObj);
-                
-                Console.WriteLine("drop " + gameObject.name);
-                
+
+                Window._log.Debug("Drop " + gameObject.name);
                 dragObj = null;
             }
 
@@ -225,7 +226,7 @@ namespace ArchEngine.GUI.Editor.Windows
                     Vector2.Zero, Vector4.Zero, Vector4.One))
             {
                 gameObject.isActive = !gameObject.isActive;
-                Console.WriteLine("clicked");
+                //Console.WriteLine("clicked");
             }
 
              ImGui.SameLine();
@@ -241,7 +242,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 
                 if (ImGui.IsItemClicked(ImGuiMouseButton.Left) || ImGui.IsItemClicked(ImGuiMouseButton.Right))
                 {
-                    Console.WriteLine("selection changed");
+                    Window._log.Debug("Selection changed");
                     selected = index;
                     Editor.selectedGameobject = gameObject;
                 }

@@ -69,6 +69,7 @@ namespace ArchEngine.GUI.ImGUI
                 {
                     io.NativePtr->IniFilename = p;
                 }
+                
             }
             
             //ImGuizmo.BeginFrame(); 
@@ -330,8 +331,10 @@ void main()
                 var screenPoint = new Vector2i((int)MouseState.X, (int)MouseState.Y);
                 var point = screenPoint;//wnd.PointToClient(screenPoint);
                 io.MousePos = new Vector2(point.X, point.Y);
-            
-                foreach (Keys key in Enum.GetValues(typeof(Keys)))
+
+                var ke = Enum.GetValues(typeof(Keys));
+                
+                foreach (Keys key in ke)
                 {
                     if (key == Keys.Unknown)
                     {
@@ -341,14 +344,11 @@ void main()
 
                     if (KeyboardState.IsKeyPressed(key))
                     {
-                        //Console.WriteLine((int)key);
                         
-                        
-                        if (key.ToString().Length == 1 || ((int)key > 31 && (int)key < 128))
+                        var character = MapKey(key);
+                        if (character != '\0')
                         {
-                            PressChar((char)key);
-                            
-                            
+                            PressChar(character);
                         }
                         
                     }
@@ -372,7 +372,34 @@ void main()
                 
         }
 
-
+        [DllImport("user32.dll")]
+        private static extern int ToUnicode(
+            int virtualKeyCode,
+            int scanCode,
+            byte[] keyboardState,
+            [Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)]
+            StringBuilder receivingBuffer,
+            int bufferSize,
+            int flags);
+        
+        private static char MapKey(Keys key)
+        {
+            var virtualKey = (int)key;
+            var keyboardState = new byte[256];
+            var character = new StringBuilder(2);
+            var result = ToUnicode(virtualKey, 0, keyboardState, character, character.Capacity, 0);
+            if (result == 1)
+            {
+                return character[0];
+            }
+            else if (result == 2)
+            {
+                return character[1];
+            }
+            
+            return '\0';
+        }
+        
         internal void PressChar(char keyChar)
         {
             PressedChars.Add(keyChar);

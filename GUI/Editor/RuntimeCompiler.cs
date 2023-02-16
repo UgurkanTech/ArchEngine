@@ -8,6 +8,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Loader;
+using ArchEngine.Core;
+
 namespace ArchEngine.GUI.Editor
 {
     public class RuntimeCompiler<T> where T : class
@@ -40,19 +42,21 @@ namespace ArchEngine.GUI.Editor
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
-        Console.WriteLine(contextWeak.IsAlive ? "Unloading failed (for now)!" : "Unloading success!");
+        Console.WriteLine(contextWeak.IsAlive ? "Unloading failed (Waiting GC)!" : "Unloading success!");
     }
 
     public void Load()
     {
         types.ForEach(type => { typeObjects.Add(Activator.CreateInstance(type) as T);});
-        Console.WriteLine(typeObjects.Count + " Objects are loaded.");
+        //Console.WriteLine(typeObjects.Count + " Objects are loaded.");
+        Window._log.Info(typeObjects.Count + " Objects are loaded.");
     }
    
     public void Compile(string scriptFolder)
     {
         errorsCount = 0;
-        Console.WriteLine("Compiling scripts..");
+        //Console.WriteLine("Compiling scripts..");
+        Window._log.Info("Compiling scripts..");
         Stopwatch stopWatch = new Stopwatch();
         stopWatch.Start();
 
@@ -105,7 +109,8 @@ namespace ArchEngine.GUI.Editor
 
             if (!result.Success)
             {
-                Console.WriteLine("Compilation failed with errors:");
+                //Console.WriteLine("Compilation failed with errors:");
+                Window._log.Info("Compilation failed with errors:");
                 foreach (var diagnostic in result.Diagnostics)
                 {
                     errorsCount++;
@@ -125,7 +130,8 @@ namespace ArchEngine.GUI.Editor
                 
                 
                 stopWatch.Stop();
-                Console.WriteLine("Loading Took ms: " + stopWatch.ElapsedMilliseconds);
+                //Console.WriteLine("Loading Took ms: " + stopWatch.ElapsedMilliseconds);
+                Window._log.Info("Loading Took ms: " + stopWatch.ElapsedMilliseconds);
             
                 foreach (var scriptFile in scriptFiles)
                 {
@@ -143,7 +149,8 @@ namespace ArchEngine.GUI.Editor
                     }
                     else
                     {
-                        Console.WriteLine(scriptFile + " doesn't have any class with same name.");
+                        //Console.WriteLine(scriptFile + " doesn't have any class with same name.");
+                        Window._log.Info(scriptFile + " doesn't have any class with same name.");
                     }
                 }
 

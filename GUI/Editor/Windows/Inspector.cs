@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
 using System.Reflection;
 using System.Text;
 using ArchEngine.Core;
@@ -19,7 +20,7 @@ using Window = ArchEngine.Core.Window;
 namespace ArchEngine.GUI.Editor.Windows
 {
 
-    
+
     public class Inspector
     {
         private static ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags.Leaf | ImGuiTreeNodeFlags.NoTreePushOnOpen |
@@ -29,8 +30,7 @@ namespace ArchEngine.GUI.Editor.Windows
                                                       ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.DefaultOpen; 
         
         static byte[] nameBuffer = new byte[50];
-        
-        
+
         public static void Draw()
         {
             ImGui.SetNextWindowPos(new Vector2(400,100), ImGuiCond.FirstUseEver);
