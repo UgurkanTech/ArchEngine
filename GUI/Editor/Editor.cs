@@ -142,6 +142,7 @@ namespace ArchEngine.GUI.Editor
 
         public static void DrawEditor()
         {
+            
             DockSpace.Draw();
             Toolbar.Draw();
             Scene.Draw();
@@ -153,38 +154,7 @@ namespace ArchEngine.GUI.Editor
 
             AssetsWindow.Draw();
 
-            ImGui.BeginMainMenuBar();
-            if (ImGui.BeginMenu("File"))
-            {
-               
-                ImGui.Image(Icons.Texture, new Vector2(20, 20),
-                    Icons.GetUV0FromID(249), Icons.GetUV1FromID(249));
-                ImGui.SameLine();
-
-                if (ImGui.MenuItem("Save Scene"))
-                {
-                    AssetManager.SaveScene();
-                    
-                }
-                ImGui.Image(Icons.Texture, new Vector2(20, 20),
-                    Icons.GetUV0FromID(37), Icons.GetUV1FromID(37));
-                ImGui.SameLine();
-                if (ImGui.MenuItem("Load Scene"))
-                {
-                    AssetManager.LoadScene();
-                }
-                ImGui.Image(Icons.Texture, new Vector2(20, 20),
-                    Icons.GetUV0FromID(102), Icons.GetUV1FromID(102));
-                ImGui.SameLine();
-                if (ImGui.MenuItem("Exit"))
-                {
-                    Window.instance.Close();
-                }
-                
-                ImGui.EndMenu();
-            }
-            
-            ImGui.EndMainMenuBar();
+            Menubar.Draw();
         }
         
 

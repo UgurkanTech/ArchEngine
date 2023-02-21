@@ -133,7 +133,7 @@ namespace ArchEngine.GUI.Editor.Windows
                     ImGui.EndChild();
                     
                 }
-                ImGui.PushStyleColor(ImGuiCol.Header, new Vector4(1,0,0,1)); //change this
+                ImGui.PushStyleColor(ImGuiCol.Header, new Vector4(0.3f,0.3f,0.3f,1)); //change this
                 for (int i = 0; i < _filesAndDirectories.Length; i++)
                 {
                     
@@ -450,9 +450,9 @@ namespace ArchEngine.GUI.Editor.Windows
                 }
                 ImGui.EndPopup();
             }
-            ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.102f, 0.090f, 0.122f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.25f, 0.25f, 0.25f, 1f));
             
-            ImGui.BeginChild("FileInfo", new Vector2(ImGui.GetContentRegionAvail().X ,  ImGui.GetContentRegionAvail().Y), false);
+            ImGui.BeginChild("FileInfo", new Vector2(ImGui.GetContentRegionAvail().X - 3 ,  ImGui.GetContentRegionAvail().Y), false);
             if (_selectedFileOrDirectoryIndex != -1)
             {
                 ImGui.Text(selected);
