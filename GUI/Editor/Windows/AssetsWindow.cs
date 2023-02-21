@@ -129,9 +129,11 @@ namespace ArchEngine.GUI.Editor.Windows
                     ImGui.EndChild();
                     
                 }
-                
+                ImGui.PushStyleColor(ImGuiCol.Header, new Vector4(1,0,0,1)); //change this
                 for (int i = 0; i < _filesAndDirectories.Length; i++)
                 {
+                    
+                
                     string name;
                     if (folders.Length > i)
                     {
@@ -354,6 +356,7 @@ namespace ArchEngine.GUI.Editor.Windows
                     }
 
                 }
+                ImGui.PopStyleColor(); //chekc this
             }
 
             if (ImGui.BeginPopup("ContextMenu"))

@@ -2,11 +2,14 @@
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using ArchEngine.GUI.Editor;
 using ImGuizmoNET;
+using Microsoft.Win32;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -15,15 +18,10 @@ using Window = ArchEngine.Core.Window;
 
 namespace ArchEngine.GUI.ImGUI
 {
-    /// <summary>
-    /// A modified version of Veldrid.ImGui's ImGuiRenderer.
-    /// Manages input for ImGui and handles rendering ImGui's DrawLists with Veldrid.
-    /// </summary>
+
     public class ImGuiController : IDisposable
     {
         private bool _frameBegun;
-
-        // Veldrid objects
         private int _vertexArray;
         private int _vertexBuffer;
         private int _vertexBufferSize;
@@ -71,7 +69,33 @@ namespace ArchEngine.GUI.ImGUI
                 }
                 
             }
-            
+            RegistryKey key2 = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\ArchEngine");  
+            if (File.Exists("layout.ini"))
+            {
+                ImGui.LoadIniSettingsFromDisk("layout.ini");
+            }
+            else if (key2 != null)
+            {
+                string config = key2.GetValue("layout") as string;
+                ImGui.LoadIniSettingsFromMemory(config);
+            }
+            else
+            {
+                string config = new ResourceStream("layout.ini", null).GetString();
+                ImGui.LoadIniSettingsFromMemory(config);
+                //ImGui.SaveIniSettingsToDisk("layout.ini");
+                try
+                {
+                    RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\ArchEngine");
+                    key?.SetValue("layout", config);  
+                    key?.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+            key2?.Close(); 
             //ImGuizmo.BeginFrame(); 
             
             CreateDeviceResources();
@@ -219,6 +243,13 @@ void main()
                 (*nativeConfig).GlyphExtraSpacing = new Vector2(0, 0);
                 (*nativeConfig).MergeMode = 0;
 
+                ushort[] glyphRanges = new ushort[] { 0x0020, 0x01FF , 0 };
+                fixed (ushort* glyphRangesPtr = glyphRanges)
+                {
+                    (*nativeConfig).GlyphRanges = glyphRangesPtr;
+                }
+                
+
                 
                 
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/arial.ttf", 13, nativeConfig);
@@ -230,9 +261,13 @@ void main()
                 
                 //(*nativeConfig).MergeMode = 1;
                 //ImGui.GetIO().Fonts.AddFontFromFileTTF("Resources/Fonts/fa-regular-400.ttf", 13f, nativeConfig);
-                var bytes = new ResourceStream("Resources/Fonts/Ruda-Bold.ttf", null).GetBytes();
+                var bytes = new ResourceStream("Resources/Fonts/DroidSans.ttf", null).GetBytes();
                 IntPtr fontDataPointer = Marshal.AllocHGlobal(bytes.Length);
                 Marshal.Copy(bytes, 0, fontDataPointer, bytes.Length);
+                
+                var turkish_range = new[] { 0x0020, 0x01FF , 0 };
+
+                
                 ImGui.GetIO().Fonts.AddFontFromMemoryTTF(fontDataPointer, 13,13f, nativeConfig);
 
                 //ImGuiNative.ImFontConfig_destroy(nativeConfig);
@@ -326,8 +361,24 @@ void main()
 
                 io.MouseWheel = wnd.MouseState.ScrollDelta.Y;
 
-                
-                
+                wnd.KeyDown += args =>
+                {
+                    var character = GLFW.GetKeyName(Keys.Unknown, args.ScanCode);
+ 
+
+                    
+                    //var shiftPressed = GLFW.GetKey(wnd, Keys.LeftShift) == InputAction.Press || GLFW.GetKey(window, Keys.RightShift) == InputAction.Press;
+                    //var capsLockOn = Console.CapsLock;
+
+
+                    //if (shiftPressed || capsLockOn)
+                    {
+                        character = character.ToUpper();
+                    }
+                    //Console.WriteLine(GLFW.GetKeyName(args.Key, args.ScanCode));
+                };
+
+              
                 var screenPoint = new Vector2i((int)MouseState.X, (int)MouseState.Y);
                 var point = screenPoint;//wnd.PointToClient(screenPoint);
                 io.MousePos = new Vector2(point.X, point.Y);
@@ -341,15 +392,35 @@ void main()
                         continue;
                     }
                     io.KeysDown[(int)key] = KeyboardState.IsKeyDown(key);
-
+                    
                     if (KeyboardState.IsKeyPressed(key))
-                    {
-                        
-                        var character = MapKey(key);
-                        if (character != '\0')
+                    {    
+                        int scancode = (int)GLFW.GetKeyScancode(key);
+                        var character = GLFW.GetKeyName(key, scancode);
+                        string cap = null;
+                        try
                         {
-                            PressChar(character);
+                            if (key == Keys.Space)
+                            {
+                                PressChar(' ');
+                                return;
+                            }
+                            
+                            if (key != Keys.LeftShift && key != Keys.RightShift && key != Keys.CapsLock && (KeyboardState.IsKeyDown(Keys.LeftShift) || KeyboardState.IsKeyDown(Keys.RightShift) || Console.CapsLock))
+                                cap = character.ToUpper();
+                            if (cap == null)
+                            {
+                                cap = character;
+                            }
+                            if (key.ToString().Length == 1 || ((int)key > 31 && (int)key < 128))
+                                PressChar(cap[0]);
                         }
+                        catch (Exception e)
+                        {
+                            //Not important:
+                            //Console.WriteLine(e);
+                        }
+                        
                         
                     }
                     
@@ -372,33 +443,7 @@ void main()
                 
         }
 
-        [DllImport("user32.dll")]
-        private static extern int ToUnicode(
-            int virtualKeyCode,
-            int scanCode,
-            byte[] keyboardState,
-            [Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)]
-            StringBuilder receivingBuffer,
-            int bufferSize,
-            int flags);
-        
-        private static char MapKey(Keys key)
-        {
-            var virtualKey = (int)key;
-            var keyboardState = new byte[256];
-            var character = new StringBuilder(2);
-            var result = ToUnicode(virtualKey, 0, keyboardState, character, character.Capacity, 0);
-            if (result == 1)
-            {
-                return character[0];
-            }
-            else if (result == 2)
-            {
-                return character[1];
-            }
-            
-            return '\0';
-        }
+
         
         internal void PressChar(char keyChar)
         {

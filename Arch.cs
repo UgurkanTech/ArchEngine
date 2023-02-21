@@ -57,7 +57,8 @@ namespace ArchEngine
                 APIVersion = new Version(3,3),
                 Profile = ContextProfile.Core,
                 Icon = AssetManager.LoadWindowIcon(icon.GetStream()),
-                StartVisible = false
+                StartVisible = false,
+                StartFocused = false
             };
             
             //Test.Run();

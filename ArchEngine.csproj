@@ -174,6 +174,10 @@
       <EmbeddedResource Include="Resources\Textures\tiles\albedo.png" />
       <None Remove="Resources\Textures\tiles\roughness.png" />
       <EmbeddedResource Include="Resources\Textures\tiles\roughness.png" />
+      <None Remove="layout.ini" />
+      <EmbeddedResource Include="layout.ini" />
+      <None Remove="Resources\Fonts\DroidSans.ttf" />
+      <EmbeddedResource Include="Resources\Fonts\DroidSans.ttf" />
     </ItemGroup>
   
 </Project>

@@ -10,6 +10,7 @@ using ArchEngine.GUI.Editor;
 using ArchEngine.GUI.ImGUI;
 using ArchEngine.Scenes.Voxel;
 using ImGuiNET;
+using Microsoft.Win32;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
@@ -345,7 +346,9 @@ namespace ArchEngine.Core
             GL.UseProgram(0);
 
             // Delete all the resources.
-
+            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\ArchEngine");
+            key?.SetValue("layout", ImGui.SaveIniSettingsToMemory());  
+            key?.Close();
 
             //GL.DeleteProgram(_shader.handle);
 

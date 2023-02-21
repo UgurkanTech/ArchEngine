@@ -170,14 +170,14 @@ namespace ArchEngine.GUI.Editor.Windows
                 ImGui.EndPopup();
             }
 
-            byte[] buff = new byte[32];
+            byte[] buff = new byte[128];
             
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
             bool reclaim_focus = false;
             unsafe
             {
                 
-                if (ImGui.InputText("", buff, 32,
+                if (ImGui.InputText("", buff, 128,
                         ImGuiInputTextFlags.EnterReturnsTrue | ImGuiInputTextFlags.CallbackAlways, Callback))
                 {
 

@@ -51,7 +51,7 @@ namespace ArchEngine.GUI.Editor
             fileSystemWatcherClass.onChangeEvent += UpdateScripts;
             
             compiler = new RuntimeCompiler<Script>();
-            
+
             
 
             Icons.LoadIcons();
@@ -152,7 +152,7 @@ namespace ArchEngine.GUI.Editor
             ConsoleWindow.Draw();
 
             AssetsWindow.Draw();
-            
+
             ImGui.BeginMainMenuBar();
             if (ImGui.BeginMenu("File"))
             {
