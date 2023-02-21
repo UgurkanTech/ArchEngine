@@ -1,6 +1,8 @@
-﻿using ArchEngine.Core.Rendering.Camera;
+﻿using System;
+using ArchEngine.Core.Rendering.Camera;
 using ImGuiNET;
 using ImGuizmoNET;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace ArchEngine.GUI.Editor
@@ -27,7 +29,8 @@ namespace ArchEngine.GUI.Editor
                 ImGuizmo.SetRect(ImGui.GetWindowPos().X, ImGui.GetWindowPos().Y, ImGui.GetItemRectSize().X, ImGui.GetItemRectSize().Y);
                 
                 var transform = Editor.selectedGameobject.Transform;
-                
+
+               
                 ImGuizmo.Manipulate(ref cameraView.Row0.X, ref cameraProj.Row0.X, op, TransformMode.Local, ref transform.Row0.X);
                 
                 if (ImGuizmo.IsUsing())

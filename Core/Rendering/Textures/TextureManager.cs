@@ -86,7 +86,11 @@ namespace ArchEngine.Core.Rendering.Textures
             }
             catch (Exception e)
             {
-                Console.WriteLine("Texture not found: " + path);
+                //Console.WriteLine("Texture not found: " + path);
+#if DEBUG
+                Window._log.Debug("Texture not found: " + path);
+#endif
+                
                 //Console.WriteLine(e);
                 return new Texture(0).SetUnit(textureUnit);
             }
@@ -170,7 +174,10 @@ namespace ArchEngine.Core.Rendering.Textures
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Texture not found: " + FolderPath);
+                    //Console.WriteLine("Texture not found: " + FolderPath);
+#if DEBUG
+                    Window._log.Debug("Texture not found: " + FolderPath);
+#endif
                     //Console.WriteLine(e);
                     return new Texture(0).SetUnit(TextureUnit.Texture0);
                 }

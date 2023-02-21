@@ -143,7 +143,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 {
                     string s = _stringWriter.GetStringBuilder().ToString().Substring(1000, _stringWriter.GetStringBuilder().Length - 1001);
                     _stringWriter.GetStringBuilder().Clear();
-                    _stringWriter.WriteLineAsync(s);
+                    _stringWriter.WriteLine(s);
                 }
                 ImGui.TextWrapped(_stringWriter.ToString());
                 ImGui.TextColored(Vector4.UnitX, "Broken native wrapping");

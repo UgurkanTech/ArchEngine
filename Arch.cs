@@ -39,7 +39,12 @@ namespace ArchEngine
             });
             thread.Priority = ThreadPriority.Highest;
             thread.SetApartmentState(ApartmentState.STA);
+#if DEBUG
+            path = @"C:\Users\saw\Desktop\Scripts";
+#else
             thread.Start();
+#endif
+            
             
             
             
@@ -68,7 +73,11 @@ namespace ArchEngine
             window.VSync = VSyncMode.Adaptive;
             //window.Location = new Vector2i(1920 / 2 - 400, 1080 / 2 - 300);
             _log.Info("Waiting project selection.");
+            
+#if DEBUG
+#else
             thread.Join();
+#endif
 
             if (path == "")
             {

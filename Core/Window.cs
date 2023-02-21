@@ -17,6 +17,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
+
 namespace ArchEngine.Core
 {
 
@@ -54,6 +55,7 @@ namespace ArchEngine.Core
             base.OnLoad();
             WindowSize = new Vector2i(Size.X, Size.Y);
             
+	        
             _log.Info("Window loading...");
             
             _log.Info("OpenGL " + APIVersion);

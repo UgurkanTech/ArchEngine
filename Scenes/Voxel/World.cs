@@ -22,7 +22,7 @@ namespace ArchEngine.Scenes.Voxel
             sw.Start();
             Window.activeScene.AddGameObject(GenerateWorldChunk(mat, new Vector3(11 * 1.6f, -9f, 11 * 1.6f)));
             sw.Stop();
-            Console.WriteLine("\n\n\n\n\n");
+            Console.WriteLine("\n\n");
             Console.WriteLine("First run: " + sw.ElapsedMilliseconds);
             sw.Reset();
             
