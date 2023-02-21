@@ -35,11 +35,13 @@ namespace ArchEngine.Core.Rendering.Textures
         public void LoadTextures(string folderPath)
         {
             MaterialHash = folderPath;
-            albedoMap = TextureManager.LoadFromFile(folderPath + "/albedo.png", TextureUnit.Texture0);
-            normalMap = TextureManager.LoadFromFile(folderPath + "/normal.png", TextureUnit.Texture1);
-            metallicMap = TextureManager.LoadFromFile(folderPath + "/metallic.png", TextureUnit.Texture2);
-            roughnessMap = TextureManager.LoadFromFile(folderPath + "/roughness.png", TextureUnit.Texture3);
-            aoMap = TextureManager.LoadFromFile(folderPath + "/ao.png", TextureUnit.Texture4);
+
+            folderPath += folderPath.Contains(@"\") ?  @"\" : @"/";
+            albedoMap = TextureManager.LoadFromFile(folderPath + "albedo.png", TextureUnit.Texture0);
+            normalMap = TextureManager.LoadFromFile(folderPath + "normal.png", TextureUnit.Texture1);
+            metallicMap = TextureManager.LoadFromFile(folderPath + "metallic.png", TextureUnit.Texture2);
+            roughnessMap = TextureManager.LoadFromFile(folderPath + "roughness.png", TextureUnit.Texture3);
+            aoMap = TextureManager.LoadFromFile(folderPath + "ao.png", TextureUnit.Texture4);
 
         }
 

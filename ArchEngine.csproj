@@ -178,6 +178,10 @@
       <EmbeddedResource Include="layout.ini" />
       <None Remove="Resources\Fonts\DroidSans.ttf" />
       <EmbeddedResource Include="Resources\Fonts\DroidSans.ttf" />
+      <None Remove="Resources\Textures\Default\roughness.png" />
+      <EmbeddedResource Include="Resources\Textures\Default\roughness.png" />
+      <None Remove="Resources\Textures\Default\albedo.png" />
+      <EmbeddedResource Include="Resources\Textures\Default\albedo.png" />
     </ItemGroup>
   
 </Project>

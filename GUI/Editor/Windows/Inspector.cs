@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using ArchEngine.Core;
 using ArchEngine.Core.ECS;
@@ -293,7 +294,34 @@ namespace ArchEngine.GUI.Editor.Windows
                          ImGui.Text("Material:");
                          ImGui.Indent(10);
                          ImGui.Image(Icons.Texture, new Vector2(15, 15), Icons.GetUV0FromID(215), Icons.GetUV1FromID(215)); ImGui.SameLine();
-                         ImGui.Button(mat?.MaterialHash, new Vector2(ImGui.GetColumnWidth(), 15));
+                         if (ImGui.Button(mat?.MaterialHash, new Vector2(ImGui.GetColumnWidth(), 15)))
+                         {
+                             
+                             Console.WriteLine("clicked to " + component.gameObject.name);
+                         }
+                         if (ImGuiNET.ImGui.BeginDragDropTarget())
+                         {
+                             // Create the drag and drop payload
+                             var payload = ImGuiNET.ImGui.AcceptDragDropPayload("FILE");
+                             unsafe
+                             {
+                                 if (payload.NativePtr != null)
+                                 {
+                                     byte[] bytes = new byte[payload.DataSize];
+                                     Marshal.Copy(payload.Data, bytes, 0, payload.DataSize);
+                                     string data = Encoding.ASCII.GetString(bytes);
+                                     Console.WriteLine("dropped " + data);
+                                     if (Directory.Exists(data))
+                                     {
+                                         mat.LoadTextures(data);
+                                     }
+                                     
+                                 }
+                             }
+                             
+                             // Send the payload
+                             ImGuiNET.ImGui.EndDragDropTarget();
+                         }
                          ImGui.Unindent(10);
                          ImGui.Text("Shaders:");
                          ImGui.Indent(10);

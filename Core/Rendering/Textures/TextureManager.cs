@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using ArchEngine.GUI.Editor;
 using OpenTK.Graphics.OpenGL4;
 using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
@@ -32,7 +33,15 @@ namespace ArchEngine.Core.Rendering.Textures
 
             try
             {
-                var stream = new ResourceStream(path, null).GetStream();
+                Stream stream;
+                if (path.Contains(":"))
+                {
+                    stream = new ResourceStream(path).GetStream();
+                }
+                else
+                {
+                    stream = new ResourceStream(path, null).GetStream();
+                }
                 using var image = new Bitmap(stream);
                 // Our Bitmap loads from the top-left pixel, whereas OpenGL loads from the bottom-left, causing the texture to be flipped vertically.
                 // This will correct that, making the texture display properly.
@@ -130,7 +139,16 @@ namespace ArchEngine.Core.Rendering.Textures
             {
                 try
                 {
-                    var stream = new ResourceStream(faces[i], null).GetStream();
+                    Stream stream;
+                    if (faces[i].Contains(":"))
+                    {
+                        stream = new ResourceStream(faces[i]).GetStream();
+                    }
+                    else
+                    {
+                        stream = new ResourceStream(faces[i], null).GetStream();
+                    }
+                    
                     using var image = new Bitmap(stream);
                     if (flip)
                     {

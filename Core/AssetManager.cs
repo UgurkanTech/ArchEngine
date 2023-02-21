@@ -101,25 +101,46 @@ namespace ArchEngine.Core
         
         public static void SaveScene()
         {
-            string path = @"C:\save.json";
-            Serializer.Save(Window.activeScene, path);
-            _log.Info("Scene saved! (" + path + ")");
+            try
+            {
+                string path = @"C:\save.json";
+                Serializer.Save(Window.activeScene, path);
+                _log.Info("Scene saved! (" + path + ")");
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Window._log.Error("Scene saving failed. File access is denied.");
+            }
+            catch (Exception e)
+            {
+                Window._log.Error(e.ToString());
+                Window._log.Error("Scene saving failed.");
+            }
+
         }
 
         public static void LoadScene()
         {
-            _log.Info("Closing current scene..");
-            Window.activeScene.Dispose();
+            try
+            {
+                _log.Info("Closing current scene..");
+                Window.activeScene.Dispose();
 
-            _log.Info("Loading new scene..");
-            string path = @"C:\save.json";
-            Window.activeScene = Serializer.Load<Scene>(path);
-            _log.Info("Initializing new scene..");
-            RestoreScene();
-            Window.activeScene.Init();
-            _log.Info("Starting new scene..");
-            Window.activeScene.Start();
-            Editor.selectedGameobject = null;
+                _log.Info("Loading new scene..");
+                string path = @"C:\save.json";
+                Window.activeScene = Serializer.Load<Scene>(path);
+                _log.Info("Initializing new scene..");
+                RestoreScene();
+                Window.activeScene.Init();
+                _log.Info("Starting new scene..");
+                Window.activeScene.Start();
+                Editor.selectedGameobject = null;
+            }
+            catch (Exception e)
+            {
+                Window._log.Error("Scene loading failed.");
+            }
+
         }
 
         public static void RestoreScene()

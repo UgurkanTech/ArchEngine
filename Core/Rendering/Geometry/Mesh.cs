@@ -95,7 +95,7 @@ namespace ArchEngine.Core.Rendering.Geometry
             GL.Disable(EnableCap.DepthTest);
             //GL.DepthFunc(DepthFunction.Never);
             //GL.DepthMask(true);
-            ShaderManager.ColorShader.SetMatrix4("model", Matrix4.CreateScale(1.04f) * Model);
+            ShaderManager.ColorShader.SetMatrix4("model", Matrix4.CreateScale(Model.ExtractScale() + (new Vector3(0.05f)) * Model.ExtractScale()) * Model.ClearScale());
             ShaderManager.ColorShader.Use();
             GL.BindVertexArray(Vao);
             

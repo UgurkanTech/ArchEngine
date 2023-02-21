@@ -67,15 +67,11 @@ namespace ArchEngine.GUI.Editor.Windows
         {
             Clear();
             Console.SetOut(new ConsoleDecorator(Console.Out));
-            
         }
         
         public static void Clear()
         {
-            for (int i = 0; i < 5; i++)
-            {
-                //_lines.Add("test sds messsssssssssssssage  sds ddd sdsds sdssd sdsds adsda");
-            }
+
 
             _stringWriter.GetStringBuilder().Clear();
            
@@ -143,6 +139,12 @@ namespace ArchEngine.GUI.Editor.Windows
                 {
                     //ImGui.TextWrapped(_lines[i]);
                 }
+                if (_stringWriter.GetStringBuilder().Length > 3000)
+                {
+                    string s = _stringWriter.GetStringBuilder().ToString().Substring(1000, _stringWriter.GetStringBuilder().Length - 1001);
+                    _stringWriter.GetStringBuilder().Clear();
+                    _stringWriter.WriteLineAsync(s);
+                }
                 ImGui.TextWrapped(_stringWriter.ToString());
                 ImGui.TextColored(Vector4.UnitX, "Broken native wrapping");
                 
@@ -152,6 +154,7 @@ namespace ArchEngine.GUI.Editor.Windows
                     oldLength = _stringWriter.GetStringBuilder().Length;
                     ImGui.SetScrollHereY(1.0f);
                 }
+
                 
                 ImGui.EndChild();
             }

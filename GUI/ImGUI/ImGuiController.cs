@@ -360,24 +360,7 @@ void main()
                 io.MouseDown[2] = MouseState[MouseButton.Middle];
 
                 io.MouseWheel = wnd.MouseState.ScrollDelta.Y;
-
-                wnd.KeyDown += args =>
-                {
-                    var character = GLFW.GetKeyName(Keys.Unknown, args.ScanCode);
- 
-
-                    
-                    //var shiftPressed = GLFW.GetKey(wnd, Keys.LeftShift) == InputAction.Press || GLFW.GetKey(window, Keys.RightShift) == InputAction.Press;
-                    //var capsLockOn = Console.CapsLock;
-
-
-                    //if (shiftPressed || capsLockOn)
-                    {
-                        character = character.ToUpper();
-                    }
-                    //Console.WriteLine(GLFW.GetKeyName(args.Key, args.ScanCode));
-                };
-
+                
               
                 var screenPoint = new Vector2i((int)MouseState.X, (int)MouseState.Y);
                 var point = screenPoint;//wnd.PointToClient(screenPoint);
@@ -420,11 +403,7 @@ void main()
                             //Not important:
                             //Console.WriteLine(e);
                         }
-                        
-                        
                     }
-                    
-                    
                 }
 
                 foreach (var c in PressedChars)
@@ -439,8 +418,7 @@ void main()
                 io.KeyShift = KeyboardState.IsKeyDown(Keys.LeftShift) || KeyboardState.IsKeyDown(Keys.RightShift);
                 io.KeySuper = KeyboardState.IsKeyDown(Keys.LeftSuper) || KeyboardState.IsKeyDown(Keys.RightSuper);
 
-                
-                
+  
         }
 
 

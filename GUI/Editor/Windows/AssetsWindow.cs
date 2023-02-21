@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using ArchEngine.Core;
+using System.Runtime.InteropServices;
 using ImGuiNET;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using SharpFont;
+using Encoding = System.Text.Encoding;
+using Window = ArchEngine.Core.Window;
 
 namespace ArchEngine.GUI.Editor.Windows
 {
@@ -18,8 +22,8 @@ namespace ArchEngine.GUI.Editor.Windows
         private static Stack<string> _directoryStack = new Stack<string>();
         private static string selected = "";
         private static FileInfo fileInfo;
-        
-        
+
+        private static string namePath = "";
         private static string[] folders;
         private static string[] files;
         public AssetsWindow(string path)
@@ -138,6 +142,7 @@ namespace ArchEngine.GUI.Editor.Windows
                     if (folders.Length > i)
                     {
                         name =  Path.GetFileName(folders[i]);
+                        namePath = folders[i];
                         if (ImGui.ImageButtonEx(ImGui.GetID(i + "assetsWindowButton"), Icons.Texture, new Vector2(12, 12), Icons.GetUV0FromID(216),
                                 Icons.GetUV1FromID(216),
                                 Vector2.Zero, Vector4.Zero, Vector4.One))
@@ -248,6 +253,7 @@ namespace ArchEngine.GUI.Editor.Windows
                     else
                     {
                         name =  Path.GetFileName(files[i - folders.Length]);
+                        namePath = files[i - folders.Length];
                         if (ImGui.ImageButtonEx(ImGui.GetID(i + "assetsWindowButton"), Icons.Texture, new Vector2(12, 12), Icons.GetUV0FromID(240),
                                 Icons.GetUV1FromID(240),
                                 Vector2.Zero, Vector4.Zero, Vector4.One))
@@ -333,6 +339,8 @@ namespace ArchEngine.GUI.Editor.Windows
                                 selected = files[i - folders.Length];
                                 fileInfo = new FileInfo(selected);
                             }
+
+                            
                             
                             isFolder = false;
                             _isRenaming = false;
@@ -354,7 +362,34 @@ namespace ArchEngine.GUI.Editor.Windows
 
                         }
                     }
+                    if (ImGuiNET.ImGui.BeginDragDropSource())
+                    {
 
+                        unsafe
+                        {
+                            GLFW.SetCursor(Window.instance.WindowPtr, GLFW.CreateStandardCursor(CursorShape.Hand));
+                        }
+                        var bytes = Encoding.ASCII.GetBytes(namePath);
+                        IntPtr dataPtr = Marshal.AllocHGlobal(bytes.Length);
+                        Marshal.Copy(bytes, 0, dataPtr, bytes.Length);
+                        
+                        bool status =
+                            ImGuiNET.ImGui.SetDragDropPayload("FILE", dataPtr, (uint)bytes.Length, ImGuiCond.Once);
+                        
+                        if(!status)
+                            Marshal.FreeHGlobal(dataPtr);
+
+                        ImGuiNET.ImGui.EndDragDropSource();
+                    }
+
+                    if (!ImGui.IsMouseDragging(ImGuiMouseButton.Left))
+                    {
+                        unsafe
+                        {
+                            GLFW.SetCursor(Window.instance.WindowPtr, null);
+                        }
+                    }
+                    
                 }
                 ImGui.PopStyleColor(); //chekc this
             }
@@ -487,7 +522,15 @@ namespace ArchEngine.GUI.Editor.Windows
                 psi.Verb = "open";
                 psi.UseShellExecute = true;
                 Process.Start(psi);
-                Console.WriteLine("File opened!");
+                Window._log.Info("File opened!");
+            }
+            else if (Directory.Exists(file))
+            {
+                ProcessStartInfo psi = new ProcessStartInfo(selected);
+                psi.Verb = "open";
+                psi.UseShellExecute = true;
+                Process.Start(psi);
+                Window._log.Info("Folder opened!");
             }
         }
         private static void DeleteFile(string file)
