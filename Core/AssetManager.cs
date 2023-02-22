@@ -123,18 +123,21 @@ namespace ArchEngine.Core
         {
             try
             {
+                Editor.state = Editor.EditorState.Loading;
                 _log.Info("Closing current scene..");
+                Editor.selectedGameobject = null;
                 Window.activeScene.Dispose();
-
                 _log.Info("Loading new scene..");
                 string path = @"C:\save.json";
                 Window.activeScene = Serializer.Load<Scene>(path);
                 _log.Info("Initializing new scene..");
                 RestoreScene();
                 Window.activeScene.Init();
-                _log.Info("Starting new scene..");
-                Window.activeScene.Start();
-                Editor.selectedGameobject = null;
+                _log.Info("Ready!");
+                Editor.state = Editor.EditorState.Idle;
+                //Window.activeScene.Start();
+
+                
             }
             catch (Exception e)
             {

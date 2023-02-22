@@ -313,6 +313,7 @@ namespace ArchEngine.GUI.Editor.Windows
                                      Marshal.Copy(payload.Data, bytes, 0, payload.DataSize);
                                      string data = Encoding.ASCII.GetString(bytes);
                                      Console.WriteLine("dropped " + data);
+                                     
                                      if (Directory.Exists(data))
                                      {
                                          mat.LoadTextures(data);

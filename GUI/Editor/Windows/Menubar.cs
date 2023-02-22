@@ -1,6 +1,5 @@
 ﻿using ArchEngine.Core;
 using ImGuiNET;
-using OpenTK.Mathematics;
 
 namespace ArchEngine.GUI.Editor.Windows
 {

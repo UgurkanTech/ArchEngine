@@ -138,10 +138,13 @@ namespace ArchEngine.Core.Rendering
             GL.PolygonMode(MaterialFace.FrontAndBack, mode);
             count = 1;
             GL.Enable(EnableCap.StencilTest);
-            foreach (var obj in objs)
+
+            for (int i = 0; i < objs.Count; i++)
             {
-                RenderRecursively(obj, Matrix4.Identity, rootActive:obj.isActive);
+                RenderRecursively(objs[i], Matrix4.Identity, rootActive:objs[i].isActive);
             }
+            
+            
             GL.Disable(EnableCap.StencilTest);
 
             if (Editor.selectedGameobject != null)

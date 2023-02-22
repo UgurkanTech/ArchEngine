@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
@@ -8,7 +7,6 @@ using ArchEngine.Core.Rendering.Camera;
 using ArchEngine.GUI;
 using ArchEngine.GUI.Editor;
 using ArchEngine.GUI.ImGUI;
-using ArchEngine.Scenes.Voxel;
 using ImGuiNET;
 using Microsoft.Win32;
 using OpenTK.Graphics.OpenGL;
@@ -205,7 +203,12 @@ namespace ArchEngine.Core
 	        _renderer.Use();
 	        _skyboxRenderer.Render();
 	        //GL.PolygonMode(MaterialFace.FrontAndBack,PolygonMode.Line);
-	        _renderer.RenderAllChildObjects(activeScene.gameObjects);
+
+	        if (activeScene != null && Editor.state != Editor.EditorState.Loading)
+	        {
+		        _renderer.RenderAllChildObjects(activeScene.gameObjects);
+	        }
+	        
 	        //GL.PolygonMode(MaterialFace.FrontAndBack,PolygonMode.Fill);
 	        //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
 	        

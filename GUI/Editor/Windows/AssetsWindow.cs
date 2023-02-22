@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 using ImGuiNET;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using SharpFont;
 using Encoding = System.Text.Encoding;
 using Window = ArchEngine.Core.Window;
 
@@ -369,6 +368,7 @@ namespace ArchEngine.GUI.Editor.Windows
                         {
                             GLFW.SetCursor(Window.instance.WindowPtr, GLFW.CreateStandardCursor(CursorShape.Hand));
                         }
+
                         var bytes = Encoding.ASCII.GetBytes(namePath);
                         IntPtr dataPtr = Marshal.AllocHGlobal(bytes.Length);
                         Marshal.Copy(bytes, 0, dataPtr, bytes.Length);

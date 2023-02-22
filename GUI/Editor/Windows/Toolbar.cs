@@ -1,5 +1,4 @@
-﻿using System;
-using ArchEngine.Core;
+﻿using ArchEngine.Core;
 using ImGuiNET;
 using ImGuizmoNET;
 using OpenTK.Graphics.OpenGL4;
@@ -23,7 +22,6 @@ namespace ArchEngine.GUI.Editor.Windows
                        Vector2.One, Vector4.Zero, Vector4.One))
                 {
                     Window.started = true;
-                    Console.WriteLine("Game started!");
                 }
                 ImGui.SameLine();
                 
@@ -31,7 +29,6 @@ namespace ArchEngine.GUI.Editor.Windows
                        Vector2.One, Vector4.Zero, Vector4.One))
                 {
                     Window.started = false;
-                    Console.WriteLine("Game stopped!");
                 }
                 ImGui.SameLine();
                 if( ImGui.ImageButtonEx(ImGui.GetID("Save"), Icons.Texture, new Vector2(20, 20), Icons.GetUV0FromID(249), Icons.GetUV1FromID(249),

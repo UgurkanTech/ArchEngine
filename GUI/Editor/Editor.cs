@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using ArchEngine.Core;
 using ArchEngine.Core.ECS;
 using ArchEngine.GUI.Editor.Windows;
-using ImGuiNET;
-using OpenTK.Mathematics;
 using Scene = ArchEngine.GUI.Editor.Windows.Scene;
 using Window = ArchEngine.Core.Window;
 
@@ -24,6 +21,7 @@ namespace ArchEngine.GUI.Editor
             NeedsCompiling,
             Compiling,
             Idle,
+            Loading,
             Playing
         }
 
@@ -75,7 +73,7 @@ namespace ArchEngine.GUI.Editor
                 
             }
 
-            if (state == EditorState.NeedsCompiling)
+            if (state == EditorState.NeedsCompiling && Window.activeScene != null)
             {
                 state = EditorState.Compiling;
                 new Thread(() =>

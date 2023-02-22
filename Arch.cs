@@ -5,7 +5,6 @@ using ArchEngine.GUI.Editor;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
-using Thread = System.Threading.Thread;
 using System.Windows.Forms;
 namespace ArchEngine
 {

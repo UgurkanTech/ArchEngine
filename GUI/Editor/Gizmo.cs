@@ -1,8 +1,6 @@
-﻿using System;
-using ArchEngine.Core.Rendering.Camera;
+﻿using ArchEngine.Core.Rendering.Camera;
 using ImGuiNET;
 using ImGuizmoNET;
-using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace ArchEngine.GUI.Editor

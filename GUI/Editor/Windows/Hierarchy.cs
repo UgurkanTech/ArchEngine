@@ -8,7 +8,7 @@ namespace ArchEngine.GUI.Editor.Windows
 {
     public class Hierarchy
     {
-        private static int selected = -1;
+        public static int selected = -1;
         private static int index;
         
         private static ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags.OpenOnArrow |  ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.DefaultOpen;
@@ -24,6 +24,8 @@ namespace ArchEngine.GUI.Editor.Windows
             ImGui.SetNextWindowSize(new Vector2(150, 300), ImGuiCond.FirstUseEver);
             
             Icons.ImguiBeginIcon("Hierarchy", 45);
+            
+            if (Window.activeScene == null) return;
             
             if (ImGui.BeginPopupContextWindow())
             {
@@ -211,8 +213,10 @@ namespace ArchEngine.GUI.Editor.Windows
                 
                 
                 gameObject.AddChild(dragObj);
-
+#if DEBUG
                 Window._log.Debug("Drop " + gameObject.name);
+#endif
+                
                 dragObj = null;
             }
 
@@ -243,7 +247,10 @@ namespace ArchEngine.GUI.Editor.Windows
                 
                 if (ImGui.IsItemClicked(ImGuiMouseButton.Left) || ImGui.IsItemClicked(ImGuiMouseButton.Right))
                 {
-                    Window._log.Debug("Selection changed");
+#if DEBUG
+                    Window._log.Debug("Selection changed to index:" + index + " from:" + selected);
+#endif
+                    
                     selected = index;
                     Editor.selectedGameobject = gameObject;
                 }
@@ -253,6 +260,8 @@ namespace ArchEngine.GUI.Editor.Windows
                     if (Editor.selectedGameobject == null)
                     {
                         selected = -1;
+                        needsSelectUpdate = false;
+                        
                     }
                     else if (Editor.selectedGameobject.Equals(gameObject))
                     {

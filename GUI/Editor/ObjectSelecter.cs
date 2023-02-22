@@ -55,6 +55,8 @@ namespace ArchEngine.GUI.Editor
         }
         private static void SelectObjectWithStencilID(int id)
         {
+            if (Window.activeScene == null) return;
+            
             GameObject go;
 
             scanRes = null;
@@ -64,8 +66,17 @@ namespace ArchEngine.GUI.Editor
                 
             }
 
-            Editor.selectedGameobject = scanRes;
-            Hierarchy.needsSelectUpdate = true;
+            if (scanRes != null)
+            {
+                Editor.selectedGameobject = scanRes;
+                Hierarchy.needsSelectUpdate = true;
+            }
+            else
+            {
+                Editor.selectedGameobject = null;
+                Hierarchy.selected = -1;
+            }
+            
             
         }
 

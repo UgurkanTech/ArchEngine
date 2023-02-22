@@ -19,38 +19,38 @@ namespace ArchEngine.GUI.Editor.Windows
         public override void WriteLine(string value)
         {
             consoleOriginal.WriteLine(value);
-            ConsoleWindow._stringWriter.WriteLine(value);
+            ConsoleWindow.WriteLine(value);
             // Fire event here with value
         }
         
         public override void WriteLine(int value)
         {
             consoleOriginal.WriteLine(value);
-            ConsoleWindow._stringWriter.WriteLine(value);
+            ConsoleWindow.WriteLine(value + "");
             // Fire event here with value
         }
         public override void WriteLine(object value)
         {
             consoleOriginal.WriteLine(value);
-            ConsoleWindow._stringWriter.WriteLine(value);
+            ConsoleWindow.WriteLine(value.ToString());
             // Fire event here with value
         }
         public override void WriteLine(long value)
         {
             consoleOriginal.WriteLine(value);
-            ConsoleWindow._stringWriter.WriteLine(value);
+            ConsoleWindow.WriteLine(value + "");
             // Fire event here with value
         }
         public override void Write(string value)
         {
             consoleOriginal.Write(value);
-            ConsoleWindow._stringWriter.Write(value);
+            ConsoleWindow.Write(value);
             // Fire event here with value
         }
         public override void Write(object value)
         {
             consoleOriginal.Write(value);
-            ConsoleWindow._stringWriter.Write(value);
+            ConsoleWindow.Write(value.ToString());
             // Fire event here with value
         }
         public override Encoding Encoding { get; }
@@ -60,8 +60,45 @@ namespace ArchEngine.GUI.Editor.Windows
     public class ConsoleWindow
     {
         private static List<string> _lines = new List<string>();
-        public static StringWriter _stringWriter = new StringWriter();
-        
+        private static StringWriter stringWriter = new StringWriter();
+        private static readonly object lockObject = new object();
+
+
+        public static void WriteLine(string s)
+        {
+            lock (lockObject)
+            {
+                stringWriter.WriteLine(s);
+            }
+        }
+        public static void Write(string s)
+        {
+            lock (lockObject)
+            {
+                stringWriter.Write(s);
+            }
+        }
+        public static void Clear()
+        {
+            lock (lockObject)
+            {
+                stringWriter.GetStringBuilder().Clear();
+            }
+        }
+        public static string getString()
+        {
+            lock (lockObject)
+            {
+               return stringWriter.GetStringBuilder().ToString();
+            }
+        }
+        public static int getLength()
+        {
+            lock (lockObject)
+            {
+                return stringWriter.GetStringBuilder().Length;
+            }
+        }
         private static bool autoscroll = true;
         public ConsoleWindow()
         {
@@ -69,14 +106,7 @@ namespace ArchEngine.GUI.Editor.Windows
             Console.SetOut(new ConsoleDecorator(Console.Out));
         }
         
-        public static void Clear()
-        {
 
-
-            _stringWriter.GetStringBuilder().Clear();
-           
-
-        }
 
         private static int oldLength = 0;
 
@@ -139,19 +169,28 @@ namespace ArchEngine.GUI.Editor.Windows
                 {
                     //ImGui.TextWrapped(_lines[i]);
                 }
-                if (_stringWriter.GetStringBuilder().Length > 3000)
+                if (getLength() > 3000)
                 {
-                    string s = _stringWriter.GetStringBuilder().ToString().Substring(1000, _stringWriter.GetStringBuilder().Length - 1001);
-                    _stringWriter.GetStringBuilder().Clear();
-                    _stringWriter.WriteLine(s);
+                    try
+                    {
+                        string s = getString().Substring(1000, getLength() - 1001);
+                        Clear();
+                        WriteLine(s);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                    
+                    
                 }
-                ImGui.TextWrapped(_stringWriter.ToString());
+                ImGui.TextWrapped(getString());
                 ImGui.TextColored(Vector4.UnitX, "Broken native wrapping");
                 
 
-                if (autoscroll && oldLength != _stringWriter.GetStringBuilder().Length)
+                if (autoscroll && oldLength != getLength())
                 {
-                    oldLength = _stringWriter.GetStringBuilder().Length;
+                    oldLength = getLength();
                     ImGui.SetScrollHereY(1.0f);
                 }
 
