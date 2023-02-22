@@ -16,7 +16,7 @@ namespace ArchEngine.Core.Rendering.Textures
         public string MaterialHash  { get; set; }
         public Material()
         {
-            //LoadTextures("Resources/Textures/wall");
+            LoadTextures("Resources/Textures/Default");
         }
         
         

@@ -11,10 +11,11 @@ namespace ArchEngine.GUI.Editor.Windows
     {
         public static void Draw()
         {
-            ImGui.SetNextWindowSize(new Vector2(370, 65), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowSize(new Vector2(400, 70));
-            if (ImGui.Begin("Tools",  ImGuiWindowFlags.NoScrollbar))
-            {
+            ImGui.SetNextWindowSizeConstraints(new Vector2(0,70), new Vector2(1920,70));
+            
+            Icons.ImguiBeginIcon("Tools", 115);
+            
                 ImGui.Columns(3);
                
                 
@@ -77,7 +78,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 {
                     Gizmo.op = TransformOperation.Scale;
                 }
-            }
+            
         }
     }
 }

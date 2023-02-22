@@ -86,8 +86,8 @@ namespace ArchEngine.GUI.Editor.Windows
             
             ImGui.SetNextWindowPos(new Vector2(55,100), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowSize(new Vector2(350, 100), ImGuiCond.FirstUseEver);
-            ImGui.Begin("Arch Console");
-            
+            //ImGui.Begin("Arch Console");
+            Icons.ImguiBeginIcon("Arch Console", 46);
 
             ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.2f, 0,0,1));
             

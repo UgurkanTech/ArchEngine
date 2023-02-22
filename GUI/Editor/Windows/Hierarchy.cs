@@ -22,8 +22,9 @@ namespace ArchEngine.GUI.Editor.Windows
             
             ImGui.SetNextWindowPos(new Vector2(25,100), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowSize(new Vector2(150, 300), ImGuiCond.FirstUseEver);
-            ImGui.Begin("Hierarchy");
-
+            
+            Icons.ImguiBeginIcon("Hierarchy", 45);
+            
             if (ImGui.BeginPopupContextWindow())
             {
                 if (ImGui.MenuItem("Add New Gameobject"))

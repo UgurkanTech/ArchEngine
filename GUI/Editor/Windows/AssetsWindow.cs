@@ -61,8 +61,8 @@ namespace ArchEngine.GUI.Editor.Windows
         {
             ImGui.SetNextWindowPos(new Vector2(255,200), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowSize(new Vector2(300, 300), ImGuiCond.FirstUseEver);
-            ImGui.Begin("Assets");
-            
+            //ImGui.Begin("Assets");
+            Icons.ImguiBeginIcon("Assets", 213);
             
             ImGui.BeginChild("Files", new Vector2( ImGui.GetContentRegionAvail().X ,  ImGui.GetContentRegionAvail().Y - 70), false);
 

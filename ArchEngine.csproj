@@ -182,6 +182,7 @@
       <EmbeddedResource Include="Resources\Textures\Default\roughness.png" />
       <None Remove="Resources\Textures\Default\albedo.png" />
       <EmbeddedResource Include="Resources\Textures\Default\albedo.png" />
+      <None Remove="Resources\Fonts\fa-solid-900.ttf" />
     </ItemGroup>
   
 </Project>

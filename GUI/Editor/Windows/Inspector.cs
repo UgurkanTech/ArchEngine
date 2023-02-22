@@ -37,7 +37,8 @@ namespace ArchEngine.GUI.Editor.Windows
             ImGui.SetNextWindowPos(new Vector2(400,100), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowSize(new Vector2(370, 220), ImGuiCond.FirstUseEver);
             
-            ImGui.Begin("Inspector");
+            //ImGui.Begin("Inspector");
+            Icons.ImguiBeginIcon("Inspector", 175);
 
             nodeFlags &= ~ImGuiTreeNodeFlags.Selected;
             
@@ -93,24 +94,25 @@ namespace ArchEngine.GUI.Editor.Windows
                     Vector3 roteuler = rot.ToEulerAngles().RadiansToAngles();
                     
                
-                    ImGui.Columns(2,"transforms", false);
                     //mGui.SetColumnWidth(0, 90);
-                    ImGui.SetColumnWidth(0, 55);
-                    ImGui.SetColumnWidth(1, ImGui.GetWindowWidth() - 55);
+                    
+                    
                     
                     ImGui.TextColored(new Vector4(0,200,0,255), "Position");
-                    ImGui.NextColumn();
-                    ImGui.SetNextItemWidth(ImGui.GetWindowWidth() - 50);
+                    ImGui.SameLine(50);
+                    ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
                     ImGui.DragFloat3("##POS", ref pos, 0.01f);
-                    ImGui.NextColumn();
+                    
+                    
                     ImGui.TextColored(new Vector4(0,200,0,255), "Rotation");
-                    ImGui.NextColumn();
-                    ImGui.SetNextItemWidth(ImGui.GetWindowWidth() - 50);
+                    ImGui.SameLine(50);
+                    ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
                     ImGui.DragFloat3("##ROT", ref roteuler, 0.01f);
-                    ImGui.NextColumn();
+                    
+                    
                     ImGui.TextColored(new Vector4(0,200,0,255), "Scale");
-                    ImGui.NextColumn();
-                    ImGui.SetNextItemWidth(ImGui.GetWindowWidth() - 50);
+                    ImGui.SameLine(50);
+                    ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
                     ImGui.DragFloat3("##SCL", ref scal, 0.01f);
                     
                    // ImGuizmo.Enable(true);
@@ -133,7 +135,7 @@ namespace ArchEngine.GUI.Editor.Windows
                     ImGui.TreePop();
                 }
                 ImGui.Dummy(new Vector2(0, 15));
-                ImGui.Columns();
+                
 
                 for (int i = 0; i < Editor.selectedGameobject._components.Count; i++)
                 {

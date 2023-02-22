@@ -1,6 +1,7 @@
 ﻿using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Rendering;
+using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.Core.Rendering.Textures;
 using OpenTK.Mathematics;
 
@@ -11,6 +12,18 @@ namespace ArchEngine.Core
     {
         public EditorScene()
         {
+            Material m = new Material();
+            m.Shader = ShaderManager.PbrShader;
+            
+            MeshRenderer mr2 = new MeshRenderer();
+            mr2.Material = m;
+
+            mr2.mesh = new Cube();
+
+            GameObject gm = new GameObject("Cube");
+            m.LoadTextures(@"C:\Users\saw\Desktop\Scripts\wall");
+            gm.AddComponent(mr2);
+            AddGameObject(gm);
         }
 
         public Scene AddDemo2()

@@ -18,8 +18,9 @@ namespace ArchEngine.GUI.Editor.Windows
             ImGui.SetNextWindowSize(new Vector2(300, 300), ImGuiCond.FirstUseEver);
     
 
-            ImGui.Begin("Scene");
-            
+            //ImGui.Begin("Scene");
+            Icons.ImguiBeginIcon("Scene", 79);
+
             //pass the texture of the FBO
             //window.getRenderTexture() is the texture of the FBO
             //the next parameter is the upper left corner for the uvs to be applied at
