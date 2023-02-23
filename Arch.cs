@@ -14,6 +14,7 @@ namespace ArchEngine
 
         public static String path = "";
        
+        [STAThread]
         static void Main(string[] args)
         {
             ResourceStream icon = new ResourceStream("arch.png", null);
@@ -27,6 +28,7 @@ namespace ArchEngine
                 //path = gtk.SelectFolder();
                 var dialog = new FolderBrowserDialog();
                 dialog.Description = "Select the project directory";
+                dialog.UseDescriptionForTitle = true;
                 DialogResult result = dialog.ShowDialog();
 
                 if (result == DialogResult.OK)

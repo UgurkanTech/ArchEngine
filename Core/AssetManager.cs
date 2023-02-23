@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.Core.Utils;
@@ -101,9 +102,24 @@ namespace ArchEngine.Core
         
         public static void SaveScene()
         {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Save File|*.json";
+            saveFileDialog1.Title = "Save the scene";
+            saveFileDialog1.ShowDialog();
+
+            string path = "";
+            if (saveFileDialog1.FileName != "")
+            {
+                path = saveFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+
             try
             {
-                string path = @"C:\save.json";
+                
                 Serializer.Save(Window.activeScene, path);
                 _log.Info("Scene saved! (" + path + ")");
             }
@@ -121,6 +137,14 @@ namespace ArchEngine.Core
 
         public static void LoadScene()
         {
+            OpenFileDialog file = new OpenFileDialog();  
+            file.Filter = "Save File|*.json";
+            file.RestoreDirectory = true;  
+            file.CheckFileExists = false;  
+            file.Title = "Load the scene";  
+            file.ShowDialog();
+
+            string path = file.FileName;
             try
             {
                 Editor.state = Editor.EditorState.Loading;
@@ -128,7 +152,7 @@ namespace ArchEngine.Core
                 Editor.selectedGameobject = null;
                 Window.activeScene.Dispose();
                 _log.Info("Loading new scene..");
-                string path = @"C:\save.json";
+                
                 Window.activeScene = Serializer.Load<Scene>(path);
                 _log.Info("Initializing new scene..");
                 RestoreScene();
