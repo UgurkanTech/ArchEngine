@@ -51,8 +51,25 @@ namespace ArchEngine.Core
 
         public static Mesh GetMeshByFilePath(string filePath)
         {
+            Stream stream;
+            if (filePath.Contains(":"))
+            {
+                stream = new ResourceStream(filePath).GetStream();
+            }
+            else
+            {
+                stream = new ResourceStream(filePath, null).GetStream();
+            }
+
+            if (stream == null)
+            {
+                Console.WriteLine("Mesh not found: " + filePath);
+                return null;
+            }
+            
             var assimpContext = new Assimp.AssimpContext();
-            var assimpScene = assimpContext.ImportFile(filePath,
+            
+            var assimpScene = assimpContext.ImportFileFromStream(stream,
   PostProcessSteps.GenerateSmoothNormals | PostProcessSteps.SortByPrimitiveType | PostProcessSteps.OptimizeGraph | PostProcessSteps.OptimizeMeshes | 
                 PostProcessSteps.JoinIdenticalVertices | PostProcessSteps.ValidateDataStructure | PostProcessSteps.CalculateTangentSpace | PostProcessSteps.GenerateNormals |
                 PostProcessSteps.Triangulate | PostProcessSteps.FixInFacingNormals   | PostProcessSteps.FlipUVs 
@@ -65,6 +82,8 @@ namespace ArchEngine.Core
             var faces = assimpMesh.Faces.ToArray();
             var uvs = assimpMesh.TextureCoordinateChannels[0].ToArray();
             var normals = assimpMesh.Normals.ToArray();
+            var tangents = assimpMesh.Tangents.ToArray();
+            var bitangents = assimpMesh.BiTangents.ToArray();
 
             List<float> vertList = new List<float>();
             List<int> indicesList = new List<int>();
@@ -80,6 +99,14 @@ namespace ArchEngine.Core
                 vertList.Add(normals[i].X);
                 vertList.Add(normals[i].Y);
                 vertList.Add(normals[i].Z);
+                
+                vertList.Add(tangents[i].X);
+                vertList.Add(tangents[i].Y);
+                vertList.Add(tangents[i].Z);
+                
+                vertList.Add(bitangents[i].X);
+                vertList.Add(bitangents[i].Y);
+                vertList.Add(bitangents[i].Z);
                 
             }
             for (int i = 0; i < faces.Length; i++)

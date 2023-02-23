@@ -18,7 +18,7 @@ namespace ArchEngine.Core
             MeshRenderer mr2 = new MeshRenderer();
             mr2.Material = m;
 
-            mr2.mesh = new Cube();
+            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/cube.fbx");
 
             GameObject gm = new GameObject("Cube");
             m.LoadTextures("wall");

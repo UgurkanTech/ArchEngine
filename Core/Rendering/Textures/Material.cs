@@ -14,6 +14,7 @@ namespace ArchEngine.Core.Rendering.Textures
         [JsonIgnore] public Texture metallicMap;
         [JsonIgnore] public Texture roughnessMap;
         [JsonIgnore] public Texture aoMap;
+        [JsonIgnore] public Texture dispMap;
 
         public Shader Shader { get; set; }
         public string MaterialHash  { get; set; }
@@ -61,6 +62,7 @@ namespace ArchEngine.Core.Rendering.Textures
             metallicMap = TextureManager.LoadFromFile(folderPath + "metallic.png", TextureUnit.Texture2);
             roughnessMap = TextureManager.LoadFromFile(folderPath + "roughness.png", TextureUnit.Texture3);
             aoMap = TextureManager.LoadFromFile(folderPath + "ao.png", TextureUnit.Texture4);
+            dispMap = TextureManager.LoadFromFile(folderPath + "displacement.png", TextureUnit.Texture5);
 
         }
 

@@ -183,6 +183,16 @@
       <None Remove="Resources\Textures\Default\albedo.png" />
       <EmbeddedResource Include="Resources\Textures\Default\albedo.png" />
       <None Remove="Resources\Fonts\fa-solid-900.ttf" />
+      <None Remove="Resources\Shaders\parallax.frag" />
+      <EmbeddedResource Include="Resources\Shaders\parallax.frag" />
+      <None Remove="Resources\Shaders\parallax.vert" />
+      <EmbeddedResource Include="Resources\Shaders\parallax.vert" />
+      
+      <None Remove="Resources\Models\cube.obj" />
+      
+      <None Remove="Resources\Models\cube.fbx" />
+      
+      <EmbeddedResource Include="Resources\Models\cube.fbx" />
     </ItemGroup>
   
 </Project>

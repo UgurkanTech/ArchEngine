@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ArchEngine.Core.Rendering.Camera;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering
@@ -23,7 +25,7 @@ namespace ArchEngine.Core.Rendering
         public static void LoadShaders()
         {
             //DefaultShader = new Shader("Resources/Shaders/shader.vert", "Resources/Shaders/shader.frag");
-            PbrShader = new Shader("Resources/Shaders/pbr.vert", "Resources/Shaders/pbr.frag");
+            PbrShader = new Shader("Resources/Shaders/parallax.vert", "Resources/Shaders/parallax.frag");
             ColorShader = new Shader("Resources/Shaders/shader.vert", "Resources/Shaders/color.frag");
             //EquirectAngularToCubemapShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/equirectangular.frag");
             //IrradianceShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/irradiance.frag");
@@ -46,17 +48,14 @@ namespace ArchEngine.Core.Rendering
             
             
             
-            PbrShader.SetInt("material.diffuse", 0);
-            PbrShader.SetInt("material.specular", 3);
+            PbrShader.SetInt("diffuseMap", 0);
+            PbrShader.SetInt("normalMap", 1);
+            PbrShader.SetInt("depthMap", 5);
             
-            //PbrShader.SetVector3("material.specular", new Vector3(1f, 0f, 0f));
-            PbrShader.SetFloat("material.shininess", 24.0f);
-
+            
             // Directional light needs a direction, in this example we just use (-0.2, -1.0, -0.3f) as the lights direction
-            PbrShader.SetVector3("light.direction", new Vector3(-0.2f, -1.0f, -0.3f));
-            PbrShader.SetVector3("light.ambient", new Vector3(0.6f));
-            PbrShader.SetVector3("light.diffuse", new Vector3(1f));
-            PbrShader.SetVector3("light.specular", new Vector3(0.6f));
+            PbrShader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
+            PbrShader.SetFloat("material.shininess", 32.0f);
             
             
             
@@ -66,6 +65,8 @@ namespace ArchEngine.Core.Rendering
             
         }
 
+        private static readonly Vector3 lightPos = new Vector3(0.5f, 1.0f, 0.3f);
+        
         public static void UpdateShaders(int witdh, int height)
         {
             var camera = CameraManager.EditorCamera;
@@ -79,7 +80,20 @@ namespace ArchEngine.Core.Rendering
             
             PbrShader.SetMatrix4("view", camera.GetViewMatrix());
             PbrShader.SetMatrix4("projection", camera.GetProjectionMatrix());
-            PbrShader.SetVector3("camPos", camera.Position);
+            PbrShader.SetVector3("viewPos", camera.Position);
+            PbrShader.SetVector3("lightPos", lightPos);
+            PbrShader.SetFloat("heightScale", 0.5f);
+            
+            
+            //PbrShader.SetInt("lightCount", 0);
+            
+            
+            
+            
+            
+            
+            
+            
             
             ColorShader.SetMatrix4("view", camera.GetViewMatrix());
             ColorShader.SetMatrix4("projection", camera.GetProjectionMatrix());

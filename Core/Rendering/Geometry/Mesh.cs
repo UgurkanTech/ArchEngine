@@ -48,15 +48,23 @@ namespace ArchEngine.Core.Rendering.Geometry
             
             var vertexLocation = mat.Shader.GetAttribLocation("aPos");
             GL.EnableVertexAttribArray(vertexLocation);
-            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false , 8 * sizeof(float), 0);
+            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false , 14 * sizeof(float), 0);
             
             var texCoordLocation = mat.Shader.GetAttribLocation("aTexCoords");
             GL.EnableVertexAttribArray(texCoordLocation);
-            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false , 8 * sizeof(float), 3 * sizeof(float));
+            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false , 14 * sizeof(float), 3 * sizeof(float));
             
             var normalLocation = mat.Shader.GetAttribLocation("aNormal");
             GL.EnableVertexAttribArray(normalLocation);
-            GL.VertexAttribPointer(normalLocation, 3, VertexAttribPointerType.Float, false , 8 * sizeof(float), 5 * sizeof(float));
+            GL.VertexAttribPointer(normalLocation, 3, VertexAttribPointerType.Float, false , 14 * sizeof(float), 5 * sizeof(float));
+
+            var tangentLocation = mat.Shader.GetAttribLocation("aTangent");
+            GL.EnableVertexAttribArray(tangentLocation);
+            GL.VertexAttribPointer(tangentLocation, 3, VertexAttribPointerType.Float, false , 14 * sizeof(float), 8 * sizeof(float));
+
+            var bitangentLocation = mat.Shader.GetAttribLocation("aBitangent");
+            GL.EnableVertexAttribArray(bitangentLocation);
+            GL.VertexAttribPointer(bitangentLocation, 3, VertexAttribPointerType.Float, false , 14 * sizeof(float), 11 * sizeof(float));
 
 
             if (Indices != null) //do this after vao

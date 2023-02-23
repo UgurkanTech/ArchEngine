@@ -147,6 +147,17 @@ namespace ArchEngine.Core.Rendering
         /// <param name="data">The data to set</param>
         public void SetInt(string name, int data)
         {
+            if (!_uniformLocations.TryGetValue(name, out var location))
+            {
+                // No variable in dictionary
+                // Get variable location
+                location = GL.GetUniformLocation(handle, name);
+                // Report
+                Console.WriteLine("Fixing old Graphics Driver shader error. Unknown location: {0} => {1}", name, location);
+                // Add this to dictionary, so in next time TryGetValue will succeed.
+                _uniformLocations.Add(name, location);
+            } 
+            
             GL.UseProgram(handle);
             GL.Uniform1(_uniformLocations[name], data);
         }
@@ -158,6 +169,18 @@ namespace ArchEngine.Core.Rendering
         /// <param name="data">The data to set</param>
         public void SetFloat(string name, float data)
         {
+            
+            if (!_uniformLocations.TryGetValue(name, out var location))
+            {
+                // No variable in dictionary
+                // Get variable location
+                location = GL.GetUniformLocation(handle, name);
+                // Report
+                Console.WriteLine("Fixing old Graphics Driver shader error. Unknown location: {0} => {1}", name, location);
+                // Add this to dictionary, so in next time TryGetValue will succeed.
+                _uniformLocations.Add(name, location);
+            }    
+            
             GL.UseProgram(handle);
             GL.Uniform1(_uniformLocations[name], data);
         }
@@ -174,6 +197,17 @@ namespace ArchEngine.Core.Rendering
         /// </remarks>
         public void SetMatrix4(string name, Matrix4 data)
         {
+            if (!_uniformLocations.TryGetValue(name, out var location))
+            {
+                // No variable in dictionary
+                // Get variable location
+                location = GL.GetUniformLocation(handle, name);
+                // Report
+                Console.WriteLine("Fixing old Graphics Driver shader error. Unknown location: {0} => {1}", name, location);
+                // Add this to dictionary, so in next time TryGetValue will succeed.
+                _uniformLocations.Add(name, location);
+            } 
+            
             GL.UseProgram(handle);
             GL.UniformMatrix4(_uniformLocations[name], true, ref data);
         }
@@ -186,6 +220,17 @@ namespace ArchEngine.Core.Rendering
         /// <param name="data">The data to set</param>
         public void SetVector3(string name, Vector3 data)
         {
+            if (!_uniformLocations.TryGetValue(name, out var location))
+            {
+                // No variable in dictionary
+                // Get variable location
+                location = GL.GetUniformLocation(handle, name);
+                // Report
+                Console.WriteLine("Fixing old Graphics Driver shader error. Unknown location: {0} => {1}", name, location);
+                // Add this to dictionary, so in next time TryGetValue will succeed.
+                _uniformLocations.Add(name, location);
+            } 
+            
             GL.UseProgram(handle);
             GL.Uniform3(_uniformLocations[name], data);
         }
