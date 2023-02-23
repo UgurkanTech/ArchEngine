@@ -119,7 +119,7 @@ namespace ArchEngine.GUI.Editor.Windows
             //ImGui.Begin("Arch Console");
             Icons.ImguiBeginIcon("Arch Console", 46);
 
-            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.2f, 0,0,1));
+            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.25f, 0.25f,0.25f,1));
             
                 
             if (ImGui.ImageButtonEx(ImGui.GetID("ClearConsole"), Icons.Texture, new Vector2(20, 20), Icons.GetUV0FromID(21),

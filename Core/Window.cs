@@ -102,8 +102,9 @@ namespace ArchEngine.Core
             
             //Stopwatch stopWatch = new Stopwatch();
             //stopWatch.Start();
-            
-            
+            _log.Info("Initializing editor...");
+
+            new Editor();
             //stopWatch.Stop();
             //Console.WriteLine("RunTime " + stopWatch.Elapsed.Milliseconds);
             
@@ -128,13 +129,13 @@ namespace ArchEngine.Core
             _log.Info("Scene initialization took: " + sw.ElapsedMilliseconds + "ms");
             
             
-            new Editor();
-            _log.Info("Arch Engine started!");
+            
             
             //Attributes.ScanAttiributes(this);
             _skyboxRenderer = new SkyboxRenderer();
             _skyboxRenderer.Init();
-            
+            _log.Info("Arch Engine started!");
+
         }
 
         private SkyboxRenderer _skyboxRenderer;

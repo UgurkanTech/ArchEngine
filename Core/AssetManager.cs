@@ -103,7 +103,7 @@ namespace ArchEngine.Core
         public static void SaveScene()
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Save File|*.json";
+            saveFileDialog1.Filter = "Scene File|*.arch";
             saveFileDialog1.Title = "Save the scene";
             saveFileDialog1.ShowDialog();
 
@@ -138,13 +138,17 @@ namespace ArchEngine.Core
         public static void LoadScene()
         {
             OpenFileDialog file = new OpenFileDialog();  
-            file.Filter = "Save File|*.json";
+            file.Filter = "Scene File|*.arch";
             file.RestoreDirectory = true;  
             file.CheckFileExists = false;  
             file.Title = "Load the scene";  
             file.ShowDialog();
 
             string path = file.FileName;
+            if (path == "")
+            {
+                return;
+            }
             try
             {
                 Editor.state = Editor.EditorState.Loading;

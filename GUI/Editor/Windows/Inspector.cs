@@ -149,7 +149,7 @@ namespace ArchEngine.GUI.Editor.Windows
                     if (ImGui.TreeNodeEx(component.GetType().Name + "", flagsNotS))
                     {
                         ImGui.NextColumn();
-                        ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.2f, 0,0,1));
+                        ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.25f, 0.25f,0.25f,1));
                         if (ImGui.ImageButtonEx(ImGui.GetID("DeleteComponent" + component.GetType().Name), Icons.Texture, new Vector2(15, 15), Icons.GetUV0FromID(21), Icons.GetUV1FromID(21),
                                 Vector2.Zero, Vector4.Zero, Vector4.One))
                         {
@@ -296,7 +296,7 @@ namespace ArchEngine.GUI.Editor.Windows
                          ImGui.Text("Material:");
                          ImGui.Indent(10);
                          ImGui.Image(Icons.Texture, new Vector2(15, 15), Icons.GetUV0FromID(215), Icons.GetUV1FromID(215)); ImGui.SameLine();
-                         if (ImGui.Button(mat?.MaterialHash, new Vector2(ImGui.GetColumnWidth(), 15)))
+                         if (ImGui.Button(mat?.MaterialHash + ((mat != null && mat.isTextureMissing) ? " [Missing]" : ""), new Vector2(ImGui.GetColumnWidth(), 15)))
                          {
                              
                              Console.WriteLine("clicked to " + component.gameObject.name);
@@ -312,11 +312,10 @@ namespace ArchEngine.GUI.Editor.Windows
                                      byte[] bytes = new byte[payload.DataSize];
                                      Marshal.Copy(payload.Data, bytes, 0, payload.DataSize);
                                      string data = Encoding.ASCII.GetString(bytes);
-                                     Console.WriteLine("dropped " + data);
                                      
                                      if (Directory.Exists(data))
                                      {
-                                         mat.LoadTextures(data);
+                                         mat.LoadTextures(data.Substring(Editor.projectDir.Length+1));
                                      }
                                      
                                  }

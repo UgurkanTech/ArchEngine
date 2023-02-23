@@ -42,6 +42,7 @@ namespace ArchEngine.Core.Rendering.Textures
                 {
                     stream = new ResourceStream(path, null).GetStream();
                 }
+                
                 using var image = new Bitmap(stream);
                 // Our Bitmap loads from the top-left pixel, whereas OpenGL loads from the bottom-left, causing the texture to be flipped vertically.
                 // This will correct that, making the texture display properly.

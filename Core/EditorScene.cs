@@ -21,7 +21,7 @@ namespace ArchEngine.Core
             mr2.mesh = new Cube();
 
             GameObject gm = new GameObject("Cube");
-            m.LoadTextures(@"C:\Users\saw\Desktop\Scripts\wall");
+            m.LoadTextures("wall");
             gm.AddComponent(mr2);
             AddGameObject(gm);
         }
