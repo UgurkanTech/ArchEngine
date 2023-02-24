@@ -13,6 +13,7 @@ using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor;
 using Assimp;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Common.Input;
 using Mesh = ArchEngine.Core.Rendering.Geometry.Mesh;
 using Scene = ArchEngine.Core.ECS.Scene;
@@ -71,8 +72,8 @@ namespace ArchEngine.Core
             
             var assimpScene = assimpContext.ImportFileFromStream(stream,
   PostProcessSteps.GenerateSmoothNormals | PostProcessSteps.SortByPrimitiveType | PostProcessSteps.OptimizeGraph | PostProcessSteps.OptimizeMeshes | 
-                PostProcessSteps.JoinIdenticalVertices | PostProcessSteps.ValidateDataStructure | PostProcessSteps.CalculateTangentSpace | PostProcessSteps.GenerateNormals |
-                PostProcessSteps.Triangulate | PostProcessSteps.FixInFacingNormals   | PostProcessSteps.FlipUVs 
+                 PostProcessSteps.ValidateDataStructure | PostProcessSteps.CalculateTangentSpace | PostProcessSteps.GenerateNormals |
+                PostProcessSteps.Triangulate | PostProcessSteps.FixInFacingNormals    | PostProcessSteps.FlipUVs 
                   );
 
             if (assimpScene == null)
@@ -80,6 +81,8 @@ namespace ArchEngine.Core
                 Console.WriteLine("Invalid Model. No meshes found! - " + filePath);
                 return null;
             }
+
+            assimpScene.RootNode.Transform *= Matrix4x4.FromRotationZ(3.14f / 2);
             
             //if (assimpScene.MeshCount > 1) throw new NotSupportedException("single meshes supported.");
             var assimpMesh = assimpScene.Meshes.First();
@@ -92,29 +95,99 @@ namespace ArchEngine.Core
             var bitangents = assimpMesh.BiTangents.ToArray();
             
             List<float> vertList = new List<float>();
-            List<int> indicesList = new List<int>();
-            for (int i = 0; i < verts.Length; i++)
+            for (int i = 0; i < verts.Length; i += 3)
             {
-                vertList.Add(verts[i].X);
-                vertList.Add(verts[i].Y);
-                vertList.Add(verts[i].Z);
-                
-                vertList.Add(uvs[i].X);
-                vertList.Add(uvs[i].Y);
-                
-                vertList.Add(normals[i].X);
-                vertList.Add(normals[i].Y);
-                vertList.Add(normals[i].Z);
-                
-                vertList.Add(tangents[i].X);
-                vertList.Add(tangents[i].Y);
-                vertList.Add(tangents[i].Z);
-                
-                vertList.Add(bitangents[i].X);
-                vertList.Add(bitangents[i].Y);
-                vertList.Add(bitangents[i].Z);
+
+                       // Get vertex positions of the polygon
+                    Vector3 v0 = verts[i].ToVector3TK();
+                    Vector3 v1 = verts[i + 1].ToVector3TK();
+                    Vector3 v2 = verts[i + 2].ToVector3TK();
+
+                    // Get texture coordinates of the polygon
+                    Vector2 uv0 = uvs[i].ToVector2TK();
+                    Vector2 uv1 = uvs[i + 1].ToVector2TK();
+                    Vector2 uv2 = uvs[i + 2].ToVector2TK();
+
+                    // Get normals of the polygon
+                    Vector3 n0 = normals[i].ToVector3TK();
+                    Vector3 n1 = normals[i + 1].ToVector3TK();
+                    Vector3 n2 = normals[i + 2].ToVector3TK();
+
+                    // Calculate position difference
+                    Vector3 deltaPos1 = v1 - v0;
+                    Vector3 deltaPos2 = v2 - v0;
+
+                    // Calculate texture coordinate difference
+                    Vector2 deltaUV1 = uv1 - uv0;
+                    Vector2 deltaUV2 = uv2 - uv0;
+
+                    // Calculate tangent and bitangent
+                    float r = 1.0f / (deltaUV1.X * deltaUV2.Y - deltaUV1.Y * deltaUV2.X);
+                    Vector3 tangent = (deltaPos1 * deltaUV2.Y - deltaPos2 * deltaUV1.Y) * r;
+                    Vector3 bitangent = (deltaPos2 * deltaUV1.X - deltaPos1 * deltaUV2.X) * r;
+
+                    // Orthogonalize using Gram–Schmidt process, to make tangents and bitangents smooth based on normal
+                    Vector3 t0 = tangent - n0 * Vector3.Dot(n0, tangent);
+                    Vector3 t1 = tangent - n1 * Vector3.Dot(n1, tangent);
+                    Vector3 t2 = tangent - n2 * Vector3.Dot(n2, tangent);
+                    
+                    
+
+                    Vector3 b0 = bitangent - n0 * Vector3.Dot(n0, bitangent);
+                    Vector3 b1 = bitangent - n1 * Vector3.Dot(n1, bitangent);
+                    Vector3 b2 = bitangent - n2 * Vector3.Dot(n2, bitangent);
+
+                    
+                    
+                    // Add vertices, texture coordinates, normals, tangents, and bitangents to the vertex list
+                    vertList.Add(v0.X);
+                    vertList.Add(v0.Z);
+                    vertList.Add(v0.Y);
+                    vertList.Add(uv0.X);
+                    vertList.Add(uv0.Y);
+                    vertList.Add(n0.X);
+                    vertList.Add(n0.Z);
+                    vertList.Add(n0.Y);
+                    vertList.Add(t0.X);
+                    vertList.Add(t0.Z);
+                    vertList.Add(t0.Y);
+                    vertList.Add(b0.X);
+                    vertList.Add(b0.Z);
+                    vertList.Add(b0.Y);
+
+                    vertList.Add(v1.X);
+                    vertList.Add(v1.Z);
+                    vertList.Add(v1.Y);
+                    vertList.Add(uv1.X);
+                    vertList.Add(uv1.Y);
+                    vertList.Add(n1.X);
+                    vertList.Add(n1.Z);
+                    vertList.Add(n1.Y);
+                    vertList.Add(t1.X);
+                    vertList.Add(t1.Z);
+                    vertList.Add(t1.Y);
+                    vertList.Add(b1.X);
+                    vertList.Add(b1.Z);
+                    vertList.Add(b1.Y);
+                    
+                    vertList.Add(v2.X);
+                    vertList.Add(v2.Z);
+                    vertList.Add(v2.Y);
+                    vertList.Add(uv2.X);
+                    vertList.Add(uv2.Y);
+                    vertList.Add(n2.X);
+                    vertList.Add(n2.Z);
+                    vertList.Add(n2.Y);
+                    vertList.Add(t2.X);
+                    vertList.Add(t2.Z);
+                    vertList.Add(t2.Y);
+                    vertList.Add(b2.X);
+                    vertList.Add(b2.Z);
+                    vertList.Add(b2.Y);
                 
             }
+
+            List<int> indicesList = new List<int>();
             for (int i = 0; i < faces.Length; i++)
             {
                 for (int j = 0; j < faces[i].Indices.Count; j++)
@@ -131,8 +204,40 @@ namespace ArchEngine.Core
             vertList.Clear();
             indicesList.Clear();
             return mesh;
-        } 
-        
+        }
+
+        private static (Vector3 tangent, Vector3 bitangent) CalculateTangentAndBitangent(
+            Vector3 v1, Vector3 v2, Vector3 v3,
+            Vector2 uv1, Vector2 uv2, Vector2 uv3,
+            Vector3 n1, Vector3 n2, Vector3 n3)
+        {
+        // Calculate the tangent and bitangent for a single triangle
+            var deltaPos1 = v2 - v1;
+            var deltaPos2 = v3 - v1;
+            var deltaUV1 = uv2 - uv1;
+            var deltaUV2 = uv3 - uv1;
+            float r = 1.0f / (deltaUV1.X * deltaUV2.Y - deltaUV1.Y * deltaUV2.X);
+
+            var tangent = new Vector3(
+                (deltaPos1.X * deltaUV2.Y - deltaPos2.X * deltaUV1.Y) * r,
+                (deltaPos1.Y * deltaUV2.Y - deltaPos2.Y * deltaUV1.Y) * r,
+                (deltaPos1.Z * deltaUV2.Y - deltaPos2.Z * deltaUV1.Y) * r);
+
+            var bitangent = new Vector3(
+                (deltaPos2.X * deltaUV1.X - deltaPos1.X * deltaUV2.X) * r,
+                (deltaPos2.Y * deltaUV1.X - deltaPos1.Y * deltaUV2.X) * r,
+                (deltaPos2.Z * deltaUV1.X - deltaPos1.Z * deltaUV2.X) * r);
+
+// Use vertex normal to calculate handedness of tangent and bitangent
+            var n = Vector3.Normalize(n1 + n2 + n3);
+            var hand = Vector3.Dot(Vector3.Cross(n, tangent), bitangent) < 0.0f ? -1.0f : 1.0f;
+
+            tangent *= hand;
+            bitangent *= hand;
+
+            return (tangent, bitangent);
+        }
+
         public static void SaveScene()
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();

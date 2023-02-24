@@ -18,8 +18,8 @@ namespace ArchEngine.Core
             MeshRenderer mr2 = new MeshRenderer();
             mr2.Material = m;
 
-            //mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/cube.fbx");
-            mr2.mesh = new Quad();
+            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/cube.fbx");
+            //mr2.mesh = new Quad();
 
             GameObject gm = new GameObject("Cube");
            // gm.Transform = Matrix4.CreateRotationX(3.14f / 2f);
