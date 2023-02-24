@@ -65,7 +65,7 @@ namespace ArchEngine.Core.Rendering
             
         }
 
-        private static readonly Vector3 lightPos = new Vector3(0.5f, 0.0f, 0.0f);
+        private static readonly Vector3 lightPos = new Vector3(0.0f, 0.0f, 3.0f);
         
         public static void UpdateShaders(int witdh, int height)
         {
@@ -81,8 +81,9 @@ namespace ArchEngine.Core.Rendering
             PbrShader.SetMatrix4("view", camera.GetViewMatrix());
             PbrShader.SetMatrix4("projection", camera.GetProjectionMatrix());
             PbrShader.SetVector3("viewPos", camera.Position);
+            
             PbrShader.SetVector3("lightPos", lightPos);
-            PbrShader.SetFloat("heightScale", 0.05f);
+            PbrShader.SetFloat("heightScale", 0.1f);
             
             
             //PbrShader.SetInt("lightCount", 0);

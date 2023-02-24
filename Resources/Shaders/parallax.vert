@@ -22,13 +22,14 @@ uniform vec3 viewPos;
 
 void main()
 {
-    vs_out.FragPos = vec3(model * vec4(aPos, 1.0));
+    vs_out.FragPos = vec3(vec4(aPos, 1.0) * model);
     vs_out.TexCoords = aTexCoords;
 
-    vec3 T = normalize(mat3(model) * aTangent);
-    vec3 B = normalize(mat3(model) * aBitangent);
-    vec3 N = normalize(mat3(model) * aNormal);
+    vec3 T = normalize(aTangent * mat3(model));
+    vec3 B = normalize(aBitangent * mat3(model));
+    vec3 N = normalize(aNormal * mat3(model));
     mat3 TBN = transpose(mat3(T, B, N));
+
 
     vs_out.TangentLightPos = TBN * lightPos;
     vs_out.TangentViewPos  = TBN * viewPos;

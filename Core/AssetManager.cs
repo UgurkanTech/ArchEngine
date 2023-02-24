@@ -72,8 +72,8 @@ namespace ArchEngine.Core
             
             var assimpScene = assimpContext.ImportFileFromStream(stream,
   PostProcessSteps.GenerateSmoothNormals | PostProcessSteps.SortByPrimitiveType | PostProcessSteps.OptimizeGraph | PostProcessSteps.OptimizeMeshes | 
-                 PostProcessSteps.ValidateDataStructure | PostProcessSteps.CalculateTangentSpace | PostProcessSteps.GenerateNormals |
-                PostProcessSteps.Triangulate | PostProcessSteps.FixInFacingNormals    | PostProcessSteps.FlipUVs 
+                 PostProcessSteps.ValidateDataStructure | PostProcessSteps.CalculateTangentSpace  |
+                PostProcessSteps.Triangulate    | PostProcessSteps.FlipUVs 
                   );
 
             if (assimpScene == null)
@@ -82,8 +82,7 @@ namespace ArchEngine.Core
                 return null;
             }
 
-            assimpScene.RootNode.Transform *= Matrix4x4.FromRotationZ(3.14f / 2);
-            
+           
             //if (assimpScene.MeshCount > 1) throw new NotSupportedException("single meshes supported.");
             var assimpMesh = assimpScene.Meshes.First();
 
@@ -91,8 +90,7 @@ namespace ArchEngine.Core
             var faces = assimpMesh.Faces.ToArray();
             var uvs = assimpMesh.TextureCoordinateChannels[0].ToArray();
             var normals = assimpMesh.Normals.ToArray();
-            var tangents = assimpMesh.Tangents.ToArray();
-            var bitangents = assimpMesh.BiTangents.ToArray();
+
             
             List<float> vertList = new List<float>();
             for (int i = 0; i < verts.Length; i += 3)
@@ -130,60 +128,67 @@ namespace ArchEngine.Core
                     Vector3 t0 = tangent - n0 * Vector3.Dot(n0, tangent);
                     Vector3 t1 = tangent - n1 * Vector3.Dot(n1, tangent);
                     Vector3 t2 = tangent - n2 * Vector3.Dot(n2, tangent);
-                    
+
+                    t0 = Vector3.Normalize(t0);
+                    t1 = Vector3.Normalize(t1);
+                    t2 = Vector3.Normalize(t2);
                     
 
                     Vector3 b0 = bitangent - n0 * Vector3.Dot(n0, bitangent);
                     Vector3 b1 = bitangent - n1 * Vector3.Dot(n1, bitangent);
                     Vector3 b2 = bitangent - n2 * Vector3.Dot(n2, bitangent);
 
-                    
-                    
-                    // Add vertices, texture coordinates, normals, tangents, and bitangents to the vertex list
-                    vertList.Add(v0.X);
-                    vertList.Add(v0.Z);
-                    vertList.Add(v0.Y);
-                    vertList.Add(uv0.X);
-                    vertList.Add(uv0.Y);
-                    vertList.Add(n0.X);
-                    vertList.Add(n0.Z);
-                    vertList.Add(n0.Y);
-                    vertList.Add(t0.X);
-                    vertList.Add(t0.Z);
-                    vertList.Add(t0.Y);
-                    vertList.Add(b0.X);
-                    vertList.Add(b0.Z);
-                    vertList.Add(b0.Y);
+                    b0 = Vector3.Normalize(b0);
+                    b1 = Vector3.Normalize(b1);
+                    b2 = Vector3.Normalize(b2);
 
-                    vertList.Add(v1.X);
-                    vertList.Add(v1.Z);
-                    vertList.Add(v1.Y);
-                    vertList.Add(uv1.X);
-                    vertList.Add(uv1.Y);
-                    vertList.Add(n1.X);
-                    vertList.Add(n1.Z);
-                    vertList.Add(n1.Y);
-                    vertList.Add(t1.X);
-                    vertList.Add(t1.Z);
-                    vertList.Add(t1.Y);
-                    vertList.Add(b1.X);
-                    vertList.Add(b1.Z);
-                    vertList.Add(b1.Y);
+
+                        vertList.Add(v0.X);
+                        vertList.Add(v0.Z);
+                        vertList.Add(v0.Y);
+                        vertList.Add(uv0.X);
+                        vertList.Add(uv0.Y);
+                        vertList.Add(n0.X);
+                        vertList.Add(n0.Z);
+                        vertList.Add(n0.Y);
+                        vertList.Add(t0.X);
+                        vertList.Add(t0.Z);
+                        vertList.Add(t0.Y);
+                        vertList.Add(b0.X);
+                        vertList.Add(b0.Z);
+                        vertList.Add(b0.Y);
+
+                        vertList.Add(v1.X);
+                        vertList.Add(v1.Z);
+                        vertList.Add(v1.Y);
+                        vertList.Add(uv1.X);
+                        vertList.Add(uv1.Y);
+                        vertList.Add(n1.X);
+                        vertList.Add(n1.Z);
+                        vertList.Add(n1.Y);
+                        vertList.Add(t1.X);
+                        vertList.Add(t1.Z);
+                        vertList.Add(t1.Y);
+                        vertList.Add(b1.X);
+                        vertList.Add(b1.Z);
+                        vertList.Add(b1.Y);
                     
-                    vertList.Add(v2.X);
-                    vertList.Add(v2.Z);
-                    vertList.Add(v2.Y);
-                    vertList.Add(uv2.X);
-                    vertList.Add(uv2.Y);
-                    vertList.Add(n2.X);
-                    vertList.Add(n2.Z);
-                    vertList.Add(n2.Y);
-                    vertList.Add(t2.X);
-                    vertList.Add(t2.Z);
-                    vertList.Add(t2.Y);
-                    vertList.Add(b2.X);
-                    vertList.Add(b2.Z);
-                    vertList.Add(b2.Y);
+                        vertList.Add(v2.X);
+                        vertList.Add(v2.Z);
+                        vertList.Add(v2.Y);
+                        vertList.Add(uv2.X);
+                        vertList.Add(uv2.Y);
+                        vertList.Add(n2.X);
+                        vertList.Add(n2.Z);
+                        vertList.Add(n2.Y);
+                        vertList.Add(t2.X);
+                        vertList.Add(t2.Z);
+                        vertList.Add(t2.Y);
+                        vertList.Add(b2.X);
+                        vertList.Add(b2.Z);
+                        vertList.Add(b2.Y);
+                    
+
                 
             }
 

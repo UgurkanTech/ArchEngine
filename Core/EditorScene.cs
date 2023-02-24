@@ -19,10 +19,11 @@ namespace ArchEngine.Core
             mr2.Material = m;
 
             mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/cube.fbx");
-            //mr2.mesh = new Quad();
+           // //mr2.mesh = new Quad();
 
             GameObject gm = new GameObject("Cube");
-           // gm.Transform = Matrix4.CreateRotationX(3.14f / 2f);
+           gm.Transform = Matrix4.CreateRotationY(1f);
+           gm.Transform *= Matrix4.CreateTranslation(0, 0, 1);
             m.LoadTextures("wall");
             gm.AddComponent(mr2);
             AddGameObject(gm);
