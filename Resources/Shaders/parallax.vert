@@ -22,9 +22,9 @@ uniform vec3 viewPos;
 
 void main()
 {
-    vs_out.FragPos = vec3(vec4(aPos, 1.0) * model);
+    vs_out.FragPos = vec3(model * vec4(aPos, 1.0));
     vs_out.TexCoords = aTexCoords;
-    
+
     vec3 T = normalize(mat3(model) * aTangent);
     vec3 B = normalize(mat3(model) * aBitangent);
     vec3 N = normalize(mat3(model) * aNormal);
@@ -33,6 +33,5 @@ void main()
     vs_out.TangentLightPos = TBN * lightPos;
     vs_out.TangentViewPos  = TBN * viewPos;
     vs_out.TangentFragPos  = TBN * vs_out.FragPos;
-
     gl_Position = vec4(aPos, 1.0) * model * view * projection;
 }

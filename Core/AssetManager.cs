@@ -75,6 +75,12 @@ namespace ArchEngine.Core
                 PostProcessSteps.Triangulate | PostProcessSteps.FixInFacingNormals   | PostProcessSteps.FlipUVs 
                   );
 
+            if (assimpScene == null)
+            {
+                Console.WriteLine("Invalid Model. No meshes found! - " + filePath);
+                return null;
+            }
+            
             //if (assimpScene.MeshCount > 1) throw new NotSupportedException("single meshes supported.");
             var assimpMesh = assimpScene.Meshes.First();
 
@@ -84,7 +90,7 @@ namespace ArchEngine.Core
             var normals = assimpMesh.Normals.ToArray();
             var tangents = assimpMesh.Tangents.ToArray();
             var bitangents = assimpMesh.BiTangents.ToArray();
-
+            
             List<float> vertList = new List<float>();
             List<int> indicesList = new List<int>();
             for (int i = 0; i < verts.Length; i++)
@@ -121,7 +127,7 @@ namespace ArchEngine.Core
             mesh.Vertices = vertList.ToArray();
             mesh.Indices = indicesList.ToArray();
             mesh.MeshHash = filePath;
-            Console.WriteLine("imported model verts: " + vertList.Count + " - indices: " + indicesList.Count);
+            Console.WriteLine("imported model verts: " + vertList.Count + " - indices: " + indicesList.Count + " - Has tangents:" + assimpMesh.HasTangentBasis + " - Has Normals:" + assimpMesh.HasNormals);
             vertList.Clear();
             indicesList.Clear();
             return mesh;

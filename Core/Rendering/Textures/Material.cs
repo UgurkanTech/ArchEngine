@@ -32,6 +32,7 @@ namespace ArchEngine.Core.Rendering.Textures
             metallicMap?.Use();
             roughnessMap?.Use();
             aoMap?.Use();
+            dispMap?.Use();
             
             Shader.SetMatrix4("model", model);
             Shader.Use();
@@ -76,6 +77,7 @@ namespace ArchEngine.Core.Rendering.Textures
             folderPath += folderPath.Contains(@"\") ?  @"\" : @"/";
             albedoMap = TextureManager.LoadFromFile(folderPath + "/albedo.png", TextureUnit.Texture0, true, mag, min);
             roughnessMap = TextureManager.LoadFromFile(folderPath + "/roughness.png", TextureUnit.Texture3,true, mag, min);
+            dispMap = TextureManager.LoadFromFile(folderPath + "displacement.png", TextureUnit.Texture5);
         }
 
 

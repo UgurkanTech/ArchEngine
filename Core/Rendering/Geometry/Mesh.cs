@@ -94,7 +94,7 @@ namespace ArchEngine.Core.Rendering.Geometry
             }
             else
             {
-                GL.DrawArrays(PrimitiveType.Triangles,0,VerticesCount * 3 / 8);
+                GL.DrawArrays(PrimitiveType.Triangles,0,VerticesCount * 3 / 14);
             }
         }
 

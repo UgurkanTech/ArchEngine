@@ -24,7 +24,7 @@ namespace ArchEngine.Core.ECS.Components
             Material mat = new Material();
             mat.Shader = ShaderManager.PbrShader;
             mat.MaterialHash = "";
-            mat.LoadTextures("Resources/Textures/Default");
+            //mat.LoadTextures("Resources/Textures/Default");
             Material = mat;
         }
 

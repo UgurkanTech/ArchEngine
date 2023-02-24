@@ -188,7 +188,14 @@
       <None Remove="Resources\Shaders\parallax.vert" />
       <EmbeddedResource Include="Resources\Shaders\parallax.vert" />
       
-      <None Remove="Resources\Models\cube.obj" />
+      
+      <None Remove="Resources\Models\sphere.fbx" />
+      
+      <EmbeddedResource Include="Resources\Models\sphere.fbx" />
+      
+      <None Remove="Resources\Models\cylinder.fbx" />
+      
+      <EmbeddedResource Include="Resources\Models\cylinder.fbx" />
       
       <None Remove="Resources\Models\cube.fbx" />
       
