@@ -87,9 +87,18 @@ namespace ArchEngine.Core.Rendering.Geometry
             
             if (IndicesCount != 0)
             {
-              
+                bool old = GL.IsEnabled(EnableCap.CullFace);
+                GL.Enable(EnableCap.CullFace);  
+                GL.CullFace(CullFaceMode.Front);
+                
+                //GL.FrontFace(FrontFaceDirection.Ccw);  
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, Ibo);
                 GL.DrawElements(BeginMode.Triangles, IndicesCount, DrawElementsType.UnsignedInt, 0);
+                GL.CullFace(CullFaceMode.Back);
+                if (!old)
+                {
+                    GL.Disable(EnableCap.CullFace);  
+                }
                 
             }
             else

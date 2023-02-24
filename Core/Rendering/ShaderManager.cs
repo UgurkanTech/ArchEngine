@@ -19,6 +19,7 @@ namespace ArchEngine.Core.Rendering
         public static Shader FullscreenShader;
         public static Shader SkyboxShader;
         public static Shader CubemapShader;
+        public static Shader LineShader;
 
         public static List<Shader> shaders = new List<Shader>();
 
@@ -31,6 +32,7 @@ namespace ArchEngine.Core.Rendering
             //IrradianceShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/irradiance.frag");
             //BackgroundShader = new Shader("Resources/Shaders/background.vert", "Resources/Shaders/background.frag");
             //PrefilterShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/prefilter.frag");
+            LineShader = new Shader("Resources/Shaders/line.vert", "Resources/Shaders/line.frag");
             
             TextShader = new Shader("Resources/Shaders/text.vert", "Resources/Shaders/text.frag");
             FullscreenShader = new Shader("Resources/Shaders/fullscreen.vert", "Resources/Shaders/fullscreen.frag");
@@ -99,6 +101,9 @@ namespace ArchEngine.Core.Rendering
             ColorShader.SetMatrix4("view", camera.GetViewMatrix());
             ColorShader.SetMatrix4("projection", camera.GetProjectionMatrix());
 
+            LineShader.SetMatrix4("view", camera.GetViewMatrix());
+            LineShader.SetMatrix4("projection", camera.GetProjectionMatrix());
+            
             Matrix3 mat3 = new Matrix3(camera.GetViewMatrix());
             
             SkyboxShader.SetMatrix4("view", new Matrix4(mat3));

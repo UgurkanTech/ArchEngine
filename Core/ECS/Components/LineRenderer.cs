@@ -1,4 +1,6 @@
-﻿using ArchEngine.Core.Rendering;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Drawing;
+using ArchEngine.Core.Rendering;
 using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.GUI.Editor;
@@ -21,15 +23,48 @@ namespace ArchEngine.Core.ECS.Components
         
         private Vector3 _StartPos { get; set; }
         private Vector3 _EndPos { get; set; }
+        
+        private Color4 color;
+
+        private int width;
 
         public LineRenderer()
         {
             Material mat = new Material();
-            mat.Shader = ShaderManager.ColorShader;
+            mat.Shader = ShaderManager.LineShader;
             Material = mat;
+            color = Color4.Red;
             line = Primitives.Line;
             StartPos = Vector3.Zero;
             EndPos = Vector3.One;
+            width = 3;
+
+        }
+        
+        [Inspector][Range(1, 32)] public int Width
+        {
+            get
+            {
+                return width;
+            }
+            set
+            {
+                width = value;
+                line.width = value;
+            }
+        }
+        
+        [Inspector] public Color4 Color
+        {
+            get
+            {
+                return color;
+            }
+            set
+            {
+                color = value;
+                line.color = new Vector4(color.R, color.G, color.B, color.A);
+            }
         }
         
         [Inspector] public Vector3 StartPos
@@ -62,6 +97,8 @@ namespace ArchEngine.Core.ECS.Components
             if (!initialized && line != null)
             {
                 line.InitBuffers(Material);
+                line.color = new Vector4(color.R, color.G, color.B, color.A);
+                line.width = width;
                 initialized = true;
             }
         }

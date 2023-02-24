@@ -1,4 +1,5 @@
-﻿using ArchEngine.Core.Rendering.Textures;
+﻿using System;
+using ArchEngine.Core.Rendering.Textures;
 using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
@@ -12,6 +13,10 @@ namespace ArchEngine.Core.Rendering.Geometry
         [JsonIgnore] public int Ibo { get; set; }
         [JsonIgnore] public float[] Vertices { get; set; }
         [JsonIgnore] public int[] Indices { get; set; }
+
+        [JsonIgnore] public Vector4 color;
+        
+        [JsonIgnore] public int width;
 
         public void InitBuffers(Material mat)
         {
@@ -42,12 +47,13 @@ namespace ArchEngine.Core.Rendering.Geometry
         public void Render(Matrix4 Model, Material mat)
         {
             mat.Use(Model);
-
+            mat.Shader.SetVector4("color", color);
+            
             GL.BindVertexArray(Vao);
             
-            GL.PointSize(5);
+            GL.PointSize(width+2);
             GL.DrawArrays(PrimitiveType.Points, 0, 2);
-            GL.LineWidth(3);
+            GL.LineWidth(width);
             GL.DrawArrays(PrimitiveType.Lines, 0, 2);
         }
 

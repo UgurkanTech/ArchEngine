@@ -234,5 +234,21 @@ namespace ArchEngine.Core.Rendering
             GL.UseProgram(handle);
             GL.Uniform3(_uniformLocations[name], data);
         }
+        public void SetVector4(string name, Vector4 data)
+        {
+            if (!_uniformLocations.TryGetValue(name, out var location))
+            {
+                // No variable in dictionary
+                // Get variable location
+                location = GL.GetUniformLocation(handle, name);
+                // Report
+                Console.WriteLine("Fixing old Graphics Driver shader error. Unknown location: {0} => {1}", name, location);
+                // Add this to dictionary, so in next time TryGetValue will succeed.
+                _uniformLocations.Add(name, location);
+            } 
+            
+            GL.UseProgram(handle);
+            GL.Uniform4(_uniformLocations[name], data);
+        }
     }
 }
