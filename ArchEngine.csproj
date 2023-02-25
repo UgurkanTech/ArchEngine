@@ -206,6 +206,13 @@
       <None Remove="Resources\Models\light.fbx" />
       
 
+     
+      
+      <None Remove="Resources\Models\backpack.fbx" />
+      
+      <EmbeddedResource Include="Resources\Models\backpack.fbx" />
+      
+
     </ItemGroup>
   
 </Project>

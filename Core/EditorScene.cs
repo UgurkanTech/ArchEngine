@@ -18,13 +18,14 @@ namespace ArchEngine.Core
             MeshRenderer mr2 = new MeshRenderer();
             mr2.Material = m;
 
-            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/cube.fbx");
+            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/backpack.fbx");
            // //mr2.mesh = new Quad();
 
             GameObject gm = new GameObject("Cube");
            gm.Transform = Matrix4.CreateRotationY(1f);
            gm.Transform *= Matrix4.CreateTranslation(0, 0, 1);
-            m.LoadTextures("wall");
+           
+            m.LoadTextures("backpack");
             gm.AddComponent(mr2);
             AddGameObject(gm);
         }

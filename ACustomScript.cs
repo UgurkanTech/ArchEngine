@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ArchEngine.Core.ECS;
+using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor;
 using OpenTK.Mathematics;
 
@@ -17,14 +18,20 @@ namespace ArchEngine
         public override void Start() {}
         public override void FixedUpdate()
         {
-            Matrix4 mat = Matrix4.Identity;
+            //Matrix4 mat = Matrix4.Identity;
             
             
-            mat = Matrix4.CreateScale( gameObject.Transform.ExtractScale());
-            mat *= Matrix4.CreateRotationY(Runtime.CurrentRuntime);
-            mat *= Matrix4.CreateTranslation(gameObject.Transform.ExtractTranslation());
+            //mat = Matrix4.CreateScale( gameObject.Transform.ExtractScale());
+            //mat *= Matrix4.CreateRotationZ(Runtime.CurrentRuntime);
+            //mat *= Matrix4.CreateTranslation(gameObject.Transform.ExtractTranslation());
 
-            gameObject.Transform = mat;
+            var t = gameObject.Transform;
+                
+            t.RotateY(1);
+
+            gameObject.Transform = t;
+            
+            //gameObject.Transform = mat;
             myFloat1 = Runtime.CurrentRuntime;
         }
     }
