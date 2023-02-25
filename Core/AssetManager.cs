@@ -72,7 +72,7 @@ namespace ArchEngine.Core
             
             var assimpScene = assimpContext.ImportFileFromStream(stream,
   PostProcessSteps.GenerateSmoothNormals | PostProcessSteps.SortByPrimitiveType | PostProcessSteps.OptimizeGraph | PostProcessSteps.OptimizeMeshes | 
-                 PostProcessSteps.ValidateDataStructure | PostProcessSteps.CalculateTangentSpace  |
+                 PostProcessSteps.ValidateDataStructure | PostProcessSteps.CalculateTangentSpace  | PostProcessSteps.GenerateUVCoords |
                 PostProcessSteps.Triangulate    | PostProcessSteps.FlipUVs 
                   );
 
@@ -90,6 +90,15 @@ namespace ArchEngine.Core
             var faces = assimpMesh.Faces.ToArray();
             var uvs = assimpMesh.TextureCoordinateChannels[0].ToArray();
             var normals = assimpMesh.Normals.ToArray();
+
+            if (uvs.Length == 0)
+            {
+                uvs = new Vector3D[verts.Length * 3 / 2];
+                for (int u = 0; u < uvs.Length; u++)
+                {
+                    uvs[u] = new Vector3D(0, 0, 0);
+                }
+            }
 
             
             List<float> vertList = new List<float>();

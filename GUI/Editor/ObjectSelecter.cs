@@ -2,6 +2,7 @@
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Rendering.Camera;
+using ArchEngine.Core.Rendering.Lighting;
 using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor.Windows;
 using ImGuiNET;
@@ -102,7 +103,14 @@ namespace ArchEngine.GUI.Editor
                         scanRes = gameObject;
                     }
                 }  
-
+                else if (component.GetType() == typeof(PointLight))
+                {
+                    PointLight mr = component as PointLight;
+                    if (mr.StencilID == id)
+                    {
+                        scanRes = gameObject;
+                    }
+                }  
             });
             gameObject._childs.ForEach(child =>
             {

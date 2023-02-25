@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ArchEngine.Core.Rendering.Camera;
+using ArchEngine.Core.Rendering.Lighting;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
@@ -23,6 +24,7 @@ namespace ArchEngine.Core.Rendering
 
         public static List<Shader> shaders = new List<Shader>();
 
+        
         public static void LoadShaders()
         {
             //DefaultShader = new Shader("Resources/Shaders/shader.vert", "Resources/Shaders/shader.frag");
@@ -39,7 +41,7 @@ namespace ArchEngine.Core.Rendering
             SkyboxShader = new Shader("Resources/Shaders/skybox.vert", "Resources/Shaders/skybox.frag");
             CubemapShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/cubemap.frag");
         }
-
+        
         public static void StartShaders()
         {
             //BackgroundShader.Use();
@@ -59,15 +61,14 @@ namespace ArchEngine.Core.Rendering
             PbrShader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
             PbrShader.SetFloat("material.shininess", 32.0f);
             
-            
-            
+
             //Matrix4 ortho = Matrix4.CreateOrthographic(800, 600, 0, 100);
             //TextShader.SetMatrix4("projection", CameraManager.EditorCamera.GetProjectionMatrix());
             
             
         }
 
-        private static readonly Vector3 lightPos = new Vector3(0.0f, 0.0f, 3.0f);
+        
         
         public static void UpdateShaders(int witdh, int height)
         {
@@ -84,20 +85,24 @@ namespace ArchEngine.Core.Rendering
             PbrShader.SetMatrix4("projection", camera.GetProjectionMatrix());
             PbrShader.SetVector3("viewPos", camera.Position);
             
-            PbrShader.SetVector3("lightPos", lightPos);
-            PbrShader.SetFloat("heightScale", 0.1f);
             
+            PbrShader.SetFloat("heightScale", 0.1f);
+
+            PbrShader.SetInt("lightCount", PointLight.PointLights.Count);
+            for (int i = 0; i < PointLight.PointLights.Count; i++)
+            {
+                PbrShader.SetVector3("lightPositions[" + i + "]", PointLight.PointLights[i].gameObject.getWorldPosition());
+                if (PointLight.PointLights[i].gameObject.GetActive())
+                    PbrShader.SetVector3("lightColors[" + i + "]", PointLight.PointLights[i].color);
+                else
+                    PbrShader.SetVector3("lightColors[" + i + "]", Vector3.Zero);
+
+                
+            }
             
             //PbrShader.SetInt("lightCount", 0);
             
-            
-            
-            
-            
-            
-            
-            
-            
+
             ColorShader.SetMatrix4("view", camera.GetViewMatrix());
             ColorShader.SetMatrix4("projection", camera.GetProjectionMatrix());
 

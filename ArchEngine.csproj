@@ -200,6 +200,12 @@
       <None Remove="Resources\Models\cube.fbx" />
       
       <EmbeddedResource Include="Resources\Models\cube.fbx" />
+      
+      <EmbeddedResource Include="Resources\Models\light.fbx" />
+      
+      <None Remove="Resources\Models\light.fbx" />
+      
+
     </ItemGroup>
   
 </Project>

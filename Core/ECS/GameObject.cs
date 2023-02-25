@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ArchEngine.Core.Rendering.Textures;
 using Newtonsoft.Json;
 using OpenTK.Mathematics;
 
@@ -20,6 +21,50 @@ namespace ArchEngine.Core.ECS
         public GameObject parent = null;
 
         public bool isActive = true;
+
+        public Vector3 getWorldPosition()
+        {
+            return getWorldTransform().ExtractTranslation();
+        }
+        
+        public Matrix4 getWorldTransform()
+        {
+            Matrix4 world = GetWorldTransform(this);
+            return world;
+        }
+
+        public static Matrix4 GetWorldTransform(GameObject gameObject)
+        {
+            Matrix4 transform = gameObject.Transform;
+
+            // If this gameobject doesn't have a parent, its world transform is just its local transform
+            if (gameObject.parent == null)
+            {
+                return transform;
+            }
+
+            // Otherwise, recursively compute the parent's world transform and combine it with the local transform
+            Matrix4 parentWorldTransform = GetWorldTransform(gameObject.parent);
+            return   transform * parentWorldTransform;
+        }
+
+        public bool GetActive()
+        {
+            return GetActive(this);
+        }
+        
+        private bool GetActive(GameObject gameObject)
+        {
+            bool active = gameObject.isActive;
+            
+            if (gameObject.parent == null)
+            {
+                return active;
+            }
+
+            bool parentActive = GetActive(gameObject.parent);
+            return parentActive && active;
+        }
         
         public GameObject(String name = "GameObject")
         {
@@ -84,6 +129,7 @@ namespace ArchEngine.Core.ECS
             {
                 if (_components[i].GetType() == typeof(T))
                 {
+                    _components[i].Dispose();
                     _components.RemoveAt(i);
                     return;
                 }
@@ -95,6 +141,7 @@ namespace ArchEngine.Core.ECS
             {
                 if (_components[i].GetType() == component.GetType())
                 {
+                    _components[i].Dispose();
                     _components.RemoveAt(i);
                     return;
                 }
@@ -107,6 +154,7 @@ namespace ArchEngine.Core.ECS
             {
                 if (_childs[i].Equals(child))
                 {
+                    _childs[i].Dispose();
                     _childs.RemoveAt(i);
                     return;
                 }

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Rendering.Geometry;
+using ArchEngine.Core.Rendering.Lighting;
 using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.GUI.Editor;
 using OpenTK.Graphics.OpenGL4;
@@ -94,7 +96,18 @@ namespace ArchEngine.Core.Rendering
                     mr.StencilID = count;
                     count++;
                 }
+                else if (component.GetType() == typeof(PointLight))
+                {
+                    PointLight mr = component as PointLight;
+                    
+                    if (!mr.initialized)
+                        return;
+                    GL.StencilFunc(StencilFunction.Always, count, -1);
 
+                    PointLight.lightMesh.Render( Matrix4.CreateScale(0.2f) * parent.Transform * parentMatrix , PointLight.mat);
+                    mr.StencilID = count;
+                    count++;
+                }
             });
             parent._childs.ForEach(child =>
             {
@@ -122,6 +135,14 @@ namespace ArchEngine.Core.Rendering
                         return;
                     mr.line.UpdatePositions(mr.StartPos, mr.EndPos);
                     mr.line.RenderOutline(parent.Transform * parentMatrix);
+                }
+                else if (component.GetType() == typeof(PointLight))
+                {
+                    PointLight mr = component as PointLight;
+                    if (!mr.initialized)
+                        return;
+                    PointLight.lightMesh.RenderOutline(Matrix4.CreateScale(0.2f) * parent.Transform * parentMatrix);
+
                 }
             });
             parent._childs.ForEach(child =>
