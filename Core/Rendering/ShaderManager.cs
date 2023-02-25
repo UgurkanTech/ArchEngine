@@ -27,7 +27,7 @@ namespace ArchEngine.Core.Rendering
         
         public static void LoadShaders()
         {
-            //DefaultShader = new Shader("Resources/Shaders/shader.vert", "Resources/Shaders/shader.frag");
+            DefaultShader = new Shader("Resources/Shaders/shader.vert", "Resources/Shaders/shader.frag");
             PbrShader = new Shader("Resources/Shaders/parallax.vert", "Resources/Shaders/parallax.frag");
             ColorShader = new Shader("Resources/Shaders/shader.vert", "Resources/Shaders/color.frag");
             //EquirectAngularToCubemapShader = new Shader("Resources/Shaders/cubemap.vert", "Resources/Shaders/equirectangular.frag");
@@ -57,6 +57,8 @@ namespace ArchEngine.Core.Rendering
             PbrShader.SetInt("depthMap", 5);
             
             
+            DefaultShader.SetInt("diffuseMap", 0);
+            
             // Directional light needs a direction, in this example we just use (-0.2, -1.0, -0.3f) as the lights direction
             PbrShader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
             PbrShader.SetFloat("material.shininess", 32.0f);
@@ -81,6 +83,13 @@ namespace ArchEngine.Core.Rendering
             
            // BackgroundShader.SetMatrix4("view", camera.GetViewMatrix());
             
+           
+           
+           DefaultShader.SetMatrix4("view", camera.GetViewMatrix());
+           DefaultShader.SetMatrix4("projection", camera.GetProjectionMatrix());
+           DefaultShader.SetVector3("viewPos", camera.Position);
+           
+           
             PbrShader.SetMatrix4("view", camera.GetViewMatrix());
             PbrShader.SetMatrix4("projection", camera.GetProjectionMatrix());
             PbrShader.SetVector3("viewPos", camera.Position);

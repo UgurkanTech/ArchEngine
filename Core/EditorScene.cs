@@ -13,7 +13,7 @@ namespace ArchEngine.Core
         public EditorScene()
         {
             Material m = new Material();
-            m.Shader = ShaderManager.PbrShader;
+            m.Shader = ShaderManager.DefaultShader;
             
             MeshRenderer mr2 = new MeshRenderer();
             mr2.Material = m;
