@@ -15,7 +15,7 @@ namespace ArchEngine.Scenes.Voxel
         public override void Start()
         {
             Material mat = new Material();
-            mat.Shader = ShaderManager.PbrShader;
+            mat.Shader = ShaderManager.DefaultShader;
             mat.LoadAlbedo("Resources/Textures/tiles", TextureMagFilter.Nearest, TextureMinFilter.Nearest);
             
             Stopwatch sw = new Stopwatch();

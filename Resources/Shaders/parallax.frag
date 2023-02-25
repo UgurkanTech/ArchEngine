@@ -20,8 +20,8 @@ uniform sampler2D depthMap; //5
 
 uniform float heightScale;
 
-uniform vec3 lightPositions[4];
-uniform vec3 lightColors[4];
+uniform vec3 lightPositions[16];
+uniform vec3 lightColors[16];
 uniform int lightCount;
 
 const float PI = 3.14159265359;
@@ -137,8 +137,8 @@ void main()
     discard;
 
     // obtain normal from normal map
-    vec3 normal = texture(normalMap, texCoords).rgb;
-    normal = normalize(normal * 2.0 - 1.0);
+    //vec3 normal = texture(normalMap, texCoords).rgb;
+    //normal = normalize(normal * 2.0 - 1.0);
 
     //Textures
     vec3 albedo     = pow(texture(diffuseMap, texCoords).rgb, vec3(2.2));
@@ -149,7 +149,7 @@ void main()
 
 
     vec3 N = getNormalFromMap(texCoords);
-    normal = N;
+    //normal = N;
     vec3 V = normalize(fs_in.camPos - fs_in.FragPos);
 
     // calculate reflectance at normal incidence; if dia-electric (like plastic) use F0 

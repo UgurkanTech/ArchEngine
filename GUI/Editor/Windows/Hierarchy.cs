@@ -40,12 +40,13 @@ namespace ArchEngine.GUI.Editor.Windows
                         if (Editor.selectedGameobject.parent != null)
                         {
                             Editor.selectedGameobject.parent.RemoveChild(Editor.selectedGameobject);
+                            
                         }
                         else
                         {
                             Window.activeScene.RemoveGameObject(Editor.selectedGameobject);
                         }
-
+                        Editor.selectedGameobject.Dispose();
                         Editor.selectedGameobject = null;
                     }
                     selected = -1;
