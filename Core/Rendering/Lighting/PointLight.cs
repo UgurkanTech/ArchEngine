@@ -93,7 +93,7 @@ namespace ArchEngine.Core.Rendering.Lighting
 
         public void Update()
         {
-            Console.WriteLine(color.ToString());
+
         }
     }
 }

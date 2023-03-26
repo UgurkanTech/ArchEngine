@@ -63,24 +63,30 @@ namespace ArchEngine.GUI.ImGUI
             {
                 fixed (byte* p = Encoding.UTF8.GetBytes("layout.ini"))
                 {
-                    io.NativePtr->IniFilename = p;
+                    io.NativePtr->IniFilename = null;
+
                 }
                 
             }
             RegistryKey key2 = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\ArchEngine");  
             if (File.Exists("layout.ini"))
             {
+                Console.WriteLine("Loading Layout.ini");
                 ImGui.LoadIniSettingsFromDisk("layout.ini");
             }
             else if (key2 != null)
             {
+                Console.WriteLine("Loading Layout from registry");
                 string config = key2.GetValue("layout") as string;
+                Console.WriteLine("Length:" + config.Length);
                 ImGui.LoadIniSettingsFromMemory(config);
             }
             else
             {
+                Console.WriteLine("Creating new Layout and saving to registry");
                 string config = new ResourceStream("layout.ini", null).GetString();
                 ImGui.LoadIniSettingsFromMemory(config);
+                
                 //ImGui.SaveIniSettingsToDisk("layout.ini");
                 try
                 {

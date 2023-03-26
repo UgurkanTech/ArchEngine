@@ -41,7 +41,7 @@ namespace ArchEngine
             thread.Priority = ThreadPriority.Highest;
             thread.SetApartmentState(ApartmentState.STA);
 #if DEBUG
-            path = @"C:\Users\saw\Desktop\Scripts";
+            path = @"C:\Users\ugurk\Desktop\Scripts";
 #else
             thread.Start();
 #endif

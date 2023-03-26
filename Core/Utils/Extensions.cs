@@ -1,6 +1,7 @@
 ﻿using System;
 using Assimp;
 using OpenTK.Mathematics;
+using Quaternion = OpenTK.Mathematics.Quaternion;
 
 namespace ArchEngine.Core.Utils
 {
@@ -46,20 +47,31 @@ namespace ArchEngine.Core.Utils
 
         public static void RotateX(this ref Matrix4 matrix, float angleInDegrees)
         {
+            Matrix4 old = matrix;
             float angleInRadians = MathHelper.DegreesToRadians(angleInDegrees);
-            matrix *= Matrix4.CreateRotationX(angleInRadians);
+            matrix = Matrix4.CreateScale(old.ExtractScale());
+            matrix *= Matrix4.CreateFromQuaternion(old.ExtractRotation() * Quaternion.FromAxisAngle(Vector3.UnitX, angleInRadians));
+            matrix *= Matrix4.CreateTranslation(old.ExtractTranslation());
         }
 
         public static void RotateY(this ref Matrix4 matrix, float angleInDegrees)
         {
+            Matrix4 old = matrix;
             float angleInRadians = MathHelper.DegreesToRadians(angleInDegrees);
-            matrix *= Matrix4.CreateRotationY(angleInRadians);
+            matrix = Matrix4.CreateScale(old.ExtractScale());
+            matrix *= Matrix4.CreateFromQuaternion(old.ExtractRotation() * Quaternion.FromAxisAngle(Vector3.UnitY, angleInRadians));
+            matrix *= Matrix4.CreateTranslation(old.ExtractTranslation());
+            
         }
+        
 
         public static void RotateZ(this ref Matrix4 matrix, float angleInDegrees)
         {
+            Matrix4 old = matrix;
             float angleInRadians = MathHelper.DegreesToRadians(angleInDegrees);
-            matrix *= Matrix4.CreateRotationZ(angleInRadians);
+            matrix = Matrix4.CreateScale(old.ExtractScale());
+            matrix *= Matrix4.CreateFromQuaternion(old.ExtractRotation() * Quaternion.FromAxisAngle(Vector3.UnitZ, angleInRadians));
+            matrix *= Matrix4.CreateTranslation(old.ExtractTranslation());
         }
         
     }

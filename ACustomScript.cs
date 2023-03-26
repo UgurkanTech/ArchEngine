@@ -8,11 +8,14 @@ namespace ArchEngine
 {
     public class ACustomScript : Script
     {
+
+        [Inspector] public bool rotateX;
+        [Inspector] public bool rotateY;
+        [Inspector] public bool rotateZ;
         [Inspector] public float myFloat1;
         [Inspector] public float myFloat2;
         [Inspector] public Vector3 myVector3;
         [Inspector][Range(0, 20)] public int myIntSlider;
-        [Inspector] public bool myCheckbox;
         [Inspector] public Color4 myColor;
         public override void Update() {}
         public override void Start() {}
@@ -26,8 +29,21 @@ namespace ArchEngine
             //mat *= Matrix4.CreateTranslation(gameObject.Transform.ExtractTranslation());
 
             var t = gameObject.Transform;
-                
-            t.RotateY(1);
+
+            if (rotateX)
+            {
+                t.RotateX(1);
+            }
+
+            if (rotateY)
+            {
+                t.RotateY(1);
+            }
+
+            if (rotateZ)
+            {
+                t.RotateZ(1);
+            }
 
             gameObject.Transform = t;
             
