@@ -170,6 +170,7 @@ namespace ArchEngine.Core.ECS
             {
                 foreach (var c in _components)
                 {
+                    c.gameObject = this;
                     c.Init();
                 }
 

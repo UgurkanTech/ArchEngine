@@ -2,6 +2,7 @@
 using System.Threading;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
+using ArchEngine.Core.Physics;
 using ArchEngine.Core.Rendering;
 using ArchEngine.Core.Rendering.Camera;
 using ArchEngine.GUI;
@@ -117,6 +118,7 @@ namespace ArchEngine.Core
             _controller.DrawLoadingBarAndSwapBuffers(this, 90, "Initializing scene...");
             _log.Info("Initializing scene...");
             
+            new PhysicsCore();
             //activeScene = new EditorScene().AddDemo2();
             activeScene = new EditorScene();
             
@@ -136,6 +138,7 @@ namespace ArchEngine.Core
             _skyboxRenderer.Init();
             _log.Info("Arch Engine started!");
 
+            
         }
 
         private SkyboxRenderer _skyboxRenderer;
@@ -174,19 +177,7 @@ namespace ArchEngine.Core
 		        CursorVisible = true;
 	        }
 
-	        if (firstStart && started)
-	        {
-		        Stopwatch sw = new Stopwatch();
-		        sw.Start();
-		        activeScene.Start();
-		        sw.Stop();
-		        _log.Info("Scene start took " + sw.ElapsedMilliseconds + "ms");
-		        firstStart = false;
-	        }
-	        if (started)
-		        activeScene.Update();
-	        else
-		        firstStart = true;
+	       
 	        
 
 
@@ -261,6 +252,23 @@ namespace ArchEngine.Core
             {
                 return;
             }
+            
+            if (firstStart && started)
+            {
+	            Stopwatch sw = new Stopwatch();
+	            sw.Start();
+	            activeScene.Start();
+	            sw.Stop();
+	            _log.Info("Scene start took " + sw.ElapsedMilliseconds + "ms");
+	            firstStart = false;
+            }
+            if (started)
+	            activeScene.Update();
+            else
+	            firstStart = true;
+            
+            
+            
 			Editor.EditorUpdate();
             var input = KeyboardState;
             var mouse = MouseState;

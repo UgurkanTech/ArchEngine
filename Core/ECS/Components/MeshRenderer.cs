@@ -20,7 +20,7 @@ namespace ArchEngine.Core.ECS.Components
 
         public MeshRenderer()
         {
-            mesh = Primitives.Cube;
+            mesh = AssetManager.GetMeshByFilePath("Resources/Models/cube.fbx");
             Material mat = new Material();
             mat.Shader = ShaderManager.PbrShader;
             mat.MaterialHash = "";

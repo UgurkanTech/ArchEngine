@@ -1,7 +1,12 @@
-﻿using ArchEngine.Core.Rendering.Camera;
+﻿using ArchEngine.Core.Physics;
+using ArchEngine.Core.Rendering.Camera;
+using ArchEngine.Core.Utils;
+using BulletSharp;
+using BulletSharp.Math;
 using ImGuiNET;
 using ImGuizmoNET;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Window = ArchEngine.Core.Window;
 
 namespace ArchEngine.GUI.Editor
 {
@@ -11,6 +16,7 @@ namespace ArchEngine.GUI.Editor
         public static TransformOperation op = TransformOperation.Translate;
         public static void Draw()
         {
+            
             var cameraView = CameraManager.EditorCamera.GetViewMatrix();
             var cameraProj = CameraManager.EditorCamera.GetProjectionMatrix();
             if (Editor.selectedGameobject != null)
@@ -28,12 +34,34 @@ namespace ArchEngine.GUI.Editor
                 
                 var transform = Editor.selectedGameobject.Transform;
 
+                bool isRigid = false;
+                if (Editor.selectedGameobject.HasComponent<RigidObject>() && Window.started)
+                {
+                    var _rb = Editor.selectedGameobject.GetComponent<RigidObject>()._rb;
+                    _rb.MotionState.GetWorldTransform(out Matrix mm);
+                    transform = mm.MatrixToMatrix4();
+                    isRigid = true;
+                }
+
                
                 ImGuizmo.Manipulate(ref cameraView.Row0.X, ref cameraProj.Row0.X, op, TransformMode.Local, ref transform.Row0.X);
                 
                 if (ImGuizmo.IsUsing())
                 {
-                    Editor.selectedGameobject.Transform = transform;
+                    
+                    if (isRigid)
+                    {
+                        var _rb = Editor.selectedGameobject.GetComponent<RigidObject>()._rb;
+                        Matrix matr = transform.Matrix4ToMatrix();
+                        _rb.MotionState = new DefaultMotionState(matr);
+                        _rb.WorldTransform = matr;
+                        _rb.MotionState.WorldTransform = matr;
+                    }
+                    else
+                    {
+                        Editor.selectedGameobject.Transform = transform;
+                    }
+                    
                     usingGizmo = true;
                 }
                 else

@@ -214,6 +214,7 @@ namespace ArchEngine.Core
             mesh.Vertices = vertList.ToArray();
             mesh.Indices = indicesList.ToArray();
             mesh.MeshHash = filePath;
+            mesh.AssimpScene = assimpScene;
             Console.WriteLine("imported model verts: " + vertList.Count + " - indices: " + indicesList.Count + " - Has tangents:" + assimpMesh.HasTangentBasis + " - Has Normals:" + assimpMesh.HasNormals);
             vertList.Clear();
             indicesList.Clear();

@@ -1,13 +1,16 @@
 ﻿using System;
-using ArchEngine.Core.Rendering.Textures;
+using Assimp;
 using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using Material = ArchEngine.Core.Rendering.Textures.Material;
+using PrimitiveType = OpenTK.Graphics.OpenGL4.PrimitiveType;
 
 namespace ArchEngine.Core.Rendering.Geometry
 {
     public class Mesh : IRenderable
     {
+        [JsonIgnore] public Scene AssimpScene { get; set; }
         [JsonIgnore] public string MeshHash  { get; set; }
         [JsonIgnore] public int Vao { get; set; }
         [JsonIgnore] public int Vbo { get; set; }

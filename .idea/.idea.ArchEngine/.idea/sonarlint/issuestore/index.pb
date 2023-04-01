@@ -27,8 +27,6 @@ H
 Core/Rendering/Shader.cs,0\e\0e5c856adfb21897cbdddc4165428c1e1a1e11cc
 R
 "Core/Rendering/Textures/Texture.cs,1\9\19d9166b4d2eeba302fbc0a2a2d68aeb2cd5a431
-R
-"Core/ECS/Components/RigidObject.cs,4\5\4543faa0ff1ba64b99f842caa2eb57695fa06587
 S
 #Core/ECS/Components/LineRenderer.cs,1\e\1e020cd2a730bde9bc2ee3f53ae40d05b8279dbd
 S
@@ -43,24 +41,16 @@ S
 #Core/Rendering/Text/FreeTypeFont.cs,1\4\14967846ca444001dee7b30032add67acc90486c
 E
 Core/ECS/Component.cs,0\3\0345a8b34c91b3f03d31c28a3838d71b7f3e521b
-F
-Core/ECS/GameObject.cs,d\0\d024b44c8e63b243506809f007c3baf37948a42d
-S
-#Core/ECS/Components/MeshCollider.cs,e\3\e358806dd2e78fd1dc345b967f899a903d0eec52
 O
 Core/Rendering/Camera/Camera.cs,d\9\d92cc2debb02971e3c1c5757cc9115c660e99777
 H
 GUI/Editor/Attributes.cs,f\4\f41f2a1924aa7483034addbe65fe70eacd276b2c
-D
-Core/Physics/AABB.cs,3\b\3b4a98cd4316ea2adcbec0a2739ec3244572c385
 B
 Core/ECS/Script.cs,2\e\2e8c09a8cae01e167b98d1d3f421b2bf9dc80765
 M
 Resources/Shaders/skybox.frag,5\1\5137ead1a8588a173ef611ada47923eda28f0567
 M
 Resources/Shaders/skybox.vert,b\5\b585da2bf2f6d159854442acf9d5ebd216905677
-S
-#Core/ECS/Components/MeshRenderer.cs,f\5\f55f5007364a86c339004af20e012c61bf1370f9
 U
 %Core/ECS/Components/SkyboxRenderer.cs,0\f\0fc6d6db57fa2c49726103d3479c974686b277cd
 E
@@ -71,12 +61,6 @@ I
 Scenes/Voxel/BlockMeta.cs,7\f\7fdcdbf9363b48b6ba92057e8bb920ef06ee08aa
 N
 Scenes/Voxel/BlockGenerator.cs,4\b\4b95ca6273409de3b4278902fc3a6c27a526f2f9
-K
-Core/Physics/PhysicsCore.cs,c\4\c484ce41fa5ad40179e88f3cd983840b168c67c8
-O
-GUI/Editor/Windows/Inspector.cs,1\1\11a4953fac63dadd7ef29f18c1e6bb38a6ddf5f0
->
-Core/Window.cs,5\a\5aa96f6ceb083a13ab401d27c909fce1abb24c2e
 :
 
 layout.ini,c\d\cdf0e564e3b83f760f71a38a07df9d9d6b799e37
@@ -86,21 +70,31 @@ L
 Arch.cs,3\e\3e35a7d79993ab8266523b10b0290035f2022f6b
 M
 Scenes/Voxel/MeshGenerator.cs,4\2\4203b8fc5a79b79126dd2726515dbe3b841f6837
-D
-Core/AssetManager.cs,0\3\03741d0ebfce69a7fe0dae30614cc5574097f00d
-=
-Core/Scene.cs,e\e\ee560e8bac23dbd2364421fa189df7d68bda87e6
-H
-Core/Utils/Extensions.cs,3\3\330d15099503e370314306bc511169df6304cf05
 @
 ACustomScript.cs,2\8\2890700c4118c1278ceff0457f4a0f91c45e0801
 U
 %Core/Rendering/Lighting/PointLight.cs,7\1\71d6c772e17185cecebbd4fd7ecab64bed0a495f
 J
 Core/Rendering/Renderer.cs,5\2\52605bad6f842b0ab056e021af0135d2b26ff43f
-O
-Core/Rendering/Geometry/Mesh.cs,5\a\5a26851ce2ebcce46aae9ec7b0c7fe45208cc0c7
-C
-Core/EditorScene.cs,5\4\547b8fa30c7aa2eaa2f86ca03353366d5f0d8661
 Q
 !Resources/Shaders/irradiance.frag,c\0\c0eae449d27e5627cfd3e21867a37c0964d41b0d
+O
+Resources/Shaders/parallax.vert,3\1\31d2dd204095721d75b90d509bd215dc2223c56e
+O
+Resources/Shaders/parallax.frag,3\b\3b67310133dd6fb0dc1e0485308b2ec08916be47
+O
+Core/Rendering/ShaderManager.cs,e\f\ef8a6a67a0a072638b5fa0cba6f7e005c9a55f44
+S
+#Core/ECS/Components/MeshCollider.cs,e\3\e358806dd2e78fd1dc345b967f899a903d0eec52
+M
+Core/Rendering/Framebuffer.cs,2\5\25b1315c80f3970a35ba527daca5c873214670fa
+O
+Core/Rendering/Geometry/Mesh.cs,5\a\5a26851ce2ebcce46aae9ec7b0c7fe45208cc0c7
+D
+Core/Physics/AABB.cs,3\b\3b4a98cd4316ea2adcbec0a2739ec3244572c385
+D
+Core/AssetManager.cs,0\3\03741d0ebfce69a7fe0dae30614cc5574097f00d
+S
+#Core/ECS/Components/MeshRenderer.cs,f\5\f55f5007364a86c339004af20e012c61bf1370f9
+D
+GUI/Editor/Editor.cs,0\f\0fa114a39a3db3c5ab4b9026a270039d517c08f6

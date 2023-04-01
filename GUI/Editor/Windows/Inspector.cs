@@ -8,15 +8,20 @@ using System.Runtime.InteropServices;
 using System.Text;
 using ArchEngine.Core;
 using ArchEngine.Core.ECS;
+using ArchEngine.Core.Physics;
 using ArchEngine.Core.Rendering.Camera;
 using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.Core.Utils;
+using BulletSharp;
+using BulletSharp.Math;
 using ImGuiNET;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Component = ArchEngine.Core.ECS.Component;
 using Quaternion = OpenTK.Mathematics.Quaternion;
+using Vector3 = OpenTK.Mathematics.Vector3;
+using Vector4 = OpenTK.Mathematics.Vector4;
 using Window = ArchEngine.Core.Window;
 
 namespace ArchEngine.GUI.Editor.Windows
@@ -48,6 +53,15 @@ namespace ArchEngine.GUI.Editor.Windows
                 Matrix4 mat = Matrix4.Identity;
                 
                 mat = Editor.selectedGameobject.Transform;
+                
+                
+                if (Editor.selectedGameobject.HasComponent<RigidObject>() && Window.started)
+                {
+                    var _rb = Editor.selectedGameobject.GetComponent<RigidObject>()._rb;
+                    _rb.MotionState.GetWorldTransform(out Matrix mm);
+                    mat = mm.MatrixToMatrix4();
+                }
+                
                 nameBuffer = Encoding.ASCII.GetBytes(Editor.selectedGameobject.name);
                 
             
@@ -90,8 +104,7 @@ namespace ArchEngine.GUI.Editor.Windows
                     Vector3 pos = mat.ExtractTranslation();
                     Quaternion rot = mat.ExtractRotation();
                     Vector3 scal = mat.ExtractScale();
-
-
+                    
                     Vector3 roteuler = rot.ToEulerAngles().RadiansToAngles();
                     
                
@@ -132,6 +145,18 @@ namespace ArchEngine.GUI.Editor.Windows
                     mat *= Matrix4.CreateTranslation(pos);
                 
                     Editor.selectedGameobject.Transform = mat;
+                    if (Editor.selectedGameobject.HasComponent<RigidObject>())
+                    {
+                        var _rb = Editor.selectedGameobject.GetComponent<RigidObject>()._rb;
+                        Matrix matr = mat.Matrix4ToMatrix();
+                        _rb.MotionState = new DefaultMotionState(matr);
+                        _rb.WorldTransform = matr;
+                        _rb.MotionState.WorldTransform = matr;
+                        _rb.LinearVelocity = BulletSharp.Math.Vector3.Zero;
+                        _rb.AngularVelocity = BulletSharp.Math.Vector3.Zero;
+                        
+                    }
+
                     
                     ImGui.TreePop();
                 }
@@ -188,6 +213,7 @@ namespace ArchEngine.GUI.Editor.Windows
                         {
                             Type type = component;
                             Component o = Activator.CreateInstance(type) as Component;
+                            o.gameObject = Editor.selectedGameobject;
                             o.Init();
                             Editor.selectedGameobject.AddComponent(o);
                             ImGui.CloseCurrentPopup();

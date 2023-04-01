@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using ArchEngine.Core.Physics;
 
 namespace ArchEngine.Core.ECS
 {
@@ -48,6 +49,7 @@ namespace ArchEngine.Core.ECS
         
         public void FixedUpdate()
         {
+            PhysicsCore.Step();
             for (int i = 0; i < gameObjects.Count; i++)
             {
                 gameObjects[i].FixedUpdate();
@@ -120,6 +122,7 @@ namespace ArchEngine.Core.ECS
 
         public void Dispose()
         {
+
             foreach (var gameObject in gameObjects)
             {
                 gameObject.Dispose();
