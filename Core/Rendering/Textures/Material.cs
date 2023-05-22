@@ -2,7 +2,7 @@
 using System.IO;
 using ArchEngine.GUI.Editor;
 using Newtonsoft.Json;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering.Textures

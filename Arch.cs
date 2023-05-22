@@ -2,10 +2,12 @@
 using System.Threading;
 using ArchEngine.Core;
 using ArchEngine.GUI.Editor;
-using OpenTK.Mathematics;
+using OpenTK;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using System.Windows.Forms;
+using OpenTK.Mathematics;
+
 namespace ArchEngine
 {
     public static class Arch
@@ -41,7 +43,7 @@ namespace ArchEngine
             thread.Priority = ThreadPriority.Highest;
             thread.SetApartmentState(ApartmentState.STA);
 #if DEBUG
-            path = @"C:\Users\ugurk\Desktop\Scripts";
+            path = @"C:\Users\ugurkan\Desktop\project";
 #else
             thread.Start();
 #endif
@@ -58,8 +60,9 @@ namespace ArchEngine
                 Size = new Vector2i(800, 600),
                 Title = "Arch Engine",
                 // This is needed to run on macos
-                Flags = ContextFlags.Default,
-                NumberOfSamples = 8,
+                //AutoLoadBindings = true,
+                Flags = ContextFlags.ForwardCompatible,
+                NumberOfSamples = 0,
                 APIVersion = new Version(3,3),
                 Profile = ContextProfile.Core,
                 Icon = AssetManager.LoadWindowIcon(icon.GetStream()),
@@ -71,7 +74,7 @@ namespace ArchEngine
             //return;
 
             using Window window = new Window(GameWindowSettings.Default, nativeWindowSettings);
-            window.VSync = VSyncMode.Adaptive;
+            window.VSync = VSyncMode.Off;
             //window.Location = new Vector2i(1920 / 2 - 400, 1080 / 2 - 300);
             _log.Info("Waiting project selection.");
             

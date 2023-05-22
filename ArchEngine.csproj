@@ -42,8 +42,8 @@
       <PackageReference Include="log4net" Version="2.0.14" />
       <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-      <PackageReference Include="OpenTK" Version="4.7.5" />
-      <PackageReference Include="OpenTK.Windowing.Desktop" Version="4.7.5" />
+      <PackageReference Include="OpenTK" Version="4.7.7" />
+      <PackageReference Include="OpenTK.Windowing.Desktop" Version="4.7.7" />
       <PackageReference Include="SharpFontCore" Version="0.1.1" />
       <PackageReference Include="SpaceWizards.SharpFont" Version="1.0.1" />
       <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
@@ -56,7 +56,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="costura64" />
       <Folder Include="Resources\Textures\Skybox" />
       <Folder Include="Resources\Textures\tiles" />
     </ItemGroup>
@@ -212,6 +211,10 @@
       <None Remove="Resources\Models\backpack.fbx" />
       
       <EmbeddedResource Include="Resources\Models\backpack.fbx" />
+      
+      <None Remove="costura64\libbulletc.dll" />
+      
+      <EmbeddedResource Include="costura64\libbulletc.dll" />
       
 
     </ItemGroup>

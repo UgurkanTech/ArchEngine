@@ -12,7 +12,7 @@ using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor;
 using Assimp;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common.Input;
 using Mesh = ArchEngine.Core.Rendering.Geometry.Mesh;
@@ -82,7 +82,7 @@ namespace ArchEngine.Core
                 return null;
             }
 
-           
+            Window._log.Info("Processing model: " + filePath);
             //if (assimpScene.MeshCount > 1) throw new NotSupportedException("single meshes supported.");
             var assimpMesh = assimpScene.Meshes.First();
 

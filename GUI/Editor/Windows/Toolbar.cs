@@ -1,7 +1,7 @@
 ﻿using ArchEngine.Core;
 using ImGuiNET;
 using ImGuizmoNET;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.GUI.Editor.Windows

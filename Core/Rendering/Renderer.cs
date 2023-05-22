@@ -6,7 +6,7 @@ using ArchEngine.Core.Rendering.Geometry;
 using ArchEngine.Core.Rendering.Lighting;
 using ArchEngine.Core.Rendering.Textures;
 using ArchEngine.GUI.Editor;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering

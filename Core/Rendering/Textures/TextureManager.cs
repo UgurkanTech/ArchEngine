@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using ArchEngine.GUI.Editor;
-using OpenTK.Graphics.OpenGL4;
-using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
+using OpenTK.Graphics.OpenGL;
+using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace ArchEngine.Core.Rendering.Textures
 {
@@ -138,7 +138,7 @@ namespace ArchEngine.Core.Rendering.Textures
             
             // Generate handle
             int handle = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, handle); //check this
+            GL.BindTexture(TextureTarget.TextureCubeMap, handle); //check this
 
             for(int i = 0; i < faces.Count; i++)
             {
@@ -194,6 +194,7 @@ namespace ArchEngine.Core.Rendering.Textures
             }
             Texture t = new Texture(handle).SetUnit(TextureUnit.Texture0);
             t.hash = FolderPath;
+            Window._log.Info("Skybox id:" + handle);
             Textures.Add(t);
             return t;
         }

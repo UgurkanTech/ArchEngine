@@ -1,6 +1,6 @@
 ﻿using System;
 using ArchEngine.Core.Rendering.Textures;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.Rendering
@@ -78,12 +78,14 @@ namespace ArchEngine.Core.Rendering
 
         public void RenderSkybox(Matrix4 Model, CubemapMaterial mat)
         {
+
             GL.DepthFunc(DepthFunction.Lequal);
+            GL.Enable(EnableCap.Texture2D);
             mat.Use(Model);
             GL.BindVertexArray(Vao);
             GL.DepthMask(false);
-       
             
+
             if (Indices != null)
             {
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, Ibo);
@@ -91,7 +93,7 @@ namespace ArchEngine.Core.Rendering
             }
             else
             {
-                GL.DrawArrays(PrimitiveType.Triangles,0,VerticesCount * 3 / 8);
+                GL.DrawArrays(PrimitiveType.Triangles,0,36);
             }
             GL.DepthMask(true);
         }

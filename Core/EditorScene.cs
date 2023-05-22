@@ -13,6 +13,8 @@ namespace ArchEngine.Core
     {
         public EditorScene()
         {
+            BackpackDemo();
+            return;
             Material m = new Material();
             m.Shader = ShaderManager.PbrShader;
             
@@ -51,6 +53,28 @@ namespace ArchEngine.Core
                     AddGameObject(gm);
                 }
             }
+            
+        }
+
+        public void BackpackDemo()
+        {
+            Material m = new Material();
+            m.Shader = ShaderManager.PbrShader;
+            m.LoadTextures("backpack");
+            MeshRenderer mr2 = new MeshRenderer();
+            mr2.Material = m;
+
+            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/backpack.fbx");
+
+            GameObject gm = new GameObject("Backpack");
+            
+            RigidObject ro = new RigidObject(true,false,0, true);
+            
+            gm.AddComponent(ro);
+
+            m.LoadTextures("backpack");
+            gm.AddComponent(mr2);
+            AddGameObject(gm);
             
         }
 

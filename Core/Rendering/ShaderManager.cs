@@ -63,7 +63,7 @@ namespace ArchEngine.Core.Rendering
             PbrShader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
             PbrShader.SetFloat("material.shininess", 32.0f);
             
-
+            SkyboxShader.SetInt("skybox", 1);
             //Matrix4 ortho = Matrix4.CreateOrthographic(800, 600, 0, 100);
             //TextShader.SetMatrix4("projection", CameraManager.EditorCamera.GetProjectionMatrix());
             

@@ -31,14 +31,14 @@ namespace ArchEngine.GUI.ImGUI
         public readonly int GLTexture;
         public readonly int Width, Height;
         public readonly int MipmapLevels;
-        public readonly SizedInternalFormat InternalFormat;
+        public readonly PixelInternalFormat InternalFormat;
 
         public Texture(string name, Bitmap image, bool generateMipmaps, bool srgb)
         {
             Name = name;
             Width = image.Width;
             Height = image.Height;
-            InternalFormat = srgb ? Srgb8Alpha8 : SizedInternalFormat.Rgba8;
+            InternalFormat = srgb ? PixelInternalFormat.Srgb8Alpha8 : PixelInternalFormat.Rgba8;
 
             if (generateMipmaps)
             {
@@ -56,8 +56,11 @@ namespace ArchEngine.GUI.ImGUI
             Util.CreateTexture(TextureTarget.Texture2D, Name, out GLTexture);
 
             GL.BindTexture(TextureTarget.Texture2D, GLTexture);
-            GL.TexStorage2D(TextureTarget2d.Texture2D, MipmapLevels, InternalFormat, Width, Height);
-            Util.CheckGLError("Storage2d");
+            for (int level = 0, w = Width, h = Height; level < MipmapLevels; level++, w /= 2, h /= 2)
+            {
+                GL.TexImage2D(TextureTarget.Texture2D, level, InternalFormat, w, h, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+            }
+            Util.CheckGLError("TexImage2D");
 
             BitmapData data = image.LockBits(new Rectangle(0, 0, Width, Height),
                 ImageLockMode.ReadOnly, global::System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -79,7 +82,7 @@ namespace ArchEngine.GUI.ImGUI
             SetMagFilter(TextureMagFilter.Linear);
         }
 
-        public Texture(string name, int GLTex, int width, int height, int mipmaplevels, SizedInternalFormat internalFormat)
+        public Texture(string name, int GLTex, int width, int height, int mipmaplevels, PixelInternalFormat internalFormat)
         {
             Name = name;
             GLTexture = GLTex;
@@ -94,12 +97,16 @@ namespace ArchEngine.GUI.ImGUI
             Name = name;
             Width = width;
             Height = height;
-            InternalFormat = srgb ? Srgb8Alpha8 : SizedInternalFormat.Rgba8;
+            InternalFormat = srgb ? PixelInternalFormat.Srgb8Alpha8 : PixelInternalFormat.Rgba8;
             MipmapLevels = generateMipmaps == false ? 1 : (int)Math.Floor(Math.Log(Math.Max(Width, Height), 2));
 
             Util.CreateTexture(TextureTarget.Texture2D, Name, out GLTexture);
             GL.BindTexture(TextureTarget.Texture2D, GLTexture);
-            GL.TexStorage2D(TextureTarget2d.Texture2D, MipmapLevels, InternalFormat, Width, Height);
+            for (int level = 0, w = Width, h = Height; level < MipmapLevels; level++, w /= 2, h /= 2)
+            {
+                GL.TexImage2D(TextureTarget.Texture2D, level, InternalFormat, w, h, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+            }
+            Util.CheckGLError("TexImage2D");
 
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, Width, Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 

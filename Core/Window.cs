@@ -40,7 +40,6 @@ namespace ArchEngine.Core
             : base(gameWindowSettings, nativeWindowSettings)
         {
 	        Window.instance = this;
-
         }
 
         public static Renderer _renderer;
@@ -115,13 +114,19 @@ namespace ArchEngine.Core
             
             _log.Info("Loading scene objects...");
 
+            
+            _controller.DrawLoadingBarAndSwapBuffers(this, 85, "Starting Physics Engine...");
+            _log.Info("tarting Physics Engine...");
+            
+            new PhysicsCore();
+            
             _controller.DrawLoadingBarAndSwapBuffers(this, 90, "Initializing scene...");
             _log.Info("Initializing scene...");
             
-            new PhysicsCore();
+            
             //activeScene = new EditorScene().AddDemo2();
             activeScene = new EditorScene();
-            
+            _log.Info("Editor Scene starting...");
             //throw new Exception();
             Stopwatch sw = new Stopwatch();
             sw.Start();

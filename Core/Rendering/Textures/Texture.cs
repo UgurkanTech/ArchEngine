@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 
 namespace ArchEngine.Core.Rendering.Textures
 {

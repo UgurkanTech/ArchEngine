@@ -6,7 +6,7 @@ using ArchEngine.Core.Rendering.Lighting;
 using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor.Windows;
 using ImGuiNET;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using Scene = ArchEngine.GUI.Editor.Windows.Scene;
 

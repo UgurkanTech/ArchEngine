@@ -1,10 +1,10 @@
 ﻿using System;
 using Assimp;
 using Newtonsoft.Json;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using Material = ArchEngine.Core.Rendering.Textures.Material;
-using PrimitiveType = OpenTK.Graphics.OpenGL4.PrimitiveType;
+using PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType;
 
 namespace ArchEngine.Core.Rendering.Geometry
 {
