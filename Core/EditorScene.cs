@@ -13,44 +13,51 @@ namespace ArchEngine.Core
     {
         public EditorScene()
         {
-            BackpackDemo();
-            return;
+            //BackpackDemo();
+            //return;
             Material m = new Material();
             m.Shader = ShaderManager.PbrShader;
             
+            
             MeshRenderer mr2 = new MeshRenderer();
-            //mr2.Material = m;
+            mr2.Material = m;
 
-            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/cube.fbx");
+           // mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/cube.fbx");
 
+            
             GameObject gm = new GameObject("Cube");
             gm.Transform = Matrix4.CreateScale(10,0.1f,10);
-            gm.Transform *= Matrix4.CreateTranslation(0, -2, 0);
+            gm.Transform *= Matrix4.CreateTranslation(0, -4, 0);
             
             RigidObject ro = new RigidObject(true,false,0, true);
             
-            gm.AddComponent(ro);
+            gm.AddComponent(mr2);
 
             m.LoadTextures("space");
-            gm.AddComponent(mr2);
+            gm.AddComponent(ro);
             AddGameObject(gm);
 
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    gm = new GameObject("Cube" + i * j);
+                    for (int k = 0; k < 3; k++)
+                    {
+                        gm = new GameObject("Cube" + i * j);
  
-                    gm.Transform = Matrix4.CreateScale(0.3f,0.3f,0.3f);
-                    gm.Transform *= Matrix4.CreateTranslation(i*2, 2, j *2);
+                        gm.Transform = Matrix4.CreateScale(0.8f,0.8f,0.8f);
+                        gm.Transform *= Matrix4.CreateTranslation(i*2, 2 + k * 2, j *2);
             
-                    ro = new RigidObject(false,true,1, false);
-            
-                    gm.AddComponent(ro);
-                    mr2 = new MeshRenderer();
-                    mr2.Material = m;
-                    gm.AddComponent(mr2);
-                    AddGameObject(gm);
+                        mr2 = new MeshRenderer();
+                        mr2.Material = m;
+                        gm.AddComponent(mr2);
+                    
+                        ro = new RigidObject(false,true,1, false);
+                        gm.AddComponent(ro);
+                    
+                    
+                        AddGameObject(gm);
+                    }
                 }
             }
             
@@ -64,7 +71,7 @@ namespace ArchEngine.Core
             MeshRenderer mr2 = new MeshRenderer();
             mr2.Material = m;
 
-            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/sphere.fbx");
+            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/backpack.fbx");
 
             GameObject gm = new GameObject("Backpack");
             

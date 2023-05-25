@@ -369,3 +369,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 .idea/.idea.ArchEngine/.idea/sonarlint/
+*.DS_Store
