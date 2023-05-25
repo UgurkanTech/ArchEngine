@@ -5,6 +5,7 @@ using ArchEngine.Core.Utils;
 using ArchEngine.GUI.Editor;
 using BulletSharp;
 using BulletSharp.Math;
+using Newtonsoft.Json;
 using OpenTK.Mathematics;
 using Vector3 = OpenTK.Mathematics.Vector3;
 
@@ -22,14 +23,11 @@ namespace ArchEngine.Core.Physics
         public bool initialized { get; set; }
 
 
-        public RigidBody _rb;
+        [JsonIgnore] public RigidBody _rb;
 
         public RigidObject()
         {
-            initMass = 1f;
-            initIsKinematic = false;
-            initUseGravity = true;
-            initStatic = false;
+            
         }
         public RigidObject(bool isKinematic, bool useGravity, float mass, bool isStatic)
         {
@@ -40,10 +38,11 @@ namespace ArchEngine.Core.Physics
         }
 
 
-        private float initMass;
-        private bool initIsKinematic;
-        private bool initUseGravity;
-        private bool initStatic;
+        public float initMass = 1f;
+        public bool initIsKinematic = false;
+        public bool initUseGravity = true;
+        private bool initStatic = false;
+        
         
         public void Init()
         {
@@ -69,7 +68,7 @@ namespace ArchEngine.Core.Physics
                 return;
             }
             Matrix mat = Matrix4ToMatrix(gameObject.Transform);
-            _rb = PhysicsCore.AddMesh(renderer.mesh.AssimpScene, initIsKinematic, mat.MatrixToMatrix4().ExtractScale().Vector3ToBullet3());
+            _rb = PhysicsCore.AddMesh(renderer.mesh.AssimpScene, initIsKinematic, mat);
             Matrix currentTransform = _rb.WorldTransform;
 
             // Modify the transform's position to the random position
@@ -88,10 +87,19 @@ namespace ArchEngine.Core.Physics
             _rb.LinearVelocity = BulletSharp.Math.Vector3.Zero;
             _rb.AngularVelocity = BulletSharp.Math.Vector3.Zero;
             
-            Matrix mat = Matrix4ToMatrix(gameObject.Transform);
+            
+            var old = Matrix4.CreateScale(1);
+            old *= Matrix4.CreateFromQuaternion(gameObject.Transform.ExtractRotation());
+            old *= Matrix4.CreateTranslation(gameObject.Transform.ExtractTranslation());
+            
+            Matrix mat = Matrix4ToMatrix(old);
+            //mat.ScaleVector = BulletSharp.Math.Vector3.One;
+            
             _rb.MotionState = new DefaultMotionState(mat);
             _rb.WorldTransform = mat;
             _rb.MotionState.WorldTransform = mat;
+            
+            
             _rb.CollisionShape.LocalScaling = gameObject.Transform.ExtractScale().Vector3ToBullet3();
 
             PhysicsCore.world.RemoveRigidBody(_rb);
@@ -140,7 +148,7 @@ namespace ArchEngine.Core.Physics
 
 
         private float _mass;
-        [Inspector] public float Mass
+        [JsonIgnore][Inspector] public float Mass
         {
             get
             {
@@ -154,6 +162,7 @@ namespace ArchEngine.Core.Physics
                 }
                 _mass = value;
                 _rb.SetMassProps(value, BulletSharp.Math.Vector3.One);
+                initMass = value;
                 IsKinematic = _isKinematic;
             }
         }
@@ -161,7 +170,7 @@ namespace ArchEngine.Core.Physics
         
         
         private bool _UseGravity;
-        [Inspector] public bool UseGravity
+        [JsonIgnore][Inspector] public bool UseGravity
         {
             get
             {
@@ -180,10 +189,11 @@ namespace ArchEngine.Core.Physics
                     _rb.LinearVelocity = BulletSharp.Math.Vector3.Zero;
                     _rb.AngularVelocity = BulletSharp.Math.Vector3.Zero;
                 }
+                initUseGravity = value;
             }
         }
         private bool _isKinematic;
-        [Inspector] public bool IsKinematic
+        [JsonIgnore][Inspector] public bool IsKinematic
         {
             get
             {
@@ -201,16 +211,20 @@ namespace ArchEngine.Core.Physics
                     _rb.SetMassProps(1, BulletSharp.Math.Vector3.One);
 
                 }
+                initIsKinematic = value;
             }
         }
         
         
-        [Inspector] public Vector3 Velocity = Vector3.Zero;
+        [JsonIgnore][Inspector] public Vector3 Velocity = Vector3.Zero;
         
         private void Move()
         {
-            gameObject.Transform = MatrixToMatrix4(_rb.MotionState.WorldTransform);
-            
+            Vector3 scale = gameObject.Transform.ExtractScale();
+            var temp = MatrixToMatrix4(_rb.MotionState.WorldTransform);
+            gameObject.Transform = Matrix4.CreateScale(scale);
+            gameObject.Transform *= Matrix4.CreateFromQuaternion(temp.ExtractRotation());
+            gameObject.Transform *= Matrix4.CreateTranslation(temp.ExtractTranslation());
         }
     }
 }

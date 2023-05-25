@@ -64,7 +64,7 @@ namespace ArchEngine.Core
             MeshRenderer mr2 = new MeshRenderer();
             mr2.Material = m;
 
-            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/backpack.fbx");
+            mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/sphere.fbx");
 
             GameObject gm = new GameObject("Backpack");
             

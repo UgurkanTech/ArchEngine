@@ -6,7 +6,7 @@ namespace ArchEngine.Core.Physics
 {
     public class ArchMotionState : MotionState
     {
-        private Matrix transform;
+        public Matrix transform;
         
         public ArchMotionState(Matrix initialTransform)
         {
@@ -15,13 +15,18 @@ namespace ArchEngine.Core.Physics
         public override void GetWorldTransform(out Matrix worldTrans)
         {
             worldTrans = transform;
-            Console.WriteLine(transform.ScaleVector);
+            
         }
 
         public override void SetWorldTransform(ref Matrix worldTrans)
         {
             transform = worldTrans;
-            Console.WriteLine(transform.ScaleVector);
+            //Console.WriteLine(transform.ScaleVector);
+        }
+        
+        public void SetWorldTransform(Matrix worldTrans)
+        {
+            transform = worldTrans;
         }
     }
 }

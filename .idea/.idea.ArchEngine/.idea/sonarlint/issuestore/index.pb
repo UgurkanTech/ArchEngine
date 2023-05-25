@@ -66,12 +66,8 @@ N
 layout.ini,c\d\cdf0e564e3b83f760f71a38a07df9d9d6b799e37
 L
 GUI/ImGUI/ImGuiController.cs,7\a\7ab9cf5973c340a52cc8880d68fe7cca4892748f
-7
-Arch.cs,3\e\3e35a7d79993ab8266523b10b0290035f2022f6b
 M
 Scenes/Voxel/MeshGenerator.cs,4\2\4203b8fc5a79b79126dd2726515dbe3b841f6837
-@
-ACustomScript.cs,2\8\2890700c4118c1278ceff0457f4a0f91c45e0801
 U
 %Core/Rendering/Lighting/PointLight.cs,7\1\71d6c772e17185cecebbd4fd7ecab64bed0a495f
 J
@@ -92,9 +88,5 @@ O
 Core/Rendering/Geometry/Mesh.cs,5\a\5a26851ce2ebcce46aae9ec7b0c7fe45208cc0c7
 D
 Core/Physics/AABB.cs,3\b\3b4a98cd4316ea2adcbec0a2739ec3244572c385
-D
-Core/AssetManager.cs,0\3\03741d0ebfce69a7fe0dae30614cc5574097f00d
 S
 #Core/ECS/Components/MeshRenderer.cs,f\5\f55f5007364a86c339004af20e012c61bf1370f9
-D
-GUI/Editor/Editor.cs,0\f\0fa114a39a3db3c5ab4b9026a270039d517c08f6

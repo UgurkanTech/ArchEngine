@@ -75,8 +75,7 @@ namespace ArchEngine.Core.Utils
             matrix *= Matrix4.CreateFromQuaternion(old.ExtractRotation() * Quaternion.FromAxisAngle(Vector3.UnitZ, angleInRadians));
             matrix *= Matrix4.CreateTranslation(old.ExtractTranslation());
         }
-        
-        public static  Matrix Matrix4ToMatrix(this ref Matrix4 sourceMatrix)
+        public static  Matrix Matrix4ToMatrix(this Matrix4 sourceMatrix)
         {
             Matrix newMatrix = new Matrix(
                 sourceMatrix.M11, sourceMatrix.M12, sourceMatrix.M13, sourceMatrix.M14,
@@ -87,7 +86,7 @@ namespace ArchEngine.Core.Utils
             return newMatrix;
         }
         
-        public static  Matrix4 MatrixToMatrix4(this ref Matrix sourceMatrix)
+        public static  Matrix4 MatrixToMatrix4(this Matrix sourceMatrix)
         {
             Matrix4 newMatrix = new Matrix4(
                 sourceMatrix.M11, sourceMatrix.M12, sourceMatrix.M13, sourceMatrix.M14,
@@ -97,6 +96,7 @@ namespace ArchEngine.Core.Utils
             );
             return newMatrix;
         }
+
         public static  BulletSharp.Math.Vector3 Vector3ToBullet3(this Vector3 source)
         {
             BulletSharp.Math.Vector3 vec = new BulletSharp.Math.Vector3(source.X, source.Y, source.Z);
