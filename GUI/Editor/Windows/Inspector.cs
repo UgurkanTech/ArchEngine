@@ -290,6 +290,24 @@ namespace ArchEngine.GUI.Editor.Windows
                          ImGui.DragInt(name, ref value, 1f);
                          info.SetValue(component, value);
                      }
+                     else if (type == typeof(string))
+                     {
+                         var value = (string) info.GetValue(component);
+                         ImGui.Indent(15);
+                         ImGui.Text(info.Name + " ");
+                         ImGui.SameLine();
+                         ImGui.Button(value + "", new Vector2(ImGui.GetColumnWidth(), 20));
+                         //info.SetValue(component, value);
+                     }
+                     else if (type == typeof(InspectorButton))
+                     {
+                         var value = (InspectorButton) info.GetValue(component);
+                         ImGui.Indent(15);
+                         if (ImGui.Button(info.Name + "", new Vector2(ImGui.GetColumnWidth(), 20)))
+                         {
+                             value.Click();
+                         }
+                     }
                      else if (type == typeof(Vector3))
                      {
                          var value = (Vector3) info.GetValue(component);
@@ -323,7 +341,7 @@ namespace ArchEngine.GUI.Editor.Windows
                          ImGui.Text("Material:");
                          ImGui.Indent(10);
                          ImGui.Image(Icons.Texture, new Vector2(15, 15), Icons.GetUV0FromID(215), Icons.GetUV1FromID(215)); ImGui.SameLine();
-                         if (ImGui.Button(mat?.MaterialHash + ((mat != null && mat.isTextureMissing) ? " [Missing]" : ""), new Vector2(ImGui.GetColumnWidth(), 15)))
+                         if (ImGui.Button(mat?.MaterialHash + ((mat != null && mat.isTextureMissing) ? " [Missing]" : ""), new Vector2(ImGui.GetColumnWidth(), 20)))
                          {
                              
                              Console.WriteLine("clicked to " + component.gameObject.name);
@@ -355,9 +373,9 @@ namespace ArchEngine.GUI.Editor.Windows
                          ImGui.Text("Shaders:");
                          ImGui.Indent(10);
                          ImGui.Image(Icons.Texture, new Vector2(15, 15), Icons.GetUV0FromID(215), Icons.GetUV1FromID(215)); ImGui.SameLine();
-                         ImGui.Button(mat?.Shader?.hash.Split("-")[0] + "", new Vector2(ImGui.GetColumnWidth(), 15));
+                         ImGui.Button(mat?.Shader?.hash.Split("-")[0] + "", new Vector2(ImGui.GetColumnWidth(), 20));
                          ImGui.Image(Icons.Texture, new Vector2(15, 15), Icons.GetUV0FromID(215), Icons.GetUV1FromID(215)); ImGui.SameLine();
-                         ImGui.Button(mat?.Shader?.hash.Split("-")[1] + "", new Vector2(ImGui.GetColumnWidth(), 15));
+                         ImGui.Button(mat?.Shader?.hash.Split("-")[1] + "", new Vector2(ImGui.GetColumnWidth(), 20));
                          ImGui.Unindent(15);
                      }
                      else if (type == typeof(Mesh))
@@ -368,7 +386,7 @@ namespace ArchEngine.GUI.Editor.Windows
                          ImGui.Text("Mesh:");
                          ImGui.Indent(10);
                          ImGui.Image(Icons.Texture, new Vector2(15, 15), Icons.GetUV0FromID(215), Icons.GetUV1FromID(215)); ImGui.SameLine();
-                         ImGui.Button(mesh?.MeshHash + "", new Vector2(ImGui.GetColumnWidth(), 15));
+                         ImGui.Button(mesh?.MeshHash + "", new Vector2(ImGui.GetColumnWidth(), 20));
                          ImGui.Unindent(15);
                      }
                      

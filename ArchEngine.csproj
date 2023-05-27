@@ -216,6 +216,10 @@
       
       <EmbeddedResource Include="costura64\libbulletc.dll" />
       
+      <None Remove="Resources\Audio\honk.wav" />
+      
+      <EmbeddedResource Include="Resources\Audio\honk.wav" />
+      
 
     </ItemGroup>
   

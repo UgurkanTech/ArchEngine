@@ -13,8 +13,8 @@ namespace ArchEngine.Core
     {
         public EditorScene()
         {
-            //BackpackDemo();
-            //return;
+            BackpackDemo();
+            return;
             Material m = new Material();
             m.Shader = ShaderManager.PbrShader;
             

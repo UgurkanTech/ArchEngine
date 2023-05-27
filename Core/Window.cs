@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Threading;
+using ArchEngine.Core.Audio;
 using ArchEngine.Core.ECS;
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Physics;
@@ -91,14 +92,17 @@ namespace ArchEngine.Core
 			CameraManager.Init(Size.X / (float)Size.Y);
 			_log.Info("Loading shaders...");
             ShaderManager.LoadShaders();
+            
+            _controller.DrawLoadingBarAndSwapBuffers(this, 65, "Starting shaders...");
        
             _log.Info("Starting shaders...");
             ShaderManager.StartShaders();
 
+            _controller.DrawLoadingBarAndSwapBuffers(this, 70, "Starting Audio Engine...");
             
+            AudioEngine.StartAudioEngine();
             
-            
-            
+            _controller.DrawLoadingBarAndSwapBuffers(this, 75, "Initializing editor...");
             
             //Stopwatch stopWatch = new Stopwatch();
             //stopWatch.Start();
