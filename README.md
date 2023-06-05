@@ -1,4 +1,4 @@
-# ArchEngine
+# ArchEngine - created by Uğurkan Hoşgör
 
 A simple game engine which is written in C# using OpenTK.
 
