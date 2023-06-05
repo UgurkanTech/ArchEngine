@@ -8,6 +8,8 @@ Licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 Inte
 
 Requires OpenGL 3.3 and .NET 6.0 - x64
 
+Has dependencies to: .NET6.0_x64, OpenAL and vc_redist_2015_x64.
+
 ![alt text](https://i.imgur.com/dR6jH7c.png)
 
 Contains Features:
