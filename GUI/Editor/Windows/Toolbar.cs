@@ -1,4 +1,6 @@
-﻿using ArchEngine.Core;
+﻿using System;
+using ArchEngine.Core;
+using ArchEngine.Core.Audio;
 using ImGuiNET;
 using ImGuizmoNET;
 using OpenTK.Graphics.OpenGL;
@@ -21,6 +23,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 if( ImGui.ImageButtonEx(ImGui.GetID("Start"), Icons.Texture, new Vector2(20, 20), Icons.GetUV0FromID(122), Icons.GetUV1FromID(122),
                        Vector2.One, Vector4.Zero, Vector4.One))
                 {
+                    Console.WriteLine("Scene starting!");
                     Window.started = true;
                 }
                 ImGui.SameLine();
@@ -29,6 +32,9 @@ namespace ArchEngine.GUI.Editor.Windows
                        Vector2.One, Vector4.Zero, Vector4.One))
                 {
                     Window.started = false;
+                    AudioEngine.engines.ForEach(engine => { engine.SetLooping(false);});
+                    Window.activeScene.LoadState();
+                    Console.WriteLine("Scene stopped!");
                 }
                 ImGui.SameLine();
                 if( ImGui.ImageButtonEx(ImGui.GetID("Save"), Icons.Texture, new Vector2(20, 20), Icons.GetUV0FromID(249), Icons.GetUV1FromID(249),

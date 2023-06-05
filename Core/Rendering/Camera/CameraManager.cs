@@ -11,7 +11,7 @@ namespace ArchEngine.Core.Rendering.Camera
 
         public static void Init(float aspectRatio)
         {
-            EditorCamera = new EditorCamera(Vector3.UnitZ * 4, aspectRatio);
+            EditorCamera = new EditorCamera(Vector3.UnitZ * 20, aspectRatio);
         }
 
         private static bool _firstMove = true;

@@ -224,6 +224,7 @@ namespace ArchEngine.GUI.Editor.Windows
                 }
                 ImGui.Dummy(new Vector2(0, 10));
                 ImGui.Separator();
+                
                 if (ImGui.Button("Add Component", new Vector2(ImGui.GetContentRegionAvail().X, 25)))
                 {
                     ImGui.OpenPopup("Components");
@@ -307,6 +308,7 @@ namespace ArchEngine.GUI.Editor.Windows
                          {
                              value.Click();
                          }
+                         ImGui.Unindent(20);
                      }
                      else if (type == typeof(Vector3))
                      {

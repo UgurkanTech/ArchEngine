@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using ArchEngine.Core.Physics;
+using OpenTK.Mathematics;
 
 namespace ArchEngine.Core.ECS
 {
@@ -13,7 +14,27 @@ namespace ArchEngine.Core.ECS
         public List<GameObject> gameObjects = new List<GameObject>(5);
         private bool isRunning = false;
 
+        Dictionary<GameObject, Matrix4> oldStates = new Dictionary<GameObject, Matrix4>();
 
+        public void SaveState()
+        {
+            oldStates.Clear();
+            gameObjects.ForEach(o =>
+            {
+                oldStates.Add(o, o.Transform);
+            });
+        }
+
+        public void LoadState()
+        {
+            gameObjects.ForEach(o =>
+            {
+                if (oldStates.TryGetValue(o, out Matrix4 matrix))
+                {
+                    o.Transform = matrix;
+                }
+            });
+        }
         
         public void Init()
         {
@@ -28,6 +49,7 @@ namespace ArchEngine.Core.ECS
         
         public void Start()
         {
+            SaveState();
             isRunning = true;
             for (int i = 0; i < gameObjects.Count; i++)
             {

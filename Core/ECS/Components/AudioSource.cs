@@ -9,6 +9,7 @@ namespace ArchEngine.Core.ECS.Components
     {
         public void Dispose()
         {
+            AudioEngine.engines.Remove(engine);
             engine.Dispose();
         }
 
@@ -30,6 +31,8 @@ namespace ArchEngine.Core.ECS.Components
             engine = new AudioEngine();
             
             engine.Load(audioFile);
+            
+            AudioEngine.engines.Add(engine);
 
             playButton = new InspectorButton();
             playButton.ButtonClicked += HandleButtonClick;
@@ -80,14 +83,22 @@ namespace ArchEngine.Core.ECS.Components
 
         public void Update()
         {
+            
             if (looping)
+            {
+                
                 wasLooping = true;
-
+            }
             if (wasLooping & !looping)
             {
                 wasLooping = false;
                 engine.SetLooping(false);
             }
+        }
+
+        public void FixedUpdate()
+        {
+            engine.UpdateListenerPosition();
         }
     }
 }

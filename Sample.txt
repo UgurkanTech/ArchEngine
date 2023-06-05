@@ -1,0 +1,23 @@
+﻿using ArchEngine.Core.ECS;
+using ArchEngine.Core.Utils;
+using ArchEngine.GUI.Editor;
+using System;
+
+public class @@@ : Script
+{
+
+    public override void Update()
+    {
+        //Write your Update Code Here..
+    }
+
+    public override void Start()
+    {
+        //Write your Start Code Here..
+    }
+    public override void FixedUpdate()
+    {
+        //Write your Fixed Update Code Here..
+    }
+}
+

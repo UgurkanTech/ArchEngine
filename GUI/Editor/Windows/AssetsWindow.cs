@@ -113,7 +113,7 @@ namespace ArchEngine.GUI.Editor.Windows
                         _renameInput = "";
                     }
                     ImGui.SameLine();
-                    if (ImGui.Button("Create"))
+                    if (ImGui.Button("Create") || ImGui.IsKeyPressed(ImGui.GetKeyIndex(ImGuiKey.Enter)))
                     {
                         if (_isCreatingFile)
                         {
@@ -564,15 +564,32 @@ namespace ArchEngine.GUI.Editor.Windows
             }
             UpdateFolder();
         }
-
         private static void CreateFile(string path, string name)
         {
+            if (!name.Contains(".cs"))
+                name += ".cs";
+            name = name.Replace(" ", "");
+
             if (Directory.Exists(path))
             {
                 string newPath = Path.Combine(path, name);
                 if (!File.Exists(newPath))
                 {
-                    File.Create(newPath);
+                    using (var file = File.Create(newPath))
+                    using (var writer = new StreamWriter(file))
+                    {
+                        using (var stream = new ResourceStream("Sample.txt", null).GetStream())
+                        using (var reader = new StreamReader(stream))
+                        {
+                            string content = reader.ReadToEnd();
+
+                            string filename = name.Split(".")[0];
+                            
+                            
+                            writer.WriteLine(content.Replace("@@@", filename));
+                        }
+                        
+                    }
                     Console.WriteLine("File created at: " + newPath);
                 }
                 else

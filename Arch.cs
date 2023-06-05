@@ -2,7 +2,6 @@
 using System.Threading;
 using ArchEngine.Core;
 using ArchEngine.GUI.Editor;
-using OpenTK;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using System.Windows.Forms;
@@ -10,6 +9,11 @@ using OpenTK.Mathematics;
 
 namespace ArchEngine
 {
+    /*
+     * Arch Engine
+     * Version: 1.5.0
+     * Written by -Uğurkan Hoşgör
+     */
     public static class Arch
     {
         private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -43,7 +47,7 @@ namespace ArchEngine
             thread.Priority = ThreadPriority.Highest;
             thread.SetApartmentState(ApartmentState.STA);
 #if DEBUG
-            path = @"C:\Users\ugurkan\Desktop\project";
+            path = @"C:\Users\ugurkan\Desktop\Project Directory";
 #else
             thread.Start();
 #endif

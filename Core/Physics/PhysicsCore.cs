@@ -89,6 +89,7 @@ namespace ArchEngine.Core.Physics
 
             var obj2RigidBody = new RigidBody(obj2RigidBodyCi);
             obj2RigidBody.MotionState = obj2MotionState;
+            obj2RigidBody.Restitution = 0.7f; //Bounciness
             world.AddRigidBody(obj2RigidBody);
             return obj2RigidBody;
         }
@@ -99,7 +100,7 @@ namespace ArchEngine.Core.Physics
       
         public static void Step()
         {
-            world.StepSimulation(1 / 60f);
+            world.StepSimulation(1 / 50f);
         }
 
         public static void Dispose()

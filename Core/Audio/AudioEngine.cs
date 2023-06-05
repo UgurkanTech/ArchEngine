@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using ArchEngine.Core.Rendering.Camera;
 using ArchEngine.GUI.Editor;
 using OpenTK.Audio.OpenAL;
 using OpenTK.Mathematics;
@@ -14,6 +16,8 @@ public class AudioEngine : IDisposable
     private int source;
 
     public bool Loaded = false;
+
+    public static List<AudioEngine> engines = new List<AudioEngine>();
 
     public void Load(string filePath)
     {
@@ -55,9 +59,26 @@ public class AudioEngine : IDisposable
         
     }
 
+    public void UpdateListenerPosition()
+    {
+        var pos = CameraManager.EditorCamera.Position;
+        var front = CameraManager.EditorCamera.Front;
+        var up = CameraManager.EditorCamera.Up;
+
+        AL.Listener(ALListener3f.Position, pos.X, pos.Y, pos.Z); // Listener position
+
+        float[] orientation = new float[]
+        {
+            front.X, front.Y, front.Z, // Orientation of the listener's forward direction
+            up.X, up.Y, up.Z // Orientation of the listener's up direction
+        };
+
+        AL.Listener(ALListenerfv.Orientation, orientation);
+    }
+    
     public void Play3D(Vector3 position)
-    {   
-        AL.Listener(ALListener3f.Position, 0.0f, 0.0f, 0.0f); // Listener position (0, 0, 0)
+    {
+        UpdateListenerPosition();
         AL.Source(source, ALSource3f.Position, position.X, position.Y, position.Z);
         AL.DistanceModel(ALDistanceModel.InverseDistance); //distance model
         AL.SourcePlay(source);

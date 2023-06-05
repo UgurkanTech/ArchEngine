@@ -17,7 +17,7 @@
       <PublishReadyToRun>true</PublishReadyToRun>
       <SkipGtkInstall>true</SkipGtkInstall>
       <UseWindowsForms>true</UseWindowsForms>
-     <Version>1.3.5</Version>
+     <Version>1.5.0</Version>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -219,6 +219,10 @@
       <None Remove="Resources\Audio\honk.wav" />
       
       <EmbeddedResource Include="Resources\Audio\honk.wav" />
+      
+      <None Remove="Sample.txt" />
+      
+      <EmbeddedResource Include="Sample.txt" />
       
 
     </ItemGroup>

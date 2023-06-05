@@ -2,7 +2,7 @@
 using ArchEngine.Core.ECS.Components;
 using ArchEngine.Core.Physics;
 using ArchEngine.Core.Rendering;
-using ArchEngine.Core.Rendering.Geometry;
+using ArchEngine.Core.Rendering.Lighting;
 using ArchEngine.Core.Rendering.Textures;
 using OpenTK.Mathematics;
 
@@ -13,8 +13,8 @@ namespace ArchEngine.Core
     {
         public EditorScene()
         {
-            BackpackDemo();
-            return;
+            //BackpackDemo();
+            //return;
             Material m = new Material();
             m.Shader = ShaderManager.PbrShader;
             
@@ -25,31 +25,65 @@ namespace ArchEngine.Core
            // mr2.mesh = AssetManager.GetMeshByFilePath("Resources/Models/cube.fbx");
 
             
-            GameObject gm = new GameObject("Cube");
-            gm.Transform = Matrix4.CreateScale(10,0.1f,10);
-            gm.Transform *= Matrix4.CreateTranslation(0, -4, 0);
+            GameObject gm = new GameObject("Ground");
+            gm.Transform = Matrix4.CreateScale(15,0.1f,15);
+            gm.Transform *= Matrix4.CreateTranslation(0, -6, 0);
             
             RigidObject ro = new RigidObject(true,false,0, true);
             
             gm.AddComponent(mr2);
 
-            m.LoadTextures("space");
+            m.LoadTextures("grass");
             gm.AddComponent(ro);
             AddGameObject(gm);
+            
+            GameObject light = new GameObject("Orange Light");
+            light.Transform = Matrix4.CreateTranslation(-8,-2,-4);
+            PointLight pl = new PointLight();
+            pl.Color = Color4.OrangeRed;
+            pl.Intensity = 1f;
+            light.AddComponent(pl);
+            AddGameObject(light);
+            
+            GameObject light2 = new GameObject("Cyan Light");
+            light2.Transform = Matrix4.CreateTranslation(4,-2,8);
+            PointLight pl2 = new PointLight();
+            pl2.Color = Color4.Cyan;
+            pl2.Intensity = 1f;
+            light2.AddComponent(pl2);
+            AddGameObject(light2);
 
+            GameObject backpack = new GameObject("Backpack");
+            Material mat = new Material();
+            mat.Shader = ShaderManager.PbrShader;
+            mat.LoadTextures("backpack");
+            MeshRenderer mr = new MeshRenderer();
+            mr.mesh = AssetManager.GetMeshByFilePath("Resources/Models/backpack.fbx");
+            mr.Material = mat;
+            backpack.AddComponent(mr);
+            backpack.Transform = Matrix4.CreateTranslation(-4, 4, 0);
+            RigidObject rigid = new RigidObject(false,true,10, false);
+            backpack.AddComponent(rigid);
+            AddGameObject(backpack);
+            
+            
+            Material m2 = new Material();
+            m2.Shader = ShaderManager.PbrShader;
+            m2.LoadTextures("space");
+
+            int id = 0;
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
                     for (int k = 0; k < 3; k++)
                     {
-                        gm = new GameObject("Cube" + i * j);
- 
+                        gm = new GameObject("Cube - " + id++);
                         gm.Transform = Matrix4.CreateScale(0.8f,0.8f,0.8f);
                         gm.Transform *= Matrix4.CreateTranslation(i*2, 2 + k * 2, j *2);
             
                         mr2 = new MeshRenderer();
-                        mr2.Material = m;
+                        mr2.Material = m2;
                         gm.AddComponent(mr2);
                     
                         ro = new RigidObject(false,true,1, false);
