@@ -18,13 +18,13 @@ Contains Features:
 
  -Materials and Textures
  
- -Audio Engine
+ -3D Audio Engine with OpenAL
  
- -Fonts
+ -User interface with IMGUI
  
  -Renderer and Shaders
  
- -Scenes
+ -Scenes with saving and loading
  
  -Bullet3 Physics Engine
  
@@ -34,7 +34,7 @@ Contains Features:
  
  -Parallax mapping
  
- -Runtime compiler
- 
- -3D Sound Engine with OpenAL
+ -Runtime compiler & Directory scanning
+
+ -Fonts
  
